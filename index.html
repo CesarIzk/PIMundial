@@ -7,13 +7,21 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>MundialUCM 2026</h1>
-  <p>Explora el Mundial en realidad aumentada</p>
-
-  <!-- Navbar incluido dinámicamente -->
+  <!-- Navbar dinámico -->
   <div id="navbar"></div>
 
+  <h1>🏆 WorldCupAR</h1>
+  <p>Explora el Mundial en realidad aumentada</p>
+
+  <!-- Contenido de prueba para ver el funcionamiento de la nav -->
+  <section>
+    <h2>Contenido de prueba</h2>
+    <p>Selecciona cualquier opción en el menú para comprobar que los enlaces funcionan.</p>
+    <p>Prueba también en móvil; el menú se adapta a columnas y filas según el tamaño de pantalla.</p>
+  </section>
+
   <script>
+    // Cargar navbar dinámicamente
     fetch('navbar.html')
       .then(response => response.text())
       .then(data => {
