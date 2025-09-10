@@ -10,6 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 </head>
 <body>
+  <!-- Menú principal -->
   <nav class="menu">
     <a href="index.html"><button>🏠 Inicio</button></a>
     <a href="trivia.html"><button>❓ Trivia</button></a>
@@ -18,6 +19,7 @@
     <a href="stats.html"><button>📊 Estadísticas</button></a>
   </nav>
 
+  <!-- Escena AR -->
   <a-scene
     mindar-image="imageTargetSrc: ./banderas/targets.mind"
     color-space="sRGB"
@@ -36,5 +38,10 @@
       <a-gltf-model src="#japonModel" position="0 0 0.1" scale="0.1 0.1 0.1" rotation="0 0 0"></a-gltf-model>
     </a-entity>
   </a-scene>
+
+  <!-- Menú AR flotante -->
+  <div class="ar-menu">
+    <a href="index.html"><button>🏠 Volver al Inicio</button></a>
+  </div>
 </body>
 </html>
