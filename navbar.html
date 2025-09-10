@@ -1,6 +1,5 @@
-<!-- navbar.html -->
 <nav class="navbar">
-  <div class="logo">MundialUCM 2026</div>
+  <div class="logo">🏆 WorldCupAR</div>
   <button class="hamburger" id="hamburger">&#9776;</button>
   <ul class="nav-links" id="nav-links">
     <li><a href="index.html">Inicio</a></li>
@@ -13,10 +12,12 @@
 </nav>
 
 <script>
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('nav-links');
+  document.addEventListener("DOMContentLoaded", () => {
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
 
-  hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
   });
 </script>
