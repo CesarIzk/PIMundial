@@ -63,3 +63,31 @@ p {
     margin: 10px;
   }
 }
+
+/* Menú flotante sobre la escena AR */
+.ar-menu {
+  position: fixed;       /* Flotante sobre todo */
+  bottom: 20px;          /* Separación inferior */
+  left: 50%;             /* Centrado horizontal */
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 999;          /* Encima del canvas */
+}
+
+.ar-menu button, .ar-menu a button {
+  background: #ffd700;
+  color: #003366;
+  border: none;
+  padding: 12px 18px;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+  transition: transform 0.2s, background 0.3s;
+}
+
+.ar-menu button:hover {
+  background: #ffcc00;
+  transform: scale(1.05);
+}
