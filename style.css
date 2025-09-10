@@ -48,23 +48,16 @@ p {
 
 .nav-links li a {
   text-decoration: none;
-  color: #F5F5F5;
+  background: #FFC107;  /* Mismo color para todos */
+  color: #4A148C;
   padding: 8px 12px;
   border-radius: 12px;
   font-weight: bold;
-  transition: background 0.3s, transform 0.2s;
+  transition: transform 0.2s, filter 0.3s;
 }
 
-/* Aplicar paleta de colores a los enlaces según posición */
-.nav-links li:nth-child(1) a { background: #E91E63; } /* Rojo */
-.nav-links li:nth-child(2) a { background: #00BCD4; } /* Turquesa */
-.nav-links li:nth-child(3) a { background: #FF5722; } /* Naranja */
-.nav-links li:nth-child(4) a { background: #FFC107; } /* Amarillo */
-.nav-links li:nth-child(5) a { background: #E91E63; } /* Rojo */
-.nav-links li:nth-child(6) a { background: #00BCD4; } /* Turquesa */
-
 .nav-links li a:hover {
-  filter: brightness(1.1);
+  filter: brightness(1.2);
   transform: scale(1.05);
 }
 

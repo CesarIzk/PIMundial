@@ -7,13 +7,24 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Navbar dinámico -->
-  <div id="navbar"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">🏆 WorldCupAR</div>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="ar.html">Experiencia AR</a></li>
+      <li><a href="trivia.html">Trivia</a></li>
+      <li><a href="historia.html">Historia</a></li>
+      <li><a href="manual.html">Manual</a></li>
+      <li><a href="stats.html">Estadísticas</a></li>
+    </ul>
+  </nav>
 
   <h1>🏆 WorldCupAR</h1>
   <p>Explora el Mundial en realidad aumentada</p>
 
-  <!-- Contenido de prueba para ver el funcionamiento de la nav -->
   <section>
     <h2>Contenido de prueba</h2>
     <p>Selecciona cualquier opción en el menú para comprobar que los enlaces funcionan.</p>
@@ -21,12 +32,17 @@
   </section>
 
   <script>
-    // Cargar navbar dinámicamente
-    fetch('navbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('navbar').innerHTML = data;
-      });
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('active'));
+    });
   </script>
+
 </body>
 </html>
