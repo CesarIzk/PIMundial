@@ -1,21 +1,23 @@
+/* General */
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #e0f7fa; /* Fondo azul claro */
+  background-color: #e0f7fa; /* Fondo azul muy claro */
   text-align: center;
 }
 
 h1 {
   margin-top: 30px;
-  color: #006064;
+  color: #01579b; /* Azul oscuro */
 }
 
 p {
-  color: #004d40;
+  color: #0277bd; /* Azul medio */
   font-size: 1.2em;
 }
 
+/* Menú principal */
 nav.menu {
   display: flex;
   flex-wrap: wrap;
@@ -25,7 +27,7 @@ nav.menu {
 }
 
 nav.menu a button {
-  background-color: #00838f;
+  background-color: #0288d1; /* Azul vibrante */
   color: white;
   border: none;
   padding: 12px 25px;
@@ -36,10 +38,11 @@ nav.menu a button {
 }
 
 nav.menu a button:hover {
-  background-color: #004d40;
+  background-color: #01579b; /* Azul oscuro */
   transform: translateY(-2px);
 }
 
+/* Menú AR fijo */
 .ar-menu {
   position: fixed;
   top: 10px;
@@ -47,7 +50,7 @@ nav.menu a button:hover {
 }
 
 .ar-menu button {
-  background-color: #006064;
+  background-color: #039be5; /* Turquesa/azul brillante */
   color: white;
   border: none;
   padding: 10px 20px;
@@ -57,6 +60,6 @@ nav.menu a button:hover {
 }
 
 .ar-menu button:hover {
-  background-color: #004d40;
+  background-color: #0277bd; /* Azul medio */
   transform: translateY(-2px);
 }
