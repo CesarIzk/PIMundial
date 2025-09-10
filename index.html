@@ -2,51 +2,20 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>WorldCupAR</title>
+  <title>WorldCupAR - Inicio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-
-  <!-- Scripts de A-Frame y MindAR -->
-  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 </head>
 <body>
-  <!-- Escena de A-Frame con MindAR -->
-<a-scene
-   mindar-image="imageTargetSrc: ./banderas/targets.mind"
-   color-space="sRGB"
-   renderer="colorManagement: true, physicallyCorrectLights"
-   vr-mode-ui="enabled: false"
-   device-orientation-permission-ui="enabled: false"
->
-  <a-assets>
-    <a-asset-item id="japonModel" src="./modelos/balonjapon.glb"></a-asset-item>
-  </a-assets>
+  <h1>Bienvenido a WorldCupAR</h1>
+  <p>Selecciona una opción:</p>
 
-  <a-camera position="0 0 0" look-controls="enabled: false" mindar-camera="true"></a-camera>
-
-  <a-entity mindar-image-target="targetIndex: 0">
-    <a-plane src="./banderas/jpflag.png" position="0 0 0" height="0.552" width="1"></a-plane>
-    <a-gltf-model
-      src="#japonModel"
-      position="0 0 0.1"
-      scale="0.1 0.1 0.1"
-      rotation="0 0 0"
-    ></a-gltf-model>
-  </a-entity>
-</a-scene>
-
-
-
-  <!-- Menú de botones -->
   <div class="menu">
-    <button id="triviaBtn">Trivia</button>
-    <button id="historiaBtn">Historia</button>
-    <button id="manualBtn">Manual</button>
-    <button id="statsBtn">Estadísticas</button>
+    <a href="ar.html"><button>Experiencia AR</button></a>
+    <a href="trivia.html"><button>Trivia</button></a>
+    <a href="historia.html"><button>Historia</button></a>
+    <a href="manual.html"><button>Manual</button></a>
+    <a href="stats.html"><button>Estadísticas</button></a>
   </div>
-
-  <!-- Script propio -->
-  <script src="script.js"></script>
 </body>
 </html>
