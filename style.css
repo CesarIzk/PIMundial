@@ -2,8 +2,8 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(180deg, #004aad, #0077ff);
-  color: white;
+  background: linear-gradient(180deg, #4A148C, #6A1B9A);
+  color: #F5F5F5;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@ p {
   margin-bottom: 20px;
 }
 
-/* Menú */
+/* Menú principal */
 .menu {
   display: flex;
   flex-direction: column;
@@ -31,22 +31,27 @@ p {
   padding: 0 20px;
 }
 
-/* Botones estilo "tarjeta" */
 .menu button, .menu a button {
-  background: #ffd700;
-  color: #003366;
+  color: #F5F5F5;
   border: none;
   padding: 15px;
   font-size: 1.1rem;
   font-weight: bold;
   border-radius: 12px;
   cursor: pointer;
-  transition: transform 0.2s, background 0.3s;
   box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+  transition: transform 0.2s, background 0.3s;
 }
 
+/* Botones con colores de la paleta */
+.menu button:nth-child(1), .menu a button:nth-child(1) { background: #E91E63; } /* Rojo */
+.menu button:nth-child(2), .menu a button:nth-child(2) { background: #00BCD4; } /* Turquesa */
+.menu button:nth-child(3), .menu a button:nth-child(3) { background: #FF5722; } /* Naranja */
+.menu button:nth-child(4), .menu a button:nth-child(4) { background: #FFC107; } /* Amarillo */
+.menu button:nth-child(5), .menu a button:nth-child(5) { background: #E91E63; } /* Rojo para estadística */
+
 .menu button:hover {
-  background: #ffcc00;
+  filter: brightness(1.1);
   transform: scale(1.05);
 }
 
@@ -64,30 +69,30 @@ p {
   }
 }
 
-/* Menú flotante sobre la escena AR */
+/* Menú AR flotante */
 .ar-menu {
-  position: fixed;       /* Flotante sobre todo */
-  bottom: 20px;          /* Separación inferior */
-  left: 50%;             /* Centrado horizontal */
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 10px;
-  z-index: 999;          /* Encima del canvas */
+  z-index: 999;
 }
 
 .ar-menu button, .ar-menu a button {
-  background: #ffd700;
-  color: #003366;
+  background: #FFC107;
+  color: #4A148C;
   border: none;
   padding: 12px 18px;
   font-size: 1rem;
   border-radius: 10px;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-  transition: transform 0.2s, background 0.3s;
+  transition: transform 0.2s, filter 0.3s;
 }
 
 .ar-menu button:hover {
-  background: #ffcc00;
+  filter: brightness(1.2);
   transform: scale(1.05);
 }
