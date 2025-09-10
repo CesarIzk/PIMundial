@@ -2,22 +2,10 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #5E26DB; /* fondo principal */
+  background: #4240D1; /* nuevo fondo principal */
   color: #F5F5F5; /* texto general claro */
   text-align: center;
   min-height: 100vh;
-}
-
-/* Títulos */
-h1, h2 {
-  font-size: 2rem;
-  margin: 20px 0;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-}
-
-p {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
 }
 
 /* Navbar */
@@ -25,7 +13,7 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #5E26DB;
+  background: #4240D1; /* mismo color que el fondo */
   padding: 10px 20px;
   color: #F5F5F5;
   position: relative;
@@ -35,21 +23,13 @@ p {
 .navbar .logo {
   font-weight: bold;
   font-size: 1.2rem;
-  color: #DC1875; /* logo en rosa intenso */
+  color: #DC1875; /* logo rosa intenso */
 }
 
 /* Links en navbar */
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 15px;
-  margin: 0;
-  padding: 0;
-}
-
 .nav-links li a {
   text-decoration: none;
-  background: #5E26DB;
+  background: #4240D1; /* igual al fondo */
   color: #F5F5F5;
   padding: 8px 12px;
   border-radius: 12px;
@@ -58,10 +38,11 @@ p {
 }
 
 .nav-links li a:hover {
-  background: #4240D1; /* azul morado */
-  color: #DC1875; /* texto rosa */
+  background: #6E14DC; /* contraste morado brillante */
+  color: #DC1875; /* rosa */
   transform: scale(1.05);
 }
+
 
 /* Botón hamburguesa */
 .hamburger {

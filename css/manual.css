@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #006847, #ffffff, #ce1126); /* Verde, blanco y rojo */
+  color: #222;
+  text-align: center;
+  padding: 20px;
+}
+
+header {
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+section {
+  background: rgba(255,255,255,0.9);
+  margin: 15px auto;
+  padding: 20px;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+h2 {
+  color: #ce1126;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.6;
+}
