@@ -7,15 +7,18 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>🏆 WorldCupAR</h1>
+  <h1>MundialUCM 2026</h1>
   <p>Explora el Mundial en realidad aumentada</p>
 
-  <nav class="menu">
-    <a href="ar.html"><button>⚽ Experiencia AR</button></a>
-    <a href="trivia.html"><button>❓ Trivia</button></a>
-    <a href="historia.html"><button>📖 Historia</button></a>
-    <a href="manual.html"><button>📘 Manual</button></a>
-    <a href="stats.html"><button>📊 Estadísticas</button></a>
-  </nav>
+  <!-- Navbar incluido dinámicamente -->
+  <div id="navbar"></div>
+
+  <script>
+    fetch('navbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('navbar').innerHTML = data;
+      });
+  </script>
 </body>
 </html>

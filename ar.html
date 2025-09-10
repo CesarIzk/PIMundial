@@ -10,8 +10,9 @@
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 </head>
 <body>
+  <!-- Navbar dinámico -->
+  <div id="navbar"></div>
 
-  <!-- Escena AR -->
   <a-scene
     mindar-image="imageTargetSrc: ./banderas/targets.mind"
     color-space="sRGB"
@@ -35,5 +36,13 @@
   <div class="ar-menu">
     <a href="index.html"><button>🏠 Volver al Inicio</button></a>
   </div>
+
+  <script>
+    fetch('navbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('navbar').innerHTML = data;
+      });
+  </script>
 </body>
 </html>
