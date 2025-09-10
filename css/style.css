@@ -2,8 +2,8 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #4240D1; /* nuevo fondo principal */
-  color: #F5F5F5; /* texto general claro */
+  background: #4240D1; /* fondo principal */
+  color: #F5F5F5; /* texto general */
   text-align: center;
   min-height: 100vh;
 }
@@ -13,7 +13,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #4240D1; /* mismo color que el fondo */
+  background: #4240D1;
   padding: 10px 20px;
   color: #F5F5F5;
   position: relative;
@@ -26,7 +26,14 @@ body {
   color: #DC1875; /* logo rosa intenso */
 }
 
-/* Links en navbar */
+/* Links en navbar - escritorio */
+.nav-links {
+  display: flex;           /* horizontal por defecto */
+  gap: 15px;               /* espacio entre links */
+  list-style: none;
+  align-items: center;
+}
+
 .nav-links li a {
   text-decoration: none;
   background: #4240D1; /* igual al fondo */
@@ -43,21 +50,20 @@ body {
   transform: scale(1.05);
 }
 
-
 /* Botón hamburguesa */
 .hamburger {
-  display: none;
+  display: none; /* oculto por defecto (escritorio) */
   font-size: 1.8rem;
   background: none;
   border: none;
-  color: #DC1875; /* rosa */
+  color: #DC1875;
   cursor: pointer;
 }
 
 /* Móvil */
 @media (max-width: 768px) {
   .hamburger {
-    display: block;
+    display: block; /* se muestra solo en móvil */
   }
 
   .nav-links {
@@ -70,12 +76,12 @@ body {
     padding: 10px;
     border-radius: 12px;
     display: none; /* oculto por defecto */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
     gap: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
   }
 
   .nav-links.active {
-    display: flex;
+    display: flex; /* se muestra al activar el hamburger */
   }
 
   .nav-links li {
@@ -85,7 +91,7 @@ body {
 
 /* Botones principales */
 button.primary {
-  background: #DC1875; /* rosa */
+  background: #DC1875;
   color: #F5F5F5;
   border: none;
   padding: 12px 20px;
@@ -96,14 +102,14 @@ button.primary {
 }
 
 button.primary:hover {
-  background: #DC5350; /* rojo cálido */
+  background: #DC5350;
   color: #fff;
   transform: scale(1.05);
 }
 
 /* Botones secundarios */
 button.secondary {
-  background: #4240D1; /* azul morado */
+  background: #4240D1;
   color: #F5F5F5;
   border: none;
   padding: 10px 18px;
@@ -114,7 +120,7 @@ button.secondary {
 }
 
 button.secondary:hover {
-  background: #6E14DC; /* morado brillante */
+  background: #6E14DC;
   color: #fff;
   transform: scale(1.05);
 }
@@ -131,7 +137,7 @@ button.secondary:hover {
 }
 
 .ar-menu button, .ar-menu a button {
-  background: #794CDB; /* morado suave */
+  background: #794CDB;
   color: #F5F5F5;
   border: none;
   padding: 12px 18px;
@@ -143,7 +149,7 @@ button.secondary:hover {
 }
 
 .ar-menu button:hover {
-  background: #DC1875; /* rosa intenso */
+  background: #DC1875;
   color: #fff;
   transform: scale(1.05);
 }
