@@ -1,11 +1,23 @@
-/* Fondo general */
+/* Fuente general */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #4A148C; /* Fondo sólido, puedes cambiar a #6A1B9A o gradiente si quieres */
+  background: linear-gradient(180deg, #4A148C, #6A1B9A);
   color: #F5F5F5;
   text-align: center;
   min-height: 100vh;
+}
+
+/* Títulos */
+h1, h2 {
+  font-size: 2rem;
+  margin: 20px 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
 }
 
 /* Navbar */
@@ -13,7 +25,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #6A1B9A; /* fondo navbar */
+  background: linear-gradient(90deg, #4A148C, #6A1B9A);
   padding: 10px 20px;
   color: #F5F5F5;
   position: relative;
@@ -25,7 +37,7 @@ body {
   font-size: 1.2rem;
 }
 
-/* Links */
+/* Links en navbar */
 .nav-links {
   list-style: none;
   display: flex;
@@ -38,20 +50,28 @@ body {
   text-decoration: none;
   color: #F5F5F5;
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: 12px;
+  font-weight: bold;
   transition: background 0.3s, transform 0.2s;
 }
 
+/* Aplicar paleta de colores a los enlaces según posición */
+.nav-links li:nth-child(1) a { background: #E91E63; } /* Rojo */
+.nav-links li:nth-child(2) a { background: #00BCD4; } /* Turquesa */
+.nav-links li:nth-child(3) a { background: #FF5722; } /* Naranja */
+.nav-links li:nth-child(4) a { background: #FFC107; } /* Amarillo */
+.nav-links li:nth-child(5) a { background: #E91E63; } /* Rojo */
+.nav-links li:nth-child(6) a { background: #00BCD4; } /* Turquesa */
+
 .nav-links li a:hover {
-  background: #FFC107;
-  color: #4A148C;
+  filter: brightness(1.1);
   transform: scale(1.05);
 }
 
 /* Botón hamburguesa */
 .hamburger {
   display: none;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   background: none;
   border: none;
   color: #F5F5F5;
@@ -65,23 +85,52 @@ body {
   }
 
   .nav-links {
-    display: none; /* ocultar menú por defecto */
     flex-direction: column;
     position: absolute;
     top: 60px;
-    right: 10px;
-    background-color: #6A1B9A;
+    right: 20px;
+    background: linear-gradient(180deg, #4A148C, #6A1B9A);
     width: 180px;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 12px;
+    display: none; /* Oculto por defecto */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
     gap: 10px;
   }
 
   .nav-links.active {
-    display: flex;
+    display: flex; /* Mostrar al abrir hamburguesa */
   }
 
   .nav-links li {
-    margin: 0;
+    margin-bottom: 10px;
   }
+}
+
+/* Menú AR flotante */
+.ar-menu {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 999;
+}
+
+.ar-menu button, .ar-menu a button {
+  background: #FFC107;
+  color: #4A148C;
+  border: none;
+  padding: 12px 18px;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+  transition: transform 0.2s, filter 0.3s;
+}
+
+.ar-menu button:hover {
+  filter: brightness(1.2);
+  transform: scale(1.05);
 }
