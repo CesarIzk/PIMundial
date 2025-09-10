@@ -11,19 +11,8 @@
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="logo">🏆 WorldCupAR</div>
-    <button class="hamburger" id="hamburger">&#9776;</button>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="ar.html">Experiencia AR</a></li>
-      <li><a href="trivia.html">Trivia</a></li>
-      <li><a href="historia.html">Historia</a></li>
-      <li><a href="manual.html">Manual</a></li>
-      <li><a href="stats.html">Estadísticas</a></li>
-    </ul>
-  </nav>
+  <!-- Contenedor para el navbar reutilizable -->
+  <div id="navbar-container"></div>
 
   <a-scene
     mindar-image="imageTargetSrc: ./banderas/targets.mind"
@@ -44,22 +33,13 @@
     </a-entity>
   </a-scene>
 
+  <!-- Menú AR flotante -->
   <div class="ar-menu">
     <a href="index.html"><button>🏠 Volver al Inicio</button></a>
   </div>
 
-  <script>
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
-
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
-
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => navLinks.classList.remove('active'));
-    });
-  </script>
+  <!-- Script para cargar el navbar -->
+  <script src="navbar.js"></script>
 
 </body>
 </html>

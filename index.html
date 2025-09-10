@@ -8,41 +8,17 @@
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="logo">🏆 WorldCupAR</div>
-    <button class="hamburger" id="hamburger">&#9776;</button>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="ar.html">Experiencia AR</a></li>
-      <li><a href="trivia.html">Trivia</a></li>
-      <li><a href="historia.html">Historia</a></li>
-      <li><a href="manual.html">Manual</a></li>
-      <li><a href="stats.html">Estadísticas</a></li>
-    </ul>
-  </nav>
+  <!-- Contenedor donde se cargará el navbar -->
+  <div id="navbar-container"></div>
 
-  <h1>🏆 WorldCupAR</h1>
+  <h1>MundialUCM 2026</h1>
   <p>Explora el Mundial en realidad aumentada</p>
 
   <section>
     <h2>Contenido de prueba</h2>
     <p>Selecciona cualquier opción en el menú para comprobar que los enlaces funcionan.</p>
-    <p>Prueba también en móvil; el menú se adapta a columnas y filas según el tamaño de pantalla.</p>
   </section>
 
-  <script>
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
-
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
-
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => navLinks.classList.remove('active'));
-    });
-  </script>
-
+  <script src="navbar.js"></script>
 </body>
 </html>

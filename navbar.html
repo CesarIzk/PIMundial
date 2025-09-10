@@ -1,5 +1,5 @@
 <nav class="navbar">
-  <div class="logo">🏆 WorldCupAR</div>
+  <div class="logo">MundualUCM 2026</div>
   <button class="hamburger" id="hamburger">&#9776;</button>
   <ul class="nav-links" id="nav-links">
     <li><a href="index.html">Inicio</a></li>
@@ -10,19 +10,3 @@
     <li><a href="stats.html">Estadísticas</a></li>
   </ul>
 </nav>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('nav-links');
-
-  hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-  });
-
-  // Cerrar menú al hacer clic en un enlace
-  navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => navLinks.classList.remove('active'));
-  });
-});
-</script>
