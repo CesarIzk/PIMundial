@@ -2,8 +2,8 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #4A148C; /* fondo principal morado oscuro */
-  color: #F5F5F5; /* texto general blanco/crema */
+  background: #5E26DB; /* fondo principal */
+  color: #F5F5F5; /* texto general claro */
   text-align: center;
   min-height: 100vh;
 }
@@ -25,7 +25,7 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #4A148C; /* morado oscuro */
+  background: #5E26DB;
   padding: 10px 20px;
   color: #F5F5F5;
   position: relative;
@@ -35,7 +35,7 @@ p {
 .navbar .logo {
   font-weight: bold;
   font-size: 1.2rem;
-  color: #FFC107; /* amarillo para logo */
+  color: #DC1875; /* logo en rosa intenso */
 }
 
 /* Links en navbar */
@@ -49,8 +49,8 @@ p {
 
 .nav-links li a {
   text-decoration: none;
-  background: #4A148C; /* mismo color que navbar */
-  color: #FFC107; /* letras amarillas */
+  background: #5E26DB;
+  color: #F5F5F5;
   padding: 8px 12px;
   border-radius: 12px;
   font-weight: bold;
@@ -58,8 +58,8 @@ p {
 }
 
 .nav-links li a:hover {
-  background: #00BCD4; /* hover turquesa */
-  color: #4A148C; /* letras morado oscuro */
+  background: #4240D1; /* azul morado */
+  color: #DC1875; /* texto rosa */
   transform: scale(1.05);
 }
 
@@ -69,7 +69,7 @@ p {
   font-size: 1.8rem;
   background: none;
   border: none;
-  color: #FFC107; /* amarillo para hamburguesa */
+  color: #DC1875; /* rosa */
   cursor: pointer;
 }
 
@@ -84,7 +84,7 @@ p {
     position: absolute;
     top: 60px;
     right: 20px;
-    background: #4A148C; /* mismo color navbar */
+    background: #794CDB; /* morado suave */
     width: 180px;
     padding: 10px;
     border-radius: 12px;
@@ -94,7 +94,7 @@ p {
   }
 
   .nav-links.active {
-    display: flex; /* mostrar al abrir hamburguesa */
+    display: flex;
   }
 
   .nav-links li {
@@ -104,8 +104,8 @@ p {
 
 /* Botones principales */
 button.primary {
-  background: #E91E63; /* rosa intenso */
-  color: #FFC107; /* letras amarillas */
+  background: #DC1875; /* rosa */
+  color: #F5F5F5;
   border: none;
   padding: 12px 20px;
   font-size: 1rem;
@@ -115,15 +115,15 @@ button.primary {
 }
 
 button.primary:hover {
-  background: #00BCD4; /* hover turquesa */
-  color: #4A148C; /* letras morado oscuro */
+  background: #DC5350; /* rojo cálido */
+  color: #fff;
   transform: scale(1.05);
 }
 
 /* Botones secundarios */
 button.secondary {
-  background: #00BCD4; /* turquesa */
-  color: #4A148C; /* letras morado oscuro */
+  background: #4240D1; /* azul morado */
+  color: #F5F5F5;
   border: none;
   padding: 10px 18px;
   font-size: 0.95rem;
@@ -133,8 +133,8 @@ button.secondary {
 }
 
 button.secondary:hover {
-  background: #E91E63; /* hover rosa intenso */
-  color: #FFC107; /* letras amarillas */
+  background: #6E14DC; /* morado brillante */
+  color: #fff;
   transform: scale(1.05);
 }
 
@@ -150,8 +150,8 @@ button.secondary:hover {
 }
 
 .ar-menu button, .ar-menu a button {
-  background: #4A148C; /* mismo color navbar */
-  color: #FFC107; /* letras amarillas */
+  background: #794CDB; /* morado suave */
+  color: #F5F5F5;
   border: none;
   padding: 12px 18px;
   font-size: 1rem;
@@ -162,7 +162,7 @@ button.secondary:hover {
 }
 
 .ar-menu button:hover {
-  background: #00BCD4; /* hover turquesa */
-  color: #4A148C; /* letras morado oscuro */
+  background: #DC1875; /* rosa intenso */
+  color: #fff;
   transform: scale(1.05);
 }
