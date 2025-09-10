@@ -48,8 +48,8 @@ p {
 
 .nav-links li a {
   text-decoration: none;
-  background: #FFC107;  /* Mismo color para todos */
-  color: #4A148C;
+  background: linear-gradient(90deg, #4A148C, #6A1B9A); /* mismo color que navbar */
+  color: #FFC107; /* letras amarillas */
   padding: 8px 12px;
   border-radius: 12px;
   font-weight: bold;
@@ -67,7 +67,7 @@ p {
   font-size: 1.8rem;
   background: none;
   border: none;
-  color: #F5F5F5;
+  color: #FFC107; /* amarillo para hamburguesa */
   cursor: pointer;
 }
 
@@ -82,7 +82,7 @@ p {
     position: absolute;
     top: 60px;
     right: 20px;
-    background: linear-gradient(180deg, #4A148C, #6A1B9A);
+    background: linear-gradient(90deg, #4A148C, #6A1B9A); /* mismo color navbar */
     width: 180px;
     padding: 10px;
     border-radius: 12px;
@@ -112,8 +112,8 @@ p {
 }
 
 .ar-menu button, .ar-menu a button {
-  background: #FFC107;
-  color: #4A148C;
+  background: linear-gradient(90deg, #4A148C, #6A1B9A); /* mismo color navbar */
+  color: #FFC107; /* letras amarillas */
   border: none;
   padding: 12px 18px;
   font-size: 1rem;
