@@ -1,9 +1,22 @@
 <!-- navbar.html -->
-<nav class="menu">
-  <a href="index.html"><button>🏠 Inicio</button></a>
-  <a href="ar.html"><button>⚽ Experiencia AR</button></a>
-  <a href="trivia.html"><button>❓ Trivia</button></a>
-  <a href="historia.html"><button>📖 Historia</button></a>
-  <a href="manual.html"><button>📘 Manual</button></a>
-  <a href="stats.html"><button>📊 Estadísticas</button></a>
+<nav class="navbar">
+  <div class="logo">MundialUCM 2026</div>
+  <button class="hamburger" id="hamburger">&#9776;</button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="ar.html">Experiencia AR</a></li>
+    <li><a href="trivia.html">Trivia</a></li>
+    <li><a href="historia.html">Historia</a></li>
+    <li><a href="manual.html">Manual</a></li>
+    <li><a href="stats.html">Estadísticas</a></li>
+  </ul>
 </nav>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('nav-links');
+
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+  });
+</script>
