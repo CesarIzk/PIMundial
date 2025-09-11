@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #4240D1; /* fondo principal */
+  background: #221460; /* fondo principal */
   color: #F5F5F5; /* texto general */
   text-align: center;
   min-height: 100vh;
@@ -13,7 +13,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #350da1;
+  background: #261c63;
   padding: 10px 20px;
   color: #F5F5F5;
   position: relative;
@@ -23,7 +23,7 @@ body {
 .navbar .logo {
   font-weight: bold;
   font-size: 1.2rem;
-  color: #2ac9d4; /* logo rosa intenso */
+  color: #ffffff; /* logo rosa intenso */
 }
 
 /* Links en navbar - escritorio */
@@ -36,7 +36,7 @@ body {
 
 .nav-links li a {
   text-decoration: none;
-  background: #1748b2; /* igual al fondo */
+  background: #31047a; /* igual al fondo */
   color: #F5F5F5;
   padding: 8px 12px;
   border-radius: 12px;
@@ -56,7 +56,7 @@ body {
   font-size: 1.8rem;
   background: none;
   border: none;
-  color: #DC1875;
+  color: #ffffff;
   cursor: pointer;
 }
 
@@ -68,14 +68,17 @@ body {
 
   .nav-links {
     flex-direction: column;
+    align-items: center;   /* centra los elementos */
+    justify-content: center;
     position: absolute;
     top: 60px;
-    right: 20px;
-    background: #794CDB; /* morado suave */
-    width: 180px;
+    left: 50%;             /* centrado horizontal */
+    transform: translateX(-50%);
+    background: #1c0b62;   /* fondo menú */
+    width: 90%;            /* ocupa casi todo el ancho de pantalla */
     padding: 10px;
     border-radius: 12px;
-    display: none; /* oculto por defecto */
+    display: none;         /* oculto por defecto */
     gap: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.5);
   }
@@ -85,7 +88,22 @@ body {
   }
 
   .nav-links li {
-    margin-bottom: 10px;
+    width: 100%; /* cada item ocupa todo el ancho */
+  }
+
+  .nav-links li a {
+    display: block;         /* hace que el link ocupe todo el li */
+    width: 100%;            /* ancho completo */
+    text-align: center;     /* texto centrado */
+    background: #31047a;    /* fondo del botón */
+    padding: 12px 0;        /* más alto para tacto */
+    border-radius: 8px;
+  }
+
+  .nav-links li a:hover {
+    background: #6E14DC;
+    color: #DC1875;
+    transform: none; /* evita que se desplace raro en móvil */
   }
 }
 
@@ -149,7 +167,7 @@ button.secondary:hover {
 }
 
 .ar-menu button:hover {
-  background: #DC1875;
+  background: #22085e;
   color: #fff;
   transform: scale(1.05);
 }
