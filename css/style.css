@@ -76,8 +76,8 @@ body {
     transform: translateX(-50%);
     background: #1c0b62;   /* fondo menú */
     width: auto;           /* se ajusta al contenido */
-    min-width: 220px;      /* ancho mínimo para todos los botones */
-    padding: 10px;
+    min-width: 100px;      /* ancho mínimo para todos los botones */
+    padding: 8px;
     border-radius: 12px;
     display: none;         /* oculto por defecto */
     gap: 10px;
