@@ -75,7 +75,7 @@ body {
     left: auto;         /* 🔹 quitamos centrado */
     transform: none;    /* 🔹 quitamos el translate */
     background: #1c0b62;
-    min-width: 120px;   /* ancho del menú */
+    min-width: 140px;   /* ancho del menú */
     padding: 10px;
     border-radius: 12px;
     display: none;
@@ -106,7 +106,7 @@ body {
     color: #DC1875;
     transform: none;
   }
-}
+
 
 /* Botones principales */
 button.primary {
