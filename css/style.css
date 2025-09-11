@@ -75,7 +75,7 @@ body {
     left: auto;         /* 🔹 quitamos centrado */
     transform: none;    /* 🔹 quitamos el translate */
     background: #1c0b62;
-    min-width: 90px;   /* ancho del menú */
+    min-width: 120px;   /* ancho del menú */
     padding: 10px;
     border-radius: 12px;
     display: none;
