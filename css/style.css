@@ -13,7 +13,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #4240D1;
+  background: #350da1;
   padding: 10px 20px;
   color: #F5F5F5;
   position: relative;
@@ -23,7 +23,7 @@ body {
 .navbar .logo {
   font-weight: bold;
   font-size: 1.2rem;
-  color: #DC1875; /* logo rosa intenso */
+  color: #2ac9d4; /* logo rosa intenso */
 }
 
 /* Links en navbar - escritorio */
@@ -36,7 +36,7 @@ body {
 
 .nav-links li a {
   text-decoration: none;
-  background: #4240D1; /* igual al fondo */
+  background: #1748b2; /* igual al fondo */
   color: #F5F5F5;
   padding: 8px 12px;
   border-radius: 12px;
