@@ -72,10 +72,11 @@ body {
     justify-content: center;
     position: absolute;
     top: 60px;
-    left: 50%;             /* centrado horizontal */
+    left: 50%;             
     transform: translateX(-50%);
     background: #1c0b62;   /* fondo menú */
-    width: 90%;            /* ocupa casi todo el ancho de pantalla */
+    width: auto;           /* se ajusta al contenido */
+    min-width: 220px;      /* ancho mínimo para todos los botones */
     padding: 10px;
     border-radius: 12px;
     display: none;         /* oculto por defecto */
@@ -88,22 +89,22 @@ body {
   }
 
   .nav-links li {
-    width: 100%; /* cada item ocupa todo el ancho */
+    width: 100%; /* todos los items ocupan el mismo ancho del contenedor */
   }
 
   .nav-links li a {
-    display: block;         /* hace que el link ocupe todo el li */
-    width: 100%;            /* ancho completo */
-    text-align: center;     /* texto centrado */
-    background: #31047a;    /* fondo del botón */
-    padding: 12px 0;        /* más alto para tacto */
+    display: block;         
+    width: 100%;            /* mismo ancho para todos */
+    text-align: center;     
+    background: #31047a;    
+    padding: 12px 0;        
     border-radius: 8px;
   }
 
   .nav-links li a:hover {
-    background: #6E14DC;
+    background: #1e0b55;
     color: #DC1875;
-    transform: none; /* evita que se desplace raro en móvil */
+    transform: none;
   }
 }
 
