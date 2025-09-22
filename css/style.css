@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #221460; /* fondo principal */
+  background: #16655f; /* fondo principal */
   color: #F5F5F5; /* texto general */
   text-align: center;
   min-height: 100vh;
@@ -13,7 +13,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #261c63;
+  background: #104648;
   padding: 10px 20px;
   color: #F5F5F5;
   position: relative;
@@ -36,7 +36,7 @@ body {
 
 .nav-links li a {
   text-decoration: none;
-  background: #31047a; /* igual al fondo */
+  background: #b23535; /* igual al fondo */
   color: #F5F5F5;
   padding: 8px 12px;
   border-radius: 12px;
@@ -74,7 +74,7 @@ body {
     right: 20px;        /* 🔹 se pega a la derecha */
     left: auto;         /* 🔹 quitamos centrado */
     transform: none;    /* 🔹 quitamos el translate */
-    background: #1c0b62;
+    background: #7d2f2f;
     min-width: 140px;   /* ancho del menú */
     padding: 10px;
     border-radius: 12px;
@@ -96,21 +96,21 @@ body {
     display: block;         
     width: 100%;            /* mismo ancho para todos */
     text-align: center;     
-    background: #31047a;    
+    background: #007259;    
     padding: 12px 0;        
     border-radius: 8px;
   }
 
   .nav-links li a:hover {
-    background: #1e0b55;
-    color: #DC1875;
+    background: #0a3c30;
+    color: #177246;
     transform: none;
   }
 
 
 /* Botones principales */
 button.primary {
-  background: #DC1875;
+  background: #18dcbb;
   color: #F5F5F5;
   border: none;
   padding: 12px 20px;
@@ -121,14 +121,14 @@ button.primary {
 }
 
 button.primary:hover {
-  background: #DC5350;
+  background: #14714f;
   color: #fff;
   transform: scale(1.05);
 }
 
 /* Botones secundarios */
 button.secondary {
-  background: #4240D1;
+  background: #116455;
   color: #F5F5F5;
   border: none;
   padding: 10px 18px;
@@ -139,7 +139,7 @@ button.secondary {
 }
 
 button.secondary:hover {
-  background: #6E14DC;
+  background: #0f4f36;
   color: #fff;
   transform: scale(1.05);
 }
@@ -156,7 +156,7 @@ button.secondary:hover {
 }
 
 .ar-menu button, .ar-menu a button {
-  background: #794CDB;
+  background: #0d6756;
   color: #F5F5F5;
   border: none;
   padding: 12px 18px;
@@ -168,7 +168,7 @@ button.secondary:hover {
 }
 
 .ar-menu button:hover {
-  background: #22085e;
+  background: #257e59;
   color: #fff;
   transform: scale(1.05);
 }
