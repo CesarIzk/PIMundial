@@ -1,174 +1,234 @@
-/* Fuente general */
+/* =========================================
+   VARIABLES GLOBALES Y ESTILO GENERAL
+   ========================================= */
+
+/* Definir una paleta de colores facilita los cambios futuros */
+:root {
+  --color-primario: #18dcbb;      /* Turquesa brillante */
+  --color-secundario: #6E14DC;   /* Morado */
+  --color-acento: #DC1875;       /* Rosa */
+  --fondo-principal: #16655f;    /* Verde azulado oscuro */
+  --fondo-secundario: #104648;   /* Verde azulado más oscuro */
+  --texto-principal: #F5F5F5;     /* Blanco hueso */
+  --texto-oscuro: #0a3c30;
+}
+
+html {
+  scroll-behavior: smooth; /* Desplazamiento suave */
+}
+
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #16655f; /* fondo principal */
-  color: #F5F5F5; /* texto general */
+  background: var(--fondo-principal);
+  color: var(--texto-principal);
   text-align: center;
-  min-height: 100vh;
 }
 
-/* Navbar */
+* {
+  box-sizing: border-box; /* Modelo de caja más intuitivo */
+}
+
+
+/* =========================================
+   NAVBAR
+   ========================================= */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #104648;
-  padding: 10px 20px;
-  color: #F5F5F5;
-  position: relative;
+  background: var(--fondo-secundario);
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  position: sticky; /* Se queda fijo al hacer scroll */
+  top: 0;
   z-index: 1000;
 }
 
 .navbar .logo {
   font-weight: bold;
-  font-size: 1.2rem;
-  color: #ffffff; /* logo rosa intenso */
+  font-size: 1.5rem;
+  color: var(--texto-principal);
 }
 
-/* Links en navbar - escritorio */
 .nav-links {
-  display: flex;           /* horizontal por defecto */
-  gap: 15px;               /* espacio entre links */
+  display: flex;
+  gap: 1rem;
   list-style: none;
-  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links li a {
   text-decoration: none;
-  background: #b23535; /* igual al fondo */
-  color: #F5F5F5;
-  padding: 8px 12px;
-  border-radius: 12px;
+  color: var(--texto-principal);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
   font-weight: bold;
-  transition: transform 0.2s, background 0.3s, color 0.3s;
+  transition: transform 0.2s, background-color 0.3s;
 }
 
 .nav-links li a:hover {
-  background: #6E14DC; /* contraste morado brillante */
-  color: #DC1875; /* rosa */
+  background-color: var(--color-secundario);
+  color: var(--texto-principal);
   transform: scale(1.05);
 }
 
-/* Botón hamburguesa */
 .hamburger {
-  display: none; /* oculto por defecto (escritorio) */
-  font-size: 1.8rem;
+  display: none;
+  font-size: 2rem;
   background: none;
   border: none;
-  color: #ffffff;
+  color: var(--texto-principal);
   cursor: pointer;
 }
 
-/* Móvil */
+/* =========================================
+   SECCIÓN HERO
+   ========================================= */
+.hero {
+  background: linear-gradient(rgba(22, 101, 95, 0.7), rgba(16, 70, 72, 0.8)), url('images/stadium_background.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 6rem 1rem;
+  color: #fff;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.cta-button {
+  background: var(--color-primario);
+  color: var(--texto-oscuro);
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.cta-button:hover {
+  background-color: var(--color-secundario);
+  color: var(--texto-principal);
+  transform: scale(1.05);
+}
+
+
+/* =========================================
+   SECCIÓN DE PARTIDOS Y CONTADOR
+   ========================================= */
+.countdown, .matches {
+  padding: 3rem 1rem;
+}
+
+#countdown-timer {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.matches-container {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.match-card {
+  background: var(--fondo-secundario);
+  padding: 1.5rem;
+  border-radius: 12px;
+  min-width: 320px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.match-card .team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+}
+
+.match-card .team img {
+  width: 50px;
+  height: auto;
+}
+
+.match-card .match-info {
+  text-align: center;
+}
+
+.match-card .match-info span {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-primario);
+}
+
+
+/* =========================================
+   FOOTER
+   ========================================= */
+footer {
+  background: var(--fondo-secundario);
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border-top: 2px solid var(--color-primario);
+}
+
+
+/* =========================================
+   RESPONSIVE (MÓVIL)
+   ========================================= */
 @media (max-width: 768px) {
   .hamburger {
-    display: block; /* se muestra solo en móvil */
+    display: block;
   }
 
- .nav-links {
+  .nav-links {
+    display: none; /* Oculto hasta que se active */
     flex-direction: column;
-    align-items: center;
     position: absolute;
-    top: 60px;
-    right: 20px;        /* 🔹 se pega a la derecha */
-    left: auto;         /* 🔹 quitamos centrado */
-    transform: none;    /* 🔹 quitamos el translate */
-    background: #7d2f2f;
-    min-width: 140px;   /* ancho del menú */
-    padding: 10px;
-    border-radius: 12px;
-    display: none;
-    gap: 8px;
+    top: 70px;
+    right: 20px;
+    background: var(--fondo-secundario);
+    width: 200px;
+    padding: 1rem;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.5);
   }
 
   .nav-links.active {
-    display: flex;
+    display: flex; /* Se muestra al hacer clic en la hamburguesa */
   }
-}
+
 
   .nav-links li {
-    width: 100%; /* todos los items ocupan el mismo ancho del contenedor */
+    width: 100%;
   }
 
   .nav-links li a {
-    display: block;         
-    width: 100%;            /* mismo ancho para todos */
-    text-align: center;     
-    background: #007259;    
-    padding: 12px 0;        
-    border-radius: 8px;
+    display: block;
+    width: 100%;
+    text-align: center;
   }
-
-  .nav-links li a:hover {
-    background: #0a3c30;
-    color: #177246;
-    transform: none;
+  
+  .hero h1 {
+    font-size: 2.2rem;
   }
-
-
-/* Botones principales */
-button.primary {
-  background: #18dcbb;
-  color: #F5F5F5;
-  border: none;
-  padding: 12px 20px;
-  font-size: 1rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.3s;
-}
-
-button.primary:hover {
-  background: #14714f;
-  color: #fff;
-  transform: scale(1.05);
-}
-
-/* Botones secundarios */
-button.secondary {
-  background: #116455;
-  color: #F5F5F5;
-  border: none;
-  padding: 10px 18px;
-  font-size: 0.95rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.3s;
-}
-
-button.secondary:hover {
-  background: #0f4f36;
-  color: #fff;
-  transform: scale(1.05);
-}
-
-/* Menú AR flotante */
-.ar-menu {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  z-index: 999;
-}
-
-.ar-menu button, .ar-menu a button {
-  background: #0d6756;
-  color: #F5F5F5;
-  border: none;
-  padding: 12px 18px;
-  font-size: 1rem;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-  transition: transform 0.2s, background 0.3s, color 0.3s;
-}
-
-.ar-menu button:hover {
-  background: #257e59;
-  color: #fff;
-  transform: scale(1.05);
 }
