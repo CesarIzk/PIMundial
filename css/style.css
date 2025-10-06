@@ -37,13 +37,18 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--fondo-secundario);
+  
+  /* --- LÍNEA A AÑADIR/MODIFICAR --- */
+  background-color: var(--fondo-secundario); /* Asegura que tenga un fondo sólido */
+  /* --- FIN DE LA LÍNEA --- */
+
   padding: 1rem 1.5rem;
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  position: sticky; /* Se queda fijo al hacer scroll */
+  position: sticky;
   top: 0;
   z-index: 1000;
 }
+
 
 .navbar .logo {
   font-weight: bold;
@@ -231,4 +236,76 @@ footer {
   .hero h1 {
     font-size: 2.2rem;
   }
+}
+/* =========================================
+   MEJORAS PARA LAS TARJETAS DE PARTIDO
+   ========================================= */
+
+
+.match-card {
+  /* Diseño base */
+  background: var(--fondo-secundario);
+  padding: 1.5rem;
+  border-radius: 12px;
+  min-width: 320px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  
+  /* Mejoras y transiciones */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 450px;
+}
+
+.match-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+}
+
+.match-card .team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+}
+
+.match-card .team img {
+  width: 50px;
+  height: auto;
+}
+
+.match-card .team span {
+  font-size: 1.1rem;
+}
+
+.match-card .match-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: center;
+}
+
+/* El "VS" sutil */
+.match-card .match-info span {
+  font-size: 1rem;
+  font-weight: normal;
+  color: var(--texto-principal);
+  opacity: 0.7;
+}
+
+/* El nombre del estadio como protagonista */
+.match-card .match-info p span {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-primario);
+}
+
+/* La fecha y la fase como información secundaria */
+.match-card .match-info time,
+.match-card .match-info small {
+  font-size: 0.85rem;
+  opacity: 0.8;
 }
