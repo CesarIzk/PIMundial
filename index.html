@@ -2,23 +2,78 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>MundialCUM 2026 - Inicio</title>
+  <title>MundialCUM 2026 - El Futuro es Ahora</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vive la experiencia del Mundial de Fútbol 2026 con realidad aumentada, estadísticas en vivo, historia y mucho más.">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body>
 
-  <!-- Contenedor donde se cargará el navbar -->
-  <div id="navbar-container"></div>
+  <header>
+    <div id="navbar-container">
+      </div>
+  </header>
 
-  <h1>BIENVENIDOS A TODOS</h1>
-  <p>Explora el Mundial en realidad aumentada</p>
+  <main>
 
-  <section>
-    <h2>Contenido de prueba</h2>
-    <p>Selecciona cualquier opción en el menú para comprobar que los enlaces funcionan.</p>
-  </section>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>EL MUNDIAL DEL FUTURO HA LLEGADO</h1>
+        <p>Explora estadios, jugadores y momentos históricos como nunca antes.</p>
+        <a href="ar-mode.html" class="cta-button">Iniciar Experiencia AR</a>
+      </div>
+    </section>
+
+    <section class="countdown">
+      <h2>El Partido Inaugural Comienza en:</h2>
+      <div id="countdown-timer">
+        <span id="days"></span> Días
+        <span id="hours"></span> Horas
+        <span id="minutes"></span> Minutos
+        <span id="seconds"></span> Segundos
+      </div>
+    </section>
+
+    <section class="matches">
+      <h2>Próximos Partidos</h2>
+      <div class="matches-container">
+        <article class="match-card">
+          <div class="team">
+            <img src="images/flag_mex.png" alt="Bandera de México">
+            <span>MÉXICO</span>
+          </div>
+          <div class="match-info">
+            <time datetime="2026-06-11T16:00:00">11 JUN 2026 - 16:00</time>
+            <span>VS</span>
+            <p>Estadio Azteca</p>
+          </div>
+          <div class="team">
+            <img src="images/flag_can.png" alt="Bandera de Canadá">
+            <span>CANADÁ</span>
+          </div>
+        </article>
+        
+        <article class="match-card">
+           </article>
+      </div>
+      <a href="calendario.html" class="link-secondary">Ver calendario completo</a>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 MundialCUM 2026. Todos los derechos reservados.</p>
+      <div class="social-links">
+        <a href="#">Facebook</a>
+        <a href="#">Twitter</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+  </footer>
 
   <script src="js/navbar.js" defer></script>
+  <script src="js/countdown.js" defer></script>
 </body>
 </html>
