@@ -39,7 +39,7 @@ body {
   align-items: center;
   
   /* --- LÍNEA A AÑADIR/MODIFICAR --- */
-  background-color: var(--fondo-secundario); /* Asegura que tenga un fondo sólido */
+  background-color: var(--fondo-secundario); 
   /* --- FIN DE LA LÍNEA --- */
 
   padding: 1rem 1.5rem;
@@ -52,7 +52,7 @@ body {
 
 .navbar .logo {
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: var(--texto-principal);
 }
 
@@ -92,24 +92,75 @@ body {
    SECCIÓN HERO
    ========================================= */
 .hero {
-  background: linear-gradient(rgba(22, 101, 95, 0.7), rgba(16, 70, 72, 0.8)), url('images/stadium_background.jpg');
-  background-size: cover;
-  background-position: center;
-  padding: 6rem 1rem;
-  color: #fff;
+  /* Mantén tu background actual, que ya incluye el degradado y la imagen */
+  background: linear-gradient(rgba(16, 70, 72, 0.7), rgba(16, 70, 72, 0.8)), url('/images/mundial.jpg');
+  background-size: cover; 
+  background-position: center; 
+  
+  /* --- Ajustes para el tamaño en PC --- */
+  min-height: 60vh; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+
+  /* --- Estilos de texto --- */
+  color: #ffffff;
+  text-align: center;
+  padding: 2rem 1rem; 
+  }
+
+.hero-content {
+  max-width: 800px; 
+  padding: 1rem; 
 }
 
 .hero h1 {
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  font-size: 3.5rem; 
+  margin-bottom: 1rem; 
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
 }
 
 .hero p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
+  font-size: 1.5rem; /* Aumenta el tamaño del párrafo para PC */
+  margin-bottom: 2rem; /* Espacio debajo del párrafo */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 }
 
+.hero .cta-button {
+  font-size: 1.2rem; /* Ajusta el tamaño del botón */
+  padding: 0.8rem 2rem; /* Ajusta el padding del botón */
+}
+
+
+/* Esto asegura que los tamaños sean responsivos para pantallas más pequeñas */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 50vh; /* Un poco menos alto en tablets */
+  }
+  .hero h1 {
+    font-size: 2.5rem; /* Reduce el tamaño del título en tablets */
+  }
+  .hero p {
+    font-size: 1.2rem; /* Reduce el tamaño del párrafo en tablets */
+  }
+  .hero .cta-button {
+    font-size: 1rem;
+    padding: 0.6rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: 40vh; /* Aún menos alto en móviles */
+    padding: 1rem;
+  }
+  .hero h1 {
+    font-size: 1.8rem; /* Aún más pequeño para móviles */
+  }
+  .hero p {
+    font-size: 1rem; /* Párrafo más pequeño */
+  }
+}
 .cta-button {
   background: var(--color-primario);
   color: var(--texto-oscuro);
