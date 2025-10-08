@@ -635,3 +635,45 @@ footer {
   line-height: 1.6;
   text-align: justify;
 }
+
+/* =========================================
+   ESTILOS PARA PANTALLA DE INICIO AR
+   ========================================= */
+
+.start-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--fondo-principal); /* Usa un color de tu paleta */
+  color: var(--texto-principal);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 3000;
+  padding: 1rem;
+}
+
+.start-content h2 {
+  font-size: 2rem;
+  color: var(--rojo-anfitrion);
+}
+
+#start-button {
+  background: var(--rojo-anfitrion);
+  color: var(--texto-oscuro);
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: transform 0.2s;
+}
+
+#start-button:hover {
+  transform: scale(1.05);
+}
