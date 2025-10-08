@@ -100,19 +100,19 @@ body {
    SECCIÓN HERO
    ========================================= */
 .hero {
-  /* ...tus otras propiedades como background, min-height, etc., se quedan igual... */
+  /* ...propiedades de background... */
   background: linear-gradient(rgba(19, 32, 68, 0.629), rgba(16, 35, 72, 0.8)), url('/images/mundial1.jpg');
   background-size: cover;
   background-position: center 40%;
-  min-height: 70vh;
+  
+  /* --- AJUSTES DE TAMAÑO --- */
+  min-height: 55vh; /* <- REDUCIDO (antes 70vh) */
+  padding: 2rem 1rem 10vh; /* <- PADDING INFERIOR REDUCIDO (antes 26vh) */
+
+  /* ...resto de propiedades flex... */
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  
-  /* --- AJUSTE PRINCIPAL AQUÍ --- */
-  /* Aumentamos el último valor (padding-bottom) para subir el texto */
-  padding: 2rem 1rem 26vh; /* <- AJUSTA ESTE VALOR (antes era 8vh) */
-  
   color: #ffffff;
   text-align: center;
 }
