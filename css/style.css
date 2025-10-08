@@ -104,7 +104,7 @@ body {
   background: linear-gradient(rgba(19, 32, 68, 0.629), rgba(16, 35, 72, 0.8)), url('/images/mundial1.jpg');
   background-size: cover;
   background-position: center 40%;
-  min-height: 85vh;
+  min-height: 70vh;
   display: flex;
   align-items: flex-end;
   justify-content: center;
