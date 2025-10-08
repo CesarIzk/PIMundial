@@ -100,24 +100,23 @@ body {
    SECCIÓN HERO
    ========================================= */
 .hero {
-  /* Tu fondo se queda igual */
+  /* ...tus otras propiedades como background, min-height, etc., se quedan igual... */
   background: linear-gradient(rgba(19, 32, 68, 0.629), rgba(16, 35, 72, 0.8)), url('/images/mundial1.jpg');
   background-size: cover;
-  
-  /* --- AJUSTES CLAVE --- */
-  background-position: center 40%; /* Desplaza la imagen un poco hacia abajo (los logos subirán visualmente) */
-  min-height: 85vh; /* Aumenta la altura para darle más espacio e impacto visual */
+  background-position: center 40%;
+  min-height: 85vh;
   display: flex;
-  align-items: flex-end; /* ¡IMPORTANTE! Mueve el contenido (texto y botón) hacia la parte inferior */
+  align-items: flex-end;
   justify-content: center;
-
-  /* --- Ajuste de padding --- */
-  padding: 2rem 1rem 8vh; /* Añade más padding inferior para que el texto no quede pegado al borde */
   
-  /* Estilos de texto que no cambian */
+  /* --- AJUSTE PRINCIPAL AQUÍ --- */
+  /* Aumentamos el último valor (padding-bottom) para subir el texto */
+  padding: 2rem 1rem 25vh; /* <- AJUSTA ESTE VALOR (antes era 8vh) */
+  
   color: #ffffff;
   text-align: center;
 }
+
 .hero-content {
   max-width: 800px; 
   padding: 1rem; 
