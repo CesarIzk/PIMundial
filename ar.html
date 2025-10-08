@@ -3,44 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <title>MundialCUM 2026 - AR</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <link rel="stylesheet" href="css/style.css">
-
 
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 </head>
 <body>
 
-  <!-- Contenedor para el navbar reutilizable -->
-  <div id="navbar-container"></div>
+  <div class="ar-container">
+    <a-scene
+      id="ar-scene"
+      mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false;"
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+    >
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <a-scene
-    mindar-image="imageTargetSrc: ./banderas/targets.mind"
-    color-space="sRGB"
-    renderer="colorManagement: true, physicallyCorrectLights"
-    vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: false"
-  >
-    <a-assets>
-      <a-asset-item id="japonModel" src="./modelos/balonjapon.glb"></a-asset-item>
-    </a-assets>
+      <a-entity mindar-image-target="targetIndex: 0"></a-entity>
+      <a-entity mindar-image-target="targetIndex: 1"></a-entity>
+      <a-entity mindar-image-target="targetIndex: 2"></a-entity>
+      </a-scene>
+  </div>
 
-    <a-camera position="0 0 0" look-controls="enabled: false" mindar-camera="true"></a-camera>
+  <div id="info-panel" class="info-panel-container" style="display: none;">
+    <div class="info-panel-content">
+      <button id="close-button" class="close-button">×</button>
+      <h2 id="info-title"></h2>
+      <img id="info-image" src="" alt="Imagen descriptiva">
+      <video id="info-video" src="" playsinline controls muted></video>
+      <p id="info-text"></p>
+    </div>
+  </div>
 
-    <a-entity mindar-image-target="targetIndex: 0">
-      <a-plane src="./banderas/jpflag.png" position="0 0 0" height="0.552" width="1"></a-plane>
-      <a-gltf-model src="#japonModel" position="0 0 0.1" scale="0.1 0.1 0.1" rotation="0 0 0"></a-gltf-model>
-    </a-entity>
-  </a-scene>
-
-  <!-- Menú AR flotante -->
   <div class="ar-menu">
     <a href="index.html"><button>🏠 Volver al Inicio</button></a>
   </div>
 
-  <!-- Script para cargar el navbar -->
-  <script src="navbar.js" defer></script>
-
+  <script src="js/ar-logic.js" defer></script>
 </body>
 </html>

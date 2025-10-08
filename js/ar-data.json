@@ -1,0 +1,21 @@
+
+[
+  {
+    "title": "México",
+    "image": "./images/flag_mex.jpg",
+    "video": "./videos/mexico.mp4",
+    "text": "La Selección de fútbol de México es una de las más exitosas de CONCACAF. El Estadio Azteca será el primer estadio en la historia en albergar tres inauguraciones de la Copa del Mundo."
+  },
+  {
+    "title": "Canadá",
+    "image": "./images/estadio_toronto.jpg",
+    "video": "./videos/canada_highlights.mp4",
+    "text": "Canadá será coanfitrión por primera vez. El BMO Field en Toronto es una de las sedes principales, destacando el creciente interés por el fútbol en el país."
+  },
+  {
+    "title": "Estados Unidos",
+    "image": "./images/sofi_stadium.jpg",
+    "video": "./videos/usa_highlights.mp4",
+    "text": "Estados Unidos cuenta con la mayor cantidad de sedes para el torneo. El SoFi Stadium en Los Ángeles es una joya arquitectónica y albergará partidos clave."
+  }
+]
