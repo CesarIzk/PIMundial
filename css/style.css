@@ -1,16 +1,24 @@
 /* =========================================
-   VARIABLES GLOBALES Y ESTILO GENERAL
-   ========================================= */
+   VARIABLES GLOBALES Y ESTILO GENERAL
+   ========================================= */
 
-/* Definir una paleta de colores facilita los cambios futuros */
+/* Paleta de colores inspirada en los anfitriones del mundial 🇲🇽🇺🇸🇨🇦 */
 :root {
-  --color-primario: #18dcbb;      /* Turquesa brillante */
-  --color-secundario: #6E14DC;   /* Morado */
-  --color-acento: #DC1875;       /* Rosa */
-  --fondo-principal: #16655f;    /* Verde azulado oscuro */
-  --fondo-secundario: #104648;   /* Verde azulado más oscuro */
-  --texto-principal: #F5F5F5;     /* Blanco hueso */
-  --texto-oscuro: #0a3c30;
+  --rojo-anfitrion: #E31B23;   /* Rojo vibrante de las 3 banderas */
+  --azul-anfitrion: #0A192F;    /* Azul noche oscuro, base del diseño */
+  --verde-anfitrion: #006847;  /* Verde de la bandera de México */
+  --blanco-texto: #F0F2F5;   /* Un blanco suave para el texto */
+
+  /* --- Mapeo a la estructura actual del sitio --- */
+  --color-primario: var(--rojo-anfitrion);
+  --color-secundario: var(--verde-anfitrion);
+  --color-acento: #3B82F6; /* Un azul más brillante para variedad */
+
+  --fondo-principal: var(--azul-anfitrion);
+  --fondo-secundario: #172A45; /* Azul un poco más claro para tarjetas/navbar */
+  
+  --texto-principal: var(--blanco-texto);
+  --texto-oscuro: #FFFFFF; /* El texto oscuro ahora es blanco para los botones de color */
 }
 
 html {
@@ -43,7 +51,7 @@ body {
   /* --- FIN DE LA LÍNEA --- */
 
   padding: 1rem 1.5rem;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 3px rgba(0,0,0,0.3);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -92,23 +100,24 @@ body {
    SECCIÓN HERO
    ========================================= */
 .hero {
-  /* Mantén tu background actual, que ya incluye el degradado y la imagen */
-  background: linear-gradient(rgba(16, 70, 72, 0.7), rgba(16, 70, 72, 0.8)), url('/images/mundial.jpg');
-  background-size: cover; 
-  background-position: center; 
+  /* Tu fondo se queda igual */
+  background: linear-gradient(rgba(19, 32, 68, 0.629), rgba(16, 35, 72, 0.8)), url('/images/mundial1.jpg');
+  background-size: cover;
   
-  /* --- Ajustes para el tamaño en PC --- */
-  min-height: 60vh; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
+  /* --- AJUSTES CLAVE --- */
+  background-position: center 40%; /* Desplaza la imagen un poco hacia abajo (los logos subirán visualmente) */
+  min-height: 85vh; /* Aumenta la altura para darle más espacio e impacto visual */
+  display: flex;
+  align-items: flex-end; /* ¡IMPORTANTE! Mueve el contenido (texto y botón) hacia la parte inferior */
+  justify-content: center;
 
-  /* --- Estilos de texto --- */
+  /* --- Ajuste de padding --- */
+  padding: 2rem 1rem 8vh; /* Añade más padding inferior para que el texto no quede pegado al borde */
+  
+  /* Estilos de texto que no cambian */
   color: #ffffff;
   text-align: center;
-  padding: 2rem 1rem; 
-  }
-
+}
 .hero-content {
   max-width: 800px; 
   padding: 1rem; 
@@ -189,8 +198,17 @@ body {
 }
 
 #countdown-timer {
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 3.5rem; /* Hacemos la fuente mucho más grande */
+  font-weight: 900; /* Extra-bold para más impacto */
+  color: var(--color-primario); /* Usamos el color turquesa para resaltar */
+  letter-spacing: 4px; /* Añade un poco de espacio entre caracteres */
+  
+  /* Opcional: un fondo para que parezca un panel digital */
+  background-color: rgba(0, 0, 0, 0.25);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  display: inline-block; /* Permite que el padding y background funcionen correctamente */
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5); /* Sombra interior para efecto de panel */
   margin-top: 1rem;
 }
 
