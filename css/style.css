@@ -111,7 +111,7 @@ body {
   
   /* --- AJUSTE PRINCIPAL AQUÍ --- */
   /* Aumentamos el último valor (padding-bottom) para subir el texto */
-  padding: 2rem 1rem 25vh; /* <- AJUSTA ESTE VALOR (antes era 8vh) */
+  padding: 2rem 1rem 35vh; /* <- AJUSTA ESTE VALOR (antes era 8vh) */
   
   color: #ffffff;
   text-align: center;
