@@ -667,45 +667,80 @@ footer {
 }
 
 /* =========================================
-   ESTILOS PARA PANTALLA DE INICIO AR
+   AJUSTES DE CAPAS Y VISIBILIDAD PARA AR
    ========================================= */
 
+/* La escena de AR debe estar al frente y sin fondo opaco */
+.ar-container, #ar-scene, a-scene {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  z-index: 1; /* Debajo del panel, encima del fondo */
+  background: transparent !important; /* 🔥 Muy importante */
+}
+
+/* El video de la cámara debe ser visible detrás de la escena */
+video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* El panel de información va arriba del AR */
+.info-panel-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 15, 15, 0.85); /* semitransparente */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* El overlay inicial (botón "Iniciar Cámara") está más arriba */
 .start-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--fondo-principal); /* Usa un color de tu paleta */
+  background: var(--fondo-principal);
   color: var(--texto-principal);
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  z-index: 3000;
-  padding: 1rem;
+  z-index: 3000; /* 🔝 Más alto de todos al inicio */
 }
 
-.start-content h2 {
-  font-size: 2rem;
-  color: var(--rojo-anfitrion);
+/* Cuando se oculta, asegúrate de quitarlo del flujo */
+.start-overlay[style*="display: none"] {
+  display: none !important;
+  z-index: -1;
 }
 
-#start-button {
-  background: var(--rojo-anfitrion);
-  color: var(--texto-oscuro);
-  border: none;
+/* Loader (cuando arranca el AR) */
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
   padding: 1rem 2rem;
-  font-size: 1.2rem;
-  font-weight: bold;
   border-radius: 10px;
-  cursor: pointer;
-  margin-top: 1rem;
-  transition: transform 0.2s;
-}
-
-#start-button:hover {
-  transform: scale(1.05);
+  z-index: 1500;
 }
 
 /* =========================================
