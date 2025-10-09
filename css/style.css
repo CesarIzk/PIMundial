@@ -677,3 +677,81 @@ footer {
 #start-button:hover {
   transform: scale(1.05);
 }
+/* =========================================
+   ESTILOS PARA BANNERS DE NOTICIAS
+   ========================================= */
+
+/* Contenedor principal de la sección */
+.news {
+  padding: 3rem 1rem;
+  background-color: var(--fondo-principal); /* O un color ligeramente diferente si prefieres */
+}
+
+/* El contenedor de los banners */
+.news-container {
+  display: flex; /* ¡La clave! Pone los elementos en fila */
+  gap: 1.5rem; /* Espacio entre los banners */
+  justify-content: center; /* Centra los banners si hay espacio de sobra */
+  flex-wrap: wrap; /* Permite que pasen a la siguiente línea en pantallas pequeñas */
+  margin-top: 2rem;
+}
+
+/* Estilo individual de cada banner (artículo) */
+.news-item {
+  background: var(--fondo-secundario);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  text-align: left;
+  
+  /* Flexbox para controlar el tamaño */
+  flex-basis: 350px; /* Ancho base de cada banner */
+  flex-grow: 1; /* Permite que crezca para ocupar espacio disponible */
+  max-width: 400px; /* Ancho máximo para que no se estiren demasiado */
+
+  /* Transición para el efecto hover */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 4px solid var(--rojo-anfitrion); /* Un acento de color */
+}
+
+.news-item:hover {
+  transform: translateY(-8px); /* Eleva el banner al pasar el ratón */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+}
+
+.news-item h3 {
+  color: var(--texto-principal);
+  font-size: 1.3rem;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  /* Limita el texto del título a 2 líneas */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 42px; /* Ajusta este valor para que quepan 2 líneas de tu fuente */
+}
+
+.news-item p {
+  opacity: 0.8;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  /* Limita el texto del párrafo a 3 líneas */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 76px; /* Ajusta este valor para que quepan 3 líneas de tu fuente */
+}
+
+.news-item a {
+  color: var(--rojo-anfitrion);
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block; /* Permite añadir margen */
+  margin-top: 1rem;
+}
+
+.news-item a:hover {
+  text-decoration: underline;
+}
