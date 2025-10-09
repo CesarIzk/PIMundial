@@ -83,17 +83,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       // --- 2. Crear ENTIDADES 3D FLOTANTES ---
       
-      // Contenedor de la info flotante (para aplicar una rotación general, si quieres)
+      // Contenedor de la info flotante (Sube el conjunto base 0.1m más alto)
       const infoContainer = document.createElement('a-entity');
-      infoContainer.setAttribute('position', '0 0 0.1'); // Flota un poco (0.1m) sobre el marcador
-      // Puedes usar una animación 'float' CSS si lo deseas, o un componente A-Frame
+      infoContainer.setAttribute('position', '0 0.2 0.1'); // Ajuste: 0.2 en Y (sube el conjunto)
 
       // 🅰️ TÍTULO (Arriba)
       const titleText = document.createElement('a-text');
       titleText.setAttribute('value', data.title);
-      titleText.setAttribute('color', '#FFD700'); // Color dorado
+      titleText.setAttribute('color', '#FFD700'); 
       titleText.setAttribute('width', '1.5'); 
-      titleText.setAttribute('position', '0 0.8 0'); // Posición superior
+      titleText.setAttribute('position', '0 0.65 0'); // Ajuste: Bajar de 0.8 a 0.65
       titleText.setAttribute('align', 'center');
       infoContainer.appendChild(titleText);
 
@@ -102,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       imageEl.setAttribute('src', `#image-asset-${index}`);
       imageEl.setAttribute('width', '0.6');
       imageEl.setAttribute('height', '0.5');
-      imageEl.setAttribute('position', '-0.4 0.3 0');
+      imageEl.setAttribute('position', '-0.4 0.2 0'); // Ajuste: Nivelar con el video
       infoContainer.appendChild(imageEl);
 
       // 🇨 VIDEO (Derecha)
@@ -110,7 +109,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       videoEl.setAttribute('src', `#video-asset-${index}`);
       videoEl.setAttribute('width', '0.6');
       videoEl.setAttribute('height', '0.5');
-      videoEl.setAttribute('position', '0.4 0.3 0');
+      videoEl.setAttribute('position', '0.4 0.2 0'); // Ajuste: Nivelar con la imagen
       videoEl.setAttribute('geometry', 'primitive: plane');
       // Adjuntar el componente de lógica de video (apuntando al target padre)
       targetEl.setAttribute('video-on-target', { targetIndex: index }); 
@@ -120,8 +119,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const textEl = document.createElement('a-text');
       textEl.setAttribute('value', data.text);
       textEl.setAttribute('color', '#FFFFFF');
-      textEl.setAttribute('width', '1.5'); // Ancho para que el texto se ajuste
-      textEl.setAttribute('position', '0 -0.4 0'); // Posición inferior central
+      textEl.setAttribute('width', '1.5'); 
+      textEl.setAttribute('position', '0 0.0 0'); // Ajuste CRÍTICO: Sube el texto a Y=0
       textEl.setAttribute('align', 'center');
       infoContainer.appendChild(textEl);
 
@@ -146,10 +145,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     loader.style.display = 'none';
     console.log('🟢 AR listo');
   });
-
-  // Ya NO necesitamos escuchar 'targetFound'/'targetLost' porque la lógica
-  // de visibilidad de las entidades 3D y el video está gestionada
-  // automáticamente por el sistema MindAR y el componente 'video-on-target'.
-  
-  // El 'closeButton' ya NO es necesario porque la información se oculta al perder el target.
 });
