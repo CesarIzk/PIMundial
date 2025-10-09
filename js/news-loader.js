@@ -21,21 +21,26 @@ async function loadNews() {
     newsItems.forEach(item => {
       // --- INICIO DE LA MODIFICACIÓN ---
 
-      // Buscamos la URL de la imagen. NewsAPI la llama 'urlToImage'.
-      // Si no existe, usamos una imagen de placeholder que debes crear.
-      const imageUrl = item.urlToImage || 'images/placeholder-news.jpg';
+     const imageUrl = item.urlToImage || 'images/placeholder-news.jpg';
+const sourceName = item.source.name || 'Fuente Desconocida';
+// Formateamos la fecha para que sea más legible
+const articleDate = new Date(item.publishedAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
 
-      const articleHTML = `
-        <article class="news-item">
-            <div class="news-image-container">
-                <img src="${imageUrl}" alt="${item.titulo || 'Imagen de noticia'}" class="news-thumbnail">
-            </div>
-            <div class="news-content">
-                <h3>${item.titulo}</h3>
-                <p>${item.resumen}</p>
-                ${item.enlace ? `<a href="${item.enlace}" target="_blank" rel="noopener noreferrer">Leer más</a>` : ''}
-            </div>
-        </article>
+const articleHTML = `
+  <article class="news-item">
+      <div class="news-image-container">
+          <img src="${imageUrl}" alt="${item.titulo || 'Imagen de noticia'}" class="news-thumbnail">
+      </div>
+      <div class="news-content">
+          <div class="news-meta"> <span>${sourceName}</span>
+              <span>•</span>
+              <time datetime="${item.publishedAt}">${articleDate}</time>
+          </div>
+          <h3>${item.titulo}</h3>
+          <p>${item.resumen}</p>
+          ${item.enlace ? `<a href="${item.enlace}" target="_blank" rel="noopener noreferrer">Leer más</a>` : ''}
+      </div>
+  </article>
       `;
       // --- FIN DE LA MODIFICACIÓN ---
 
