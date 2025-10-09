@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const startOverlay = document.getElementById('start-overlay');
   const startButton = document.getElementById('start-button');
 
+  // Cargamos los datos de los países desde el archivo JSON
   let countryData = [];
   try {
     const response = await fetch('./js/ar-data.json');
@@ -16,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error("No se pudo cargar la información de AR:", error);
   }
 
-  // --- Lógica para mostrar/ocultar el panel de información (sin cambios) ---
+  // --- Lógica para mostrar/ocultar el panel de información ---
   const showInfoPanel = (index) => {
     const data = countryData[index];
     if (!data) return;
@@ -36,19 +37,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     sceneEl.play();
   };
 
-  // --- Lógica de arranque (el cambio principal está aquí) ---
-  const startAR = () => {
+  // --- LÓGICA DE ARRANQUE CORREGIDA ---
+  // Añadimos el listener al botón directamente. No esperamos a 'arReady'.
+  startButton.addEventListener('click', () => {
     const arSystem = sceneEl.systems["mindar-image-system"];
-    
-    // El evento de clic del usuario inicia el sistema de AR
-    startButton.addEventListener('click', () => {
-      startOverlay.style.display = 'none'; // Oculta la pantalla de inicio
-      arSystem.start(); // ¡Inicia la cámara!
-    });
-  };
+    startOverlay.style.display = 'none'; // Oculta la pantalla de inicio
+    arSystem.start(); // ¡Inicia la cámara y la detección!
+  });
+  // --- FIN DE LA CORRECCIÓN ---
 
-  // Añadimos los listeners
+
+  // Listeners para los eventos de MindAR y el botón de cerrar
   sceneEl.addEventListener('targetFound', event => showInfoPanel(event.detail.targetIndex));
   closeButton.addEventListener('click', hideInfoPanel);
-  sceneEl.addEventListener('arReady', startAR); // Esperamos a que todo esté listo para activar el botón
 });
