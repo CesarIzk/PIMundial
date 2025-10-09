@@ -29,58 +29,23 @@
   <div class="ar-container">
     <div id="loader" class="loader" style="display: none;">Cargando AR...</div>
     
-<a-scene
-  id="ar-scene"
-  mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false; maxTrack: 3"
-  renderer="colorManagement: true, physicallyCorrectLights"
-  vr-mode-ui="enabled: false"
-  device-orientation-permission-ui="enabled: false"
->
-  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+    <a-scene
+      id="ar-scene"
+      mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false; maxTrack: 3"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+    >
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <!-- TARGET 0 -->
-  <a-entity mindar-image-target="targetIndex: 0">
-    <a-plane 
-      position="0 0 0"
-      rotation="0 0 0"
-      width="1"
-      height="1"
-      material="src: #img0; transparent: true;"
-    ></a-plane>
-  </a-entity>
-
-  <!-- TARGET 1 -->
-  <a-entity mindar-image-target="targetIndex: 1">
-    <a-plane 
-      position="0 0 0"
-      rotation="0 0 0"
-      width="1"
-      height="1"
-      material="src: #img1; transparent: true;"
-    ></a-plane>
-  </a-entity>
-
-  <!-- TARGET 2 -->
-  <a-entity mindar-image-target="targetIndex: 2">
-    <a-plane 
-      position="0 0 0"
-      rotation="0 0 0"
-      width="1"
-      height="1"
-      material="src: #img2; transparent: true;"
-    ></a-plane>
-  </a-entity>
-
-  <!-- Define las imágenes como recursos -->
-  <a-assets>
-    <img id="img0" src="./banderas/mexico.png">
-    <img id="img1" src="./banderas/usa.png">
-    <img id="img2" src="./banderas/canada.png">
-  </a-assets>
-</a-scene>
-
+      <!-- TARGETS (solo visuales, los datos vendrán del JSON) -->
+      <a-entity mindar-image-target="targetIndex: 0"></a-entity>
+      <a-entity mindar-image-target="targetIndex: 1"></a-entity>
+      <a-entity mindar-image-target="targetIndex: 2"></a-entity>
+    </a-scene>
   </div>
 
+  <!-- Panel de información -->
   <div id="info-panel" class="info-panel-container" style="display: none;">
     <div class="info-panel-content">
       <button id="close-button" class="close-button">×</button>

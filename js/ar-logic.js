@@ -1,5 +1,3 @@
-// js/ar-logic.js
-
 document.addEventListener('DOMContentLoaded', async () => {
   const sceneEl = document.querySelector('#ar-scene');
   const infoPanel = document.getElementById('info-panel');
@@ -8,29 +6,30 @@ document.addEventListener('DOMContentLoaded', async () => {
   const startButton = document.getElementById('start-button');
   const loader = document.getElementById('loader');
 
- let countryData = [];
+  let countryData = [];
   try {
-    const response = await fetch('/js/ar-data.json');
+    const response = await fetch('./js/ar-data.json'); // ✅ Ajuste de ruta relativa
     if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
     countryData = await response.json();
-    console.log('DATOS CARGADOS:', countryData); // PISTA 1
+    console.log('✅ DATOS CARGADOS:', countryData);
   } catch (error) {
-    console.error("FALLO CRÍTICO al cargar ar-data.json:", error);
+    console.error("❌ FALLO CRÍTICO al cargar ar-data.json:", error);
   }
 
+  // Muestra la info del país detectado
   const showInfoPanel = (index) => {
-    console.log(`FUNCIÓN: showInfoPanel llamada con el índice: ${index}`); // PISTA 3
+    console.log(`ℹ️ showInfoPanel(${index})`);
     const data = countryData[index];
-   if (!data) {
-      console.error(`ERROR: No se encontraron datos para el índice ${index}. Revisa el orden en tu .mind y en ar-data.json.`); // PISTA 4
+    if (!data) {
+      console.error(`⚠️ No se encontraron datos para el índice ${index}`);
       return;
     }
-        console.log('FUNCIÓN: Mostrando datos para:', data.title); // PISTA 5
 
     document.getElementById('info-title').textContent = data.title;
     document.getElementById('info-image').src = data.image;
     document.getElementById('info-video').src = data.video;
     document.getElementById('info-text').textContent = data.text;
+
     infoPanel.style.display = 'flex';
     sceneEl.pause();
   };
@@ -47,26 +46,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     const arSystem = sceneEl.systems["mindar-image-system"];
     startOverlay.style.display = 'none';
     loader.style.display = 'block';
-    
-    // --- INICIO DE LA CORRECCIÓN ---
-    // Añadimos un pequeño retardo para dar tiempo a A-Frame a inicializar todo
     setTimeout(() => {
       arSystem.start();
-    }, 100); // 100 milisegundos suele ser suficiente
-    // --- FIN DE LA CORRECCIÓN ---
+    }, 100);
   });
 
   sceneEl.addEventListener('arReady', () => {
     loader.style.display = 'none';
+    console.log('🟢 AR listo');
   });
 
- sceneEl.addEventListener('targetFound', event => {
-    console.log('EVENTO: ¡Target encontrado!'); // PISTA 2
-    if (event.detail && event.detail.targetIndex !== undefined) {
-      showInfoPanel(event.detail.targetIndex);
-    }
+  // 🔥 Escucha los eventos correctos de detección del target
+  const targets = sceneEl.querySelectorAll('[mindar-image-target]');
+  targets.forEach((target, index) => {
+    target.addEventListener('targetFound', () => {
+      console.log(`🎯 Target encontrado: ${index}`);
+      showInfoPanel(index);
+    });
+    target.addEventListener('targetLost', () => {
+      console.log(`❌ Target perdido: ${index}`);
+      hideInfoPanel();
+    });
   });
-
 
   closeButton.addEventListener('click', hideInfoPanel);
 });
