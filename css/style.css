@@ -708,32 +708,29 @@ footer {
   transform: scale(1.05);
 }
 
-
-
 /* =========================================
    ESTILOS PARA BANNERS DE NOTICIAS
    ========================================= */
 
 .news-container {
   display: grid; /* Usaremos Grid para un mejor control */
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Columnas responsivas */
+  /* Crea columnas automáticas que miden entre 300px y 1fr (fracción del espacio) */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
-  justify-content: center;
   margin-top: 2rem;
 }
 
 .news-item {
-  position: relative; /* Clave para superponer el contenido */
-  height: 400px; /* Altura fija para todos los banners */
+  position: relative;
+  height: 400px;
   border-radius: 12px;
-  overflow: hidden; /* Oculta lo que se salga de los bordes redondeados */
+  overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  
-  display: flex; /* Para alinear el contenido al final */
+  display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Alinea el contenido en la parte inferior */
-  
+  justify-content: flex-end;
   transition: transform 0.3s ease;
+  /* Ya no necesitamos flex-basis ni max-width aquí */
 }
 
 .news-item:hover {
@@ -819,4 +816,10 @@ footer {
   50% {
     opacity: 0.5;
   }
+}
+
+.container {
+  max-width: 1280px; /* Ancho máximo del contenido */
+  margin: 0 auto; /* Centra el contenedor horizontalmente */
+  padding: 0 1rem; /* Pequeño espacio a los lados */
 }
