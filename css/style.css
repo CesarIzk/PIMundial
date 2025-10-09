@@ -564,225 +564,131 @@ footer {
   margin-bottom: 0.5rem;
   border-left: 4px solid var(--verde-anfitrion);
 }
-/* =========================================
-   ESTILOS PARA EL PANEL DE INFORMACIÓN AR
-   ========================================= */
 
-.ar-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.info-panel-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(10, 25, 47, 0.9); /* Usa un color de tu paleta */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-.info-panel-content {
-  background-color: var(--fondo-secundario);
-  color: var(--texto-principal);
-  padding: 2rem;
-  border-radius: 15px;
-  max-width: 90vw;
-  max-height: 90vh;
-  width: 500px;
-  text-align: left;
-  position: relative;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  overflow-y: auto;
-}
-
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: var(--texto-principal);
-  font-size: 2rem;
-  cursor: pointer;
-  line-height: 1;
-}
-
-.info-panel-content h2 {
-  color: var(--rojo-anfitrion);
-  margin-top: 0;
-  text-align: center;
-}
-
-.info-panel-content img,
-.info-panel-content video {
-  width: 100%;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-
-.info-panel-content p {
-  line-height: 1.6;
-  text-align: justify;
-}
-
-.ar-menu {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 2500;
-}
-
-.ar-menu button {
-  background-color: rgba(16, 25, 47, 0.8);
-  color: var(--texto-principal);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 0.8rem 1.2rem;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 50px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-  transition: transform 0.2s ease;
-}
-
-.ar-menu button:hover {
-  transform: scale(1.05);
-  background-color: rgba(30, 41, 59, 0.9);
-}
 
 /* =========================================
-   AJUSTES DE CAPAS Y VISIBILIDAD PARA AR
-   ========================================= */
+   AJUSTES DE CAPAS Y VISIBILIDAD PARA AR
+   ========================================= */
+/* 1. Ajuste fundamental: Evita scroll y usa el 100% del espacio dinámico */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; 
+    overflow: hidden; /* Evita scroll en móviles */
+}
 
-/* La escena de AR debe estar al frente y sin fondo opaco */
+/* 2. La escena de AR y contenedores: Usar Altura Dinámica (100dvh) */
 .ar-container, #ar-scene, a-scene {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  z-index: 1; /* Debajo del panel, encima del fondo */
-  background: transparent !important; /* 🔥 Muy importante */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh; /* Solución móvil */
+    margin: 0;
+    padding: 0;
+    z-index: 1; 
+    background: transparent !important;
 }
 
-/* El video de la cámara debe ser visible detrás de la escena */
+/* 3. El video de la cámara: Usar Altura Dinámica (100dvh) */
 video {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw !important;
-  height: 100vh !important;
-  object-fit: cover;
-  z-index: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100dvh !important;
+    object-fit: cover;
+    z-index: 0;
 }
 
-/* El panel de información va arriba del AR */
+/* 4. Estilos 2D (Paneles, Overlays, Loader) */
 .info-panel-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(15, 15, 15, 0.85); /* semitransparente */
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    background: rgba(15, 15, 15, 0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
 }
 
-/* El overlay inicial (botón "Iniciar Cámara") está más arriba */
 .start-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--fondo-principal);
-  color: var(--texto-principal);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  z-index: 3000; /* 🔝 Más alto de todos al inicio */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    background: var(--fondo-principal);
+    color: var(--texto-principal);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 3000;
 }
 
-/* Cuando se oculta, asegúrate de quitarlo del flujo */
+/* Cuando se oculta, sacarlo del flujo */
 .start-overlay[style*="display: none"] {
-  display: none !important;
-  z-index: -1;
+    display: none !important;
+    z-index: -1;
 }
 
 /* Loader (cuando arranca el AR) */
 .loader {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 1rem 2rem;
-  border-radius: 10px;
-  z-index: 1500;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    z-index: 1500;
 }
 
 /* Contenedor de contenido AR (solo visualización 3D) */
 .ar-content {
-  display: flex;
-  flex-direction: row; /* imagen y video lado a lado */
-  align-items: flex-start; /* texto debajo de la imagen */
-  gap: 1rem;
+    display: flex;
+    flex-direction: row; 
+    align-items: flex-start;
+    gap: 1rem;
+    animation: float 3s ease-in-out infinite alternate;
 }
 
 /* Imagen del país */
 .ar-content img {
-  width: 200px;
-  height: auto;
-  border-radius: 5px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    width: 200px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
 /* Texto descriptivo */
 .ar-content p {
-  max-width: 300px;
-  color: white;
-  font-size: 1rem;
-  line-height: 1.4;
+    max-width: 300px;
+    color: white;
+    font-size: 1rem;
+    line-height: 1.4;
 }
 
-/* Video */
+/* Video en el contenido AR */
 .ar-content video {
-  width: 300px;
-  height: auto;
-  border-radius: 5px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
-}
-.ar-content {
-  animation: float 3s ease-in-out infinite alternate;
+    width: 300px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
+/* Animación flotante */
 @keyframes float {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(0.05rem); }
-  100% { transform: translateY(0); }
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(0.05rem); }
+    100% { transform: translateY(0); }
 }
+
 
 
 /* =========================================
@@ -862,6 +768,7 @@ video {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-clamp: 3;
 }
 
 /* Resumen (ya no es necesario, el título es el protagonista) */
