@@ -10,6 +10,14 @@
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 </head>
 <body>
+  
+  <noscript>
+    <div class="noscript-warning">
+      <h1>JavaScript es necesario</h1>
+      <p>Esta experiencia de Realidad Aumentada requiere que JavaScript esté habilitado.</p>
+    </div>
+  </noscript>
+
   <div id="start-overlay" class="start-overlay">
     <div class="start-content">
       <h2>Experiencia de Realidad Aumentada</h2>
@@ -17,22 +25,18 @@
       <button id="start-button">▶️ Iniciar Cámara</button>
     </div>
   </div>
-
+  
   <div class="ar-container">
-    <div id="loader" class="loader" style="display: none;">Cargando AR...</div> 
-
-    <a-scene id="ar-scene"
-      mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false;"
-      color-space="sRGB"
+    <div id="loader" class="loader" style="display: none;">Cargando AR...</div>
+    
+    <a-scene
+      id="ar-scene"
+      mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false; maxTrack: 3"
       renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false"
       device-orientation-permission-ui="enabled: false"
     >
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-      <a-entity mindar-image-target="targetIndex: 0"></a-entity>
-      <a-entity mindar-image-target="targetIndex: 1"></a-entity>
-      <a-entity mindar-image-target="targetIndex: 2"></a-entity>
-    </a-scene>
+        </a-scene>
   </div>
 
   <div id="info-panel" class="info-panel-container" style="display: none;">
@@ -47,13 +51,6 @@
 
   <div class="ar-menu">
     <a href="index.html"><button>🏠 Volver al Inicio</button></a>
-  </div>
-
-  <!-- Contenedor de errores -->
-  <div id="error-message" 
-       style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-              background:rgba(0,0,0,0.85); color:#fff; padding:20px 25px; border-radius:10px;
-              font-size:16px; z-index:9999; text-align:center; max-width:300px;">
   </div>
 
   <script src="js/ar-logic.js" defer></script>
