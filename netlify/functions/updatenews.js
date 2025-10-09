@@ -1,42 +1,71 @@
 // netlify/functions/update-news.js
-import { createClient } from '@supabase/supabase-js';
+const admin = require('firebase-admin');
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 const newsApiKey = process.env.NEWS_API_KEY;
 
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+}
+
+const db = admin.firestore();
+
+// Función para borrar todos los documentos de una colección
+async function deleteCollection(collectionPath, batchSize) {
+  const collectionRef = db.collection(collectionPath);
+  const query = collectionRef.orderBy('__name__').limit(batchSize);
+
+  return new Promise((resolve, reject) => {
+    deleteQueryBatch(query, resolve).catch(reject);
+  });
+}
+
+async function deleteQueryBatch(query, resolve) {
+  const snapshot = await query.get();
+  if (snapshot.size === 0) {
+    return resolve();
+  }
+  const batch = db.batch();
+  snapshot.docs.forEach((doc) => {
+    batch.delete(doc.ref);
+  });
+  await batch.commit();
+  process.nextTick(() => {
+    deleteQueryBatch(query, resolve);
+  });
+}
+
 exports.handler = async function(event, context) {
-  console.log('Ejecutando actualización de noticias...');
   try {
-    // 1. Llama a la API de noticias
+    // 1. Llama a la API de noticias (sin cambios)
     const query = 'Mundial 2026 OR "Copa del Mundo"';
     const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=es&sortBy=publishedAt&pageSize=5`;
-
     const newsResponse = await fetch(url, { headers: { 'X-Api-Key': newsApiKey } });
-    if (!newsResponse.ok) throw new Error('Falló la llamada a NewsAPI');
     const newsData = await newsResponse.json();
     const articles = newsData.articles;
 
-    // 2. Prepara los datos para Supabase
-    const newsToInsert = articles.map(article => ({
-      titulo: article.title,
-      resumen: article.description || 'No hay resumen.',
-      enlace: article.url,
-    }));
-
-    // 3. Borra las noticias viejas de nuestra tabla
-    await supabase.from('noticias').delete().neq('id', 0); // Borra todas las filas
-
-    // 4. Inserta las noticias nuevas
-    const { error } = await supabase.from('noticias').insert(newsToInsert);
-    if (error) throw error;
+    // 2. Borra las noticias viejas de Firestore
+    await deleteCollection('noticias', 10);
     
-    console.log(`¡Éxito! Se actualizaron ${newsToInsert.length} noticias.`);
-    return { statusCode: 200, body: 'Noticias actualizadas exitosamente.' };
+    // 3. Inserta las noticias nuevas
+    const batch = db.batch();
+    articles.forEach(article => {
+      const docRef = db.collection('noticias').doc(); // Crea un nuevo documento con ID automático
+      batch.set(docRef, {
+        titulo: article.title,
+        resumen: article.description || 'No hay resumen.',
+        enlace: article.url,
+        created_at: admin.firestore.FieldValue.serverTimestamp() // Usa la hora del servidor
+      });
+    });
+    await batch.commit();
+
+    return { statusCode: 200, body: `Se actualizaron ${articles.length} noticias.` };
 
   } catch (error) {
-    console.error('Error durante la actualización de noticias:', error);
+    console.error(error);
     return { statusCode: 500, body: error.toString() };
   }
 };

@@ -1,23 +1,26 @@
 // netlify/functions/get-news.js
-import { createClient } from '@supabase/supabase-js';
+const admin = require('firebase-admin');
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Parsea las credenciales desde la variable de entorno
+const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+
+// Inicializa la app de Firebase (solo si no se ha hecho antes)
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+}
+
+const db = admin.firestore();
 
 exports.handler = async function(event, context) {
   try {
-    // Simplemente lee las noticias de nuestra tabla
-    const { data, error } = await supabase
-      .from('noticias')
-      .select('*')
-      .order('created_at', { ascending: false }); // Muestra las más nuevas primero
-
-    if (error) throw error;
+    const newsCollection = await db.collection('noticias').orderBy('created_at', 'desc').get();
+    const news = newsCollection.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
     return {
       statusCode: 200,
-      body: JSON.stringify(data),
+      body: JSON.stringify(news),
     };
   } catch (error) {
     return {
