@@ -17,9 +17,10 @@
       <button id="start-button">▶️ Iniciar Cámara</button>
     </div>
   </div>
-  <div class="ar-container">
-    <a-scene
-      id="ar-scene"
+ <div class="ar-container">
+    <div id="loader" class="loader" style="display: none;">Cargando AR...</div> 
+    
+    <a-scene id="ar-scene"
       mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false;"
       color-space="sRGB"
       renderer="colorManagement: true, physicallyCorrectLights"
@@ -48,6 +49,14 @@
     <a href="index.html"><button>🏠 Volver al Inicio</button></a>
   </div>
 
+  <noscript>
+    <div class="noscript-warning">
+      <h1>JavaScript es necesario</h1>
+      <p>Esta experiencia de Realidad Aumentada requiere que JavaScript esté habilitado en tu navegador.</p>
+    </div>
+  </noscript>
+
+  <div id="start-overlay" ...>
   <script src="js/ar-logic.js" defer></script>
 </body>
 </html>
