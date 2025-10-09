@@ -17,9 +17,10 @@
       <button id="start-button">▶️ Iniciar Cámara</button>
     </div>
   </div>
- <div class="ar-container">
+
+  <div class="ar-container">
     <div id="loader" class="loader" style="display: none;">Cargando AR...</div> 
-    
+
     <a-scene id="ar-scene"
       mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false;"
       color-space="sRGB"
@@ -28,11 +29,10 @@
       device-orientation-permission-ui="enabled: false"
     >
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-
       <a-entity mindar-image-target="targetIndex: 0"></a-entity>
       <a-entity mindar-image-target="targetIndex: 1"></a-entity>
       <a-entity mindar-image-target="targetIndex: 2"></a-entity>
-      </a-scene>
+    </a-scene>
   </div>
 
   <div id="info-panel" class="info-panel-container" style="display: none;">
@@ -49,14 +49,13 @@
     <a href="index.html"><button>🏠 Volver al Inicio</button></a>
   </div>
 
-  <noscript>
-    <div class="noscript-warning">
-      <h1>JavaScript es necesario</h1>
-      <p>Esta experiencia de Realidad Aumentada requiere que JavaScript esté habilitado en tu navegador.</p>
-    </div>
-  </noscript>
+  <!-- Contenedor de errores -->
+  <div id="error-message" 
+       style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+              background:rgba(0,0,0,0.85); color:#fff; padding:20px 25px; border-radius:10px;
+              font-size:16px; z-index:9999; text-align:center; max-width:300px;">
+  </div>
 
-  <div id="start-overlay" ...>
   <script src="js/ar-logic.js" defer></script>
 </body>
 </html>

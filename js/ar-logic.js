@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const closeButton = document.getElementById('close-button');
   const startOverlay = document.getElementById('start-overlay');
   const startButton = document.getElementById('start-button');
-  const loader = document.getElementById('loader'); // <-- Elemento nuevo
+  const loader = document.getElementById('loader'); 
+  const errorMessage = document.getElementById('error-message'); // NUEVO elemento para mostrar errores
 
   // Cargamos los datos de los países desde el archivo JSON
   let countryData = [];
@@ -36,24 +37,48 @@ document.addEventListener('DOMContentLoaded', async () => {
     sceneEl.play();
   };
 
-  // --- Lógica de arranque con feedback de carga ---
-  startButton.addEventListener('click', () => {
+  // --- Lógica de arranque con manejo de errores ---
+  startButton.addEventListener('click', async () => {
     const arSystem = sceneEl.systems["mindar-image-system"];
     startOverlay.style.display = 'none'; // Oculta la pantalla de inicio
-    loader.style.display = 'block';      // <-- MUESTRA EL INDICADOR DE CARGA
-    arSystem.start();                    // Inicia la cámara y la detección
+    loader.style.display = 'block';      // Muestra el indicador de carga
+    errorMessage.style.display = 'none'; // Oculta mensaje de error previo
+
+    try {
+      await arSystem.start(); // Intentar iniciar cámara y detección
+    } catch (err) {
+      loader.style.display = 'none';
+      console.error("Error al iniciar AR:", err);
+
+      // Mostrar mensaje visual al usuario
+      errorMessage.textContent = "No se pudo acceder a la cámara. Verifica permisos o si otra aplicación la está usando.";
+      errorMessage.style.display = 'block';
+      
+      // Mostrar de nuevo el overlay de inicio
+      startOverlay.style.display = 'flex';
+    }
   });
 
-  // --- Listeners para los eventos ---
-sceneEl.addEventListener('targetFound', event => {
-  // Primero, nos aseguramos de que event.detail exista antes de usarlo.
-  if (event.detail) {
-    showInfoPanel(event.detail.targetIndex);
-  }
-});  closeButton.addEventListener('click', hideInfoPanel);
+  // --- Listener de MindAR para errores del sistema ---
+  sceneEl.addEventListener('arError', (err) => {
+    loader.style.display = 'none';
+    console.error("Error del sistema AR:", err);
+    errorMessage.textContent = "Ocurrió un error al iniciar el sistema AR.";
+    errorMessage.style.display = 'block';
+    startOverlay.style.display = 'flex';
+  });
 
-  // Nuevo listener que oculta el loader cuando la cámara y la AR están listas
+  // --- Listeners para eventos de AR ---
+  sceneEl.addEventListener('targetFound', event => {
+    if (event.detail) {
+      showInfoPanel(event.detail.targetIndex);
+    }
+  });
+
+  closeButton.addEventListener('click', hideInfoPanel);
+
+  // Oculta el loader cuando la cámara y la AR están listas
   sceneEl.addEventListener('arReady', () => {
-    loader.style.display = 'none'; // <-- OCULTA EL INDICADOR DE CARGA
+    loader.style.display = 'none';
   });
 });
