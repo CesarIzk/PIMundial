@@ -18,6 +18,7 @@
     </div>
   </noscript>
 
+  <!-- Pantalla de inicio -->
   <div id="start-overlay" class="start-overlay">
     <div class="start-content">
       <h2>Experiencia de Realidad Aumentada</h2>
@@ -25,10 +26,11 @@
       <button id="start-button">▶️ Iniciar Cámara</button>
     </div>
   </div>
-  
+
+  <!-- Contenedor AR -->
   <div class="ar-container">
     <div id="loader" class="loader" style="display: none;">Cargando AR...</div>
-    
+
     <a-scene
       id="ar-scene"
       mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false; maxTrack: 3"
@@ -38,28 +40,66 @@
     >
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <!-- TARGETS (solo visuales, los datos vendrán del JSON) -->
-      <a-entity mindar-image-target="targetIndex: 0"></a-entity>
-      <a-entity mindar-image-target="targetIndex: 1"></a-entity>
-      <a-entity mindar-image-target="targetIndex: 2"></a-entity>
+      <!-- ASSETS -->
+      <a-assets>
+        <img id="bandera-mexico" src="./img/mexico.png">
+        <img id="bandera-usa" src="./img/usa.png">
+        <img id="bandera-canada" src="./img/canada.png">
+
+        <video id="video-mexico" src="./videos/mexico.mp4" playsinline webkit-playsinline></video>
+        <video id="video-usa" src="./videos/usa.mp4" playsinline webkit-playsinline></video>
+        <video id="video-canada" src="./videos/canada.mp4" playsinline webkit-playsinline></video>
+      </a-assets>
+
+     <!-- MÉXICO -->
+<a-entity mindar-image-target="targetIndex: 0">
+
+  <!-- Imagen arriba a la derecha -->
+  <a-plane src="#bandera-mexico" position="0.35 0.35 0" width="0.4" height="0.25" material="shader: standard;"></a-plane>
+
+  <!-- Texto debajo de la imagen -->
+  <a-text value="México - Sede del Mundial 2026" color="#ffffff" position="0.35 0.05 0" width="1.2" align="center"></a-text>
+
+  <!-- Video a la izquierda del texto -->
+  <a-video src="#video-mexico" position="-0.35 0.2 0" width="0.6" height="0.35" autoplay="true" loop="true" muted="true"></a-video>
+
+</a-entity>
+
+<!-- ESTADOS UNIDOS -->
+<a-entity mindar-image-target="targetIndex: 1">
+
+  <a-plane src="#bandera-usa" position="0.35 0.35 0" width="0.4" height="0.25" material="shader: standard;"></a-plane>
+  <a-text value="Estados Unidos - Sede del Mundial 2026" color="#ffffff" position="0.35 0.05 0" width="1.2" align="center"></a-text>
+  <a-video src="#video-usa" position="-0.35 0.2 0" width="0.6" height="0.35" autoplay="true" loop="true" muted="true"></a-video>
+
+</a-entity>
+
+<!-- CANADÁ -->
+<a-entity mindar-image-target="targetIndex: 2">
+
+  <a-plane src="#bandera-canada" position="0.35 0.35 0" width="0.4" height="0.25" material="shader: standard;"></a-plane>
+  <a-text value="Canadá - Sede del Mundial 2026" color="#ffffff" position="0.35 0.05 0" width="1.2" align="center"></a-text>
+  <a-video src="#video-canada" position="-0.35 0.2 0" width="0.6" height="0.35" autoplay="true" loop="true" muted="true"></a-video>
+
+</a-entity>
+
     </a-scene>
   </div>
 
-  <!-- Panel de información -->
-  <div id="info-panel" class="info-panel-container" style="display: none;">
-    <div class="info-panel-content">
-      <button id="close-button" class="close-button">×</button>
-      <h2 id="info-title"></h2>
-      <img id="info-image" src="" alt="Imagen descriptiva">
-      <video id="info-video" src="" playsinline controls muted></video>
-      <p id="info-text"></p>
-    </div>
-  </div>
-
+  <!-- Menú inferior -->
   <div class="ar-menu">
     <a href="index.html"><button>🏠 Volver al Inicio</button></a>
   </div>
 
-  <script src="js/ar-logic.js" defer></script>
+  <script>
+    // Activar cámara manualmente
+    document.getElementById('start-button').addEventListener('click', () => {
+      document.getElementById('start-overlay').style.display = 'none';
+      const scene = document.querySelector('a-scene');
+      const mindar = scene.components['mindar-image'];
+      mindar.start();
+    });
+  </script>
+
 </body>
 </html>

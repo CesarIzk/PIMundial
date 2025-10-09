@@ -743,6 +743,48 @@ video {
   z-index: 1500;
 }
 
+/* Contenedor de contenido AR (solo visualización 3D) */
+.ar-content {
+  display: flex;
+  flex-direction: row; /* imagen y video lado a lado */
+  align-items: flex-start; /* texto debajo de la imagen */
+  gap: 1rem;
+}
+
+/* Imagen del país */
+.ar-content img {
+  width: 200px;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+/* Texto descriptivo */
+.ar-content p {
+  max-width: 300px;
+  color: white;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+/* Video */
+.ar-content video {
+  width: 300px;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+.ar-content {
+  animation: float 3s ease-in-out infinite alternate;
+}
+
+@keyframes float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(0.05rem); }
+  100% { transform: translateY(0); }
+}
+
+
 /* =========================================
    ESTILOS PARA BANNERS DE NOTICIAS
    ========================================= */
