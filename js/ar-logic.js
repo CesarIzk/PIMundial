@@ -8,20 +8,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   const startButton = document.getElementById('start-button');
   const loader = document.getElementById('loader');
 
-  let countryData = [];
+ let countryData = [];
   try {
     const response = await fetch('/js/ar-data.json');
-    if (!response.ok) {
-        throw new Error(`Error al cargar ar-data.json: ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
     countryData = await response.json();
+    console.log('DATOS CARGADOS:', countryData); // PISTA 1
   } catch (error) {
-    console.error("FALLO CRÍTICO: No se pudo cargar la información de AR.", error);
+    console.error("FALLO CRÍTICO al cargar ar-data.json:", error);
   }
 
   const showInfoPanel = (index) => {
+    console.log(`FUNCIÓN: showInfoPanel llamada con el índice: ${index}`); // PISTA 3
     const data = countryData[index];
-    if (!data) return;
+   if (!data) {
+      console.error(`ERROR: No se encontraron datos para el índice ${index}. Revisa el orden en tu .mind y en ar-data.json.`); // PISTA 4
+      return;
+    }
+        console.log('FUNCIÓN: Mostrando datos para:', data.title); // PISTA 5
+
     document.getElementById('info-title').textContent = data.title;
     document.getElementById('info-image').src = data.image;
     document.getElementById('info-video').src = data.video;
@@ -55,11 +60,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     loader.style.display = 'none';
   });
 
-  sceneEl.addEventListener('targetFound', event => {
+ sceneEl.addEventListener('targetFound', event => {
+    console.log('EVENTO: ¡Target encontrado!'); // PISTA 2
     if (event.detail && event.detail.targetIndex !== undefined) {
       showInfoPanel(event.detail.targetIndex);
     }
   });
+
 
   closeButton.addEventListener('click', hideInfoPanel);
 });
