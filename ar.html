@@ -29,17 +29,19 @@
   <div class="ar-container">
     <div id="loader" class="loader" style="display: none;">Cargando AR...</div>
     
-    <a-scene
-      id="ar-scene"
-      mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false; maxTrack: 3"
-      renderer="colorManagement: true, physicallyCorrectLights"
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: false"
-    >
-        <a-entity mindar-image-target="targetIndex: 0"></a-entity>
-        <a-entity mindar-image-target="targetIndex: 1"></a-entity>
-        <a-entity mindar-image-target="targetIndex: 2"></a-entity>
-        </a-scene>
+  <a-scene
+  id="ar-scene"
+  mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false; maxTrack: 3"
+  renderer="colorManagement: true, physicallyCorrectLights"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: false"
+>
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+    <a-entity mindar-image-target="targetIndex: 0"></a-entity>
+    <a-entity mindar-image-target="targetIndex: 1"></a-entity>
+    <a-entity mindar-image-target="targetIndex: 2"></a-entity>
+</a-scene>
   </div>
 
   <div id="info-panel" class="info-panel-container" style="display: none;">
