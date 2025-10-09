@@ -45,8 +45,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   // --- Listeners para los eventos ---
-  sceneEl.addEventListener('targetFound', event => showInfoPanel(event.detail.targetIndex));
-  closeButton.addEventListener('click', hideInfoPanel);
+sceneEl.addEventListener('targetFound', event => {
+  // Primero, nos aseguramos de que event.detail exista antes de usarlo.
+  if (event.detail) {
+    showInfoPanel(event.detail.targetIndex);
+  }
+});  closeButton.addEventListener('click', hideInfoPanel);
 
   // Nuevo listener que oculta el loader cuando la cámara y la AR están listas
   sceneEl.addEventListener('arReady', () => {
