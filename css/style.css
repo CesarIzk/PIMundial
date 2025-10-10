@@ -569,13 +569,7 @@ footer {
    AJUSTES DE CAPAS Y VISIBILIDAD PARA AR
    ========================================= */
 
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    background: black; /* Evita que se vea azul o gris detrás del video */
-}
+
 
 /* 1. Contenedor de la escena AR */
 .ar-container, #ar-scene, a-scene {
