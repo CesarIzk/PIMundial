@@ -584,6 +584,7 @@ footer {
     margin: 0;
     padding: 0;
     z-index: 1;
+    background: transparent !important;
 }
 
 /* 2. Video de cámara (de MindAR o A-Frame) */
@@ -597,10 +598,15 @@ video {
     height: 100svh !important;
     height: 100dvh !important;
     object-fit: cover !important;
-    background: black; /* Fallback visual */
-    z-index: 0 !important;
+ 
 }
 
+/* 3. Overlays e interfaces 2D */
+.info-panel-container {
+    background: rgba(15, 15, 15, 0.85);
+    display: none;
+    z-index: 2000;
+}
 
 
 /* Loader */
