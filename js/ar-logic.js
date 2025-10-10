@@ -91,7 +91,7 @@ const titleText = document.createElement('a-text');
 titleText.setAttribute('value', data.title);
 titleText.setAttribute('color', '#FFFFFF'); // Color: Blanco puro
 titleText.setAttribute('width', '1.2'); 
-titleText.setAttribute('position', '0 0.65 -0.10'); 
+titleText.setAttribute('position', '0 -0.25 0'); 
 titleText.setAttribute('align', 'center');
 // Sugerencia: Usar una fuente más legible si la has cargado (ej. ExoSemiBold)
 // titleText.setAttribute('font', 'https://cdn.aframe.io/fonts/ExoSemiBold.fnt');
