@@ -598,15 +598,20 @@ video {
     height: 100svh !important;
     height: 100dvh !important;
     object-fit: cover !important;
- 
+    
+    z-index: 0 !important;
 }
 
 /* 3. Overlays e interfaces 2D */
+
 .info-panel-container {
     background: rgba(15, 15, 15, 0.85);
     display: none;
     z-index: 2000;
 }
+
+
+
 
 
 /* Loader */
