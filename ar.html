@@ -19,20 +19,13 @@
     </div>
   </noscript>
 
-  <div id="start-overlay" class="start-overlay">
-    <div class="start-content">
-      <h2>Experiencia de Realidad Aumentada</h2>
-      <p>Apunta tu cámara a una de las imágenes de los países para ver la magia.</p>
-      <button id="start-button">▶️ Iniciar Cámara</button>
-    </div>
-  </div>
-  
+
   <div class="ar-container">
     <div id="loader" class="loader" style="display: none;">Cargando AR...</div>
     
     <a-scene
       id="ar-scene"
-      mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false; maxTrack: 3"
+      mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: true; maxTrack: 3"
       renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false"
       device-orientation-permission-ui="enabled: false"
