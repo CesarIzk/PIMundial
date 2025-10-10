@@ -680,3 +680,127 @@ video {
     50%  { transform: translateY(0.05rem); }
     100% { transform: translateY(0); }
 }
+
+/* =========================================
+   ESTILOS PARA BANNERS DE NOTICIAS
+   ========================================= */
+
+.news-container {
+ display: grid;
+/* Crea columnas automáticas que miden entre 300px y 1fr (fracción del espacio) */
+ grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+ gap: 2rem; /* Aumentamos la separación entre tarjetas */
+ margin-top: 3rem;
+}
+
+.news-item {
+ position: relative;
+ height: 350px; /* Altura ligeramente menor para mejor visualización en móvil */
+ border-radius: 12px;
+ overflow: hidden;
+ box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+ display: flex;
+ flex-direction: column;
+ justify-content: flex-end;
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ cursor: pointer; /* Indica que es clickeable */
+}
+
+.news-item:hover {
+ transform: translateY(-7px); /* Efecto de elevación más notable */
+ box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7);
+}
+
+/* Contenedor de la imagen (ahora es el fondo) */
+.news-image-container {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: 1;
+}
+
+.news-thumbnail {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ transition: transform 0.5s ease; /* Transición suave para el zoom */
+}
+
+.news-item:hover .news-thumbnail {
+ transform: scale(1.05); /* Efecto de zoom en la imagen al hacer hover */
+}
+
+/* Contenedor del contenido (el texto y degradado) */
+.news-content {
+ position: relative;
+ z-index: 2; /* Por encima de la imagen */
+ padding: 1.5rem;
+ 
+ /* Degradado: más oscuro y denso en la parte inferior para mayor legibilidad */
+ background: linear-gradient(to top, 
+  var(--azul-anfitrion) 10%, /* El color de fondo es el mismo que el fondo principal */
+  rgba(16, 25, 47, 0.8) 50%, 
+  transparent 100%
+ );
+ color: var(--texto-principal);
+ text-align: left;
+}
+
+/* Metadatos (Fuente y Fecha) */
+.news-meta {
+ font-size: 0.85rem; /* Un poco más grande */
+ opacity: 0.9; 
+ margin-bottom: 0.5rem;
+ font-weight: 500; /* Peso normal */
+ color: var(--blanco-texto); /* Usa el blanco suave */
+}
+
+/* Título de la noticia: EL FOCO PRINCIPAL */
+.news-item h3 {
+ color: #FFFFFF; 
+ font-size: 1.6rem; /* Aumentamos el tamaño del título */
+ margin: 0 0 0.5rem 0;
+ line-height: 1.2;
+ 
+ /* Limita a 3 líneas */
+ display: -webkit-box;
+ -webkit-line-clamp: 3;
+ -webkit-box-orient: vertical;
+ overflow: hidden;
+ line-clamp: 3;
+}
+
+/* Resumen: Se mantiene oculto para un diseño más limpio */
+.news-item p {
+ display: none; 
+}
+
+/* Enlace "Leer más" - Se mantiene el color de acento */
+.news-item a {
+ color: var(--rojo-anfitrion);
+ font-weight: bold;
+ text-decoration: none;
+ font-size: 1rem;
+ display: block; /* Ocupa su propia línea */
+ margin-top: 0.5rem;
+}
+
+.news-item a:hover {
+ text-decoration: underline;
+}
+
+/* --- ESTILOS PARA SKELETON LOADERS --- */
+.news-item-skeleton {
+ height: 350px; /* Ajustamos la altura al nuevo tamaño */
+ background-color: var(--fondo-secundario);
+ border-radius: 12px;
+ animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+ 50% {
+ opacity: 0.5;
+ }
+}
