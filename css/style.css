@@ -669,7 +669,7 @@ video {
 
 .ar-content p {
     max-width: 300px;
-    color: white;
+    color: rgb(15, 55, 47);
     font-size: 1rem;
     line-height: 1.4;
 }
