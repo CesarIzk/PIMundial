@@ -10,7 +10,7 @@ AFRAME.registerComponent('video-on-target', {
     this.videoEl = document.querySelector(`#video-asset-${this.data.targetIndex}`);
 
     if (this.videoEl) {
-      this.videoEl.muted = true;
+      //this.videoEl.muted = false;
       this.videoEl.pause();
 
       const targetEl = this.el; // El elemento con mindar-image-target
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       titleText.setAttribute('value', data.title);
       titleText.setAttribute('color', '#FFD700'); 
       titleText.setAttribute('width', '1.2'); // AJUSTE: Reducir de 1.5 a 1.2
-      titleText.setAttribute('position', '0 0.65 0'); 
+      titleText.setAttribute('position', '0 0.65 -0.10'); 
       titleText.setAttribute('align', 'center');
       infoContainer.appendChild(titleText);
 
