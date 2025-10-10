@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       textEl.setAttribute('value', data.text);
       textEl.setAttribute('color', '#FFFFFF');
       textEl.setAttribute('width', '1.0'); // Reducción de ancho CRÍTICA para evitar el corte inferior
-      textEl.setAttribute('position', '0 -0.5 0'); // Posición elevada para evitar el borde de la pantalla
+      textEl.setAttribute('position', '0 -0.25 0'); // Posición elevada para evitar el borde de la pantalla
       textEl.setAttribute('align', 'center');
       infoContainer.appendChild(textEl);
 
