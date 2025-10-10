@@ -86,14 +86,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Posición base de todo el conjunto. Z=0.1 es justo sobre el marcador.
       infoContainer.setAttribute('position', '0 0.2 0.1'); 
 
-      // 🅰️ TÍTULO (Arriba)
-      const titleText = document.createElement('a-text');
-      titleText.setAttribute('value', data.title);
-      titleText.setAttribute('color', '#FFD700'); 
-      titleText.setAttribute('width', '1.2'); // AJUSTE: Reducir de 1.5 a 1.2
-      titleText.setAttribute('position', '0 0.65 0'); 
-      titleText.setAttribute('align', 'center');
-      infoContainer.appendChild(titleText);
+// TÍTULO: 
+const titleText = document.createElement('a-text');
+titleText.setAttribute('value', data.title);
+titleText.setAttribute('color', '#FFFFFF'); // Color: Blanco puro
+titleText.setAttribute('width', '1.2'); 
+titleText.setAttribute('position', '0 0.65 -0.10'); 
+titleText.setAttribute('align', 'center');
+// Sugerencia: Usar una fuente más legible si la has cargado (ej. ExoSemiBold)
+// titleText.setAttribute('font', 'https://cdn.aframe.io/fonts/ExoSemiBold.fnt');
+// titleText.setAttribute('negate', 'false'); // Asegura mejor renderizado
+infoContainer.appendChild(titleText);
 
       // 🅱️ IMAGEN (Izquierda)
       const imageEl = document.createElement('a-image');
@@ -115,14 +118,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       targetEl.setAttribute('video-on-target', { targetIndex: index }); 
       infoContainer.appendChild(videoEl);
 
-      // 🇩 TEXTO (Parte inferior y central)
-      const textEl = document.createElement('a-text');
-      textEl.setAttribute('value', data.text);
-      textEl.setAttribute('color', '#FFFFFF');
-      textEl.setAttribute('width', '1.0'); // Reducción de ancho CRÍTICA para evitar el corte inferior
-      textEl.setAttribute('position', '0 -0.25 0'); // Posición elevada para evitar el borde de la pantalla
-      textEl.setAttribute('align', 'center');
-      infoContainer.appendChild(textEl);
+// TEXTO DESCRIPTIVO:
+const textEl = document.createElement('a-text');
+textEl.setAttribute('value', data.text);
+textEl.setAttribute('color', '#FFFF00'); // Color: Amarillo brillante (Alto contraste)
+textEl.setAttribute('width', '1.0'); 
+textEl.setAttribute('position', '0 0.0 -0.10'); 
+textEl.setAttribute('align', 'center');
+infoContainer.appendChild(textEl);
 
       // Adjuntar el contenedor al target
       targetEl.appendChild(infoContainer);
