@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       titleText.setAttribute('value', data.title);
       titleText.setAttribute('color', '#FFD700'); 
       titleText.setAttribute('width', '1.2'); // AJUSTE: Reducir de 1.5 a 1.2
-      titleText.setAttribute('position', '0 0.65 -1'); 
+      titleText.setAttribute('position', '0 0.65 0'); 
       titleText.setAttribute('align', 'center');
       infoContainer.appendChild(titleText);
 
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       textEl.setAttribute('value', data.text);
       textEl.setAttribute('color', '#FFFFFF');
       textEl.setAttribute('width', '1.0'); // Reducción de ancho CRÍTICA para evitar el corte inferior
-      textEl.setAttribute('position', '0 0.0 0'); // Posición elevada para evitar el borde de la pantalla
+      textEl.setAttribute('position', '0 0.0 -2'); // Posición elevada para evitar el borde de la pantalla
       textEl.setAttribute('align', 'center');
       infoContainer.appendChild(textEl);
 
