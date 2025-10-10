@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       titleText.setAttribute('value', data.title);
       titleText.setAttribute('color', '#FFD700'); 
       titleText.setAttribute('width', '1.2'); // AJUSTE: Reducir de 1.5 a 1.2
-      titleText.setAttribute('position', '0 0.65 -0.10'); 
+      titleText.setAttribute('position', '0 0.65 -1'); 
       titleText.setAttribute('align', 'center');
       infoContainer.appendChild(titleText);
 
