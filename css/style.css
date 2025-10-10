@@ -26,11 +26,11 @@ html {
 }
 
 body {
- margin: 0;
- font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
- background: transparent; /* <-- CAMBIO CRÍTICO: Elimina el color de fondo */
- color: var(--texto-principal);
- text-align: center;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--fondo-principal);
+  color: var(--texto-principal);
+  text-align: center;
 }
 
 * {
@@ -569,6 +569,8 @@ footer {
 /* =========================================
    AJUSTES DE CAPAS Y VISIBILIDAD PARA AR
    ========================================= */
+/* 1. Ajuste fundamental: Evita scroll y usa el 100% del espacio dinámico */
+
 
 /* 2. La escena de AR y contenedores: Usar Altura Dinámica (100dvh) */
 .ar-container, #ar-scene, a-scene {
@@ -627,7 +629,6 @@ video {
 .start-overlay[style*="display: none"] {
     display: none !important;
     z-index: -1;
-        height: 0 !important;
 }
 
 /* Loader (cuando arranca el AR) */
