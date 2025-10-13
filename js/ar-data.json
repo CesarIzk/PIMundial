@@ -1,21 +1,38 @@
-
 [
   {
-    "title": "Mexico",
-    "image": "./banderas/flag_mex.png",
-    "video": "./videos/mexico.mp4",
-    "text": "La Seleccion de futbol de Mexico es una de las mas exitosas de CONCACAF. El Estadio Azteca será el primer estadio en la historia en albergar tres inauguraciones de la Copa del Mundo."
+    "targetName": "México",
+    "model": {
+      "src": "./modelos/mexico_flag.glb",
+      "scale": "0.005 0.005 0.005",
+      "infoText": "Modelo 3D del Estadio Azteca, sede inaugural."
+    },
+    "video": {
+      "src": "./videos/mexico_highlights.mp4",
+      "infoText": "Video: Mejores momentos de la Selección Mexicana."
+    },
+    "trivia": {
+      "question": "¿Cuántas veces ha llegado México a cuartos de final en un Mundial?",
+      "options": ["Nunca", "Dos veces", "Cuatro veces"],
+      "answerIndex": 1,
+      "feedback": "Correcto! México llegó a cuartos en 1970 y 1986, ambos como anfitrión."
+    }
   },
   {
-    "title": "Canadá",
-    "image": "./images/estadio_toronto.jpg",
-    "video": "./videos/canada_highlights.mp4",
-    "text": "Canadá será coanfitrión por primera vez. El BMO Field en Toronto es una de las sedes principales, destacando el creciente interés por el fútbol en el país."
-  },
-  {
-    "title": "Estados Unidos",
-    "image": "./images/sofi_stadium.jpg",
-    "video": "./videos/usa_highlights.mp4",
-    "text": "Estados Unidos cuenta con la mayor cantidad de sedes para el torneo. El SoFi Stadium en Los Ángeles es una joya arquitectónica y albergará partidos clave."
+    "targetName": "Canadá",
+    "model": {
+      "src": "./modelos/world_cup_trophy.glb",
+      "scale": "0.1 0.1 0.1",
+      "infoText": "Modelo 3D del Trofeo de la Copa del Mundo."
+    },
+    "video": {
+      "src": "./videos/canada_highlights.mp4",
+      "infoText": "Video: El camino de Canadá a la clasificación."
+    },
+    "trivia": {
+      "question": "¿En qué año fue la última participación de Canadá en un mundial antes de 2022?",
+      "options": ["1986", "1994", "2002"],
+      "answerIndex": 0,
+      "feedback": "Así es, su anterior participación fue en México 1986."
+    }
   }
 ]

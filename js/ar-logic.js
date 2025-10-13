@@ -1,144 +1,192 @@
-// ===============================================
-// 1. REGISTRO DEL COMPONENTE DE VIDEO (MANTENER ARRIBA)
-// ===============================================
-AFRAME.registerComponent('video-on-target', {
-  schema: {
-    targetIndex: { type: 'number', default: -1 }
-  },
-  init: function () {
-    // Asegúrate de que estamos seleccionando la etiqueta <video> real
-    this.videoEl = document.querySelector(`#video-asset-${this.data.targetIndex}`);
-
-    if (this.videoEl) {
-      //this.videoEl.muted = false;
-      this.videoEl.pause();
-
-      const targetEl = this.el; // El elemento con mindar-image-target
-      
-      targetEl.addEventListener('targetFound', () => {
-        console.log(`[Video ${this.data.targetIndex}] TargetFound: Reproduciendo.`);
-        this.videoEl.play();
-      });
-
-      targetEl.addEventListener('targetLost', () => {
-        console.log(`[Video ${this.data.targetIndex}] TargetLost: Pausando.`);
-        this.videoEl.pause();
-        this.videoEl.currentTime = 0;
-      });
-    }
-  }
-});
-
-
-// ===============================================
-// 2. LÓGICA PRINCIPAL (CARGA Y CREACIÓN DE ENTIDADES 3D)
-// ===============================================
 document.addEventListener('DOMContentLoaded', async () => {
-  const sceneEl = document.querySelector('#ar-scene');
-  // ELIMINADAS: startOverlay y startButton, ya no existen en el DOM.
-  const loader = document.getElementById('loader');
+    const sceneEl = document.querySelector('#ar-scene');
+    const startOverlay = document.getElementById('start-overlay');
+    const startButton = document.getElementById('start-button');
+    const loader = document.getElementById('loader');
 
-  let countryData = [];
-  try {
-    const response = await fetch('./js/ar-data.json');
-    if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-    countryData = await response.json();
-    console.log('✅ DATOS CARGADOS:', countryData);
-    
-    // 🔥 PASO CLAVE: CREAR EL CONTENIDO 3D DINÁMICAMENTE
-    createAREntities(sceneEl, countryData);
-    
-  } catch (error) {
-    console.error("❌ FALLO CRÍTICO al cargar ar-data.json:", error);
-  }
+    let arData = [];
 
-  // Función principal para crear y adjuntar entidades 3D
-  function createAREntities(scene, dataArray) {
-    const assetsEl = scene.querySelector('a-assets') || document.createElement('a-assets');
-    if (!scene.querySelector('a-assets')) scene.prepend(assetsEl);
-    
-    dataArray.forEach((data, index) => {
-      const targetEl = scene.querySelector(`[mindar-image-target="targetIndex: ${index}"]`);
-      if (!targetEl) return;
+    // --- 1. FUNCIÓN PRINCIPAL PARA CONSTRUIR LA ESCENA ---
+    const buildARScene = (dataArray) => {
+        const assetsEl = document.createElement('a-assets');
+        sceneEl.appendChild(assetsEl);
 
-      // --- 1. Crear ASSETS (Imágenes y Videos) ---
-      
-      // Imagen Asset
-      const imgAsset = document.createElement('img');
-      imgAsset.setAttribute('id', `image-asset-${index}`);
-      imgAsset.setAttribute('crossorigin', 'anonymous');
-      imgAsset.setAttribute('src', data.image);
-      assetsEl.appendChild(imgAsset);
-      
-      // Video Asset
-      const videoAsset = document.createElement('video');
-      videoAsset.setAttribute('id', `video-asset-${index}`);
-      videoAsset.setAttribute('crossorigin', 'anonymous');
-      videoAsset.setAttribute('loop', 'true');
-      videoAsset.setAttribute('playsinline', 'true');
-      videoAsset.setAttribute('src', data.video);
-      assetsEl.appendChild(videoAsset);
+        dataArray.forEach((data, index) => {
+            const targetEl = sceneEl.querySelector(`[mindar-image-target="targetIndex: ${index}"]`);
+            if (!targetEl) return;
 
-      // --- 2. Crear ENTIDADES 3D FLOTANTES ---
-      
-      // Contenedor de la info flotante (Sube el conjunto base 0.2m más alto)
-      const infoContainer = document.createElement('a-entity');
-      // Posición base de todo el conjunto. Z=0.1 es justo sobre el marcador.
-      infoContainer.setAttribute('position', '0 0.2 0.1'); 
+            // --- Pre-cargar Assets ---
+            const modelAsset = document.createElement('a-asset-item');
+            modelAsset.setAttribute('id', `model-asset-${index}`);
+            modelAsset.setAttribute('src', data.model.src);
+            assetsEl.appendChild(modelAsset);
 
-      // 🅰️ TÍTULO (Arriba)
-      const titleText = document.createElement('a-text');
-      titleText.setAttribute('value', data.title);
-      titleText.setAttribute('color', '#FFD700'); 
-      titleText.setAttribute('width', '1.2'); // AJUSTE: Reducir de 1.5 a 1.2
-      titleText.setAttribute('position', '0 0.65 0'); 
-      titleText.setAttribute('align', 'center');
-      infoContainer.appendChild(titleText);
+            const videoAsset = document.createElement('video');
+            videoAsset.setAttribute('id', `video-asset-${index}`);
+            videoAsset.setAttribute('src', data.video.src);
+            videoAsset.setAttribute('crossorigin', 'anonymous');
+            videoAsset.setAttribute('loop', 'true');
+            videoAsset.setAttribute('playsinline', 'true');
+            videoAsset.setAttribute('muted', 'true');
+            assetsEl.appendChild(videoAsset);
 
-      // 🅱️ IMAGEN (Izquierda)
-      const imageEl = document.createElement('a-image');
-      imageEl.setAttribute('src', `#image-asset-${index}`);
-      imageEl.setAttribute('width', '0.6');
-      imageEl.setAttribute('height', '0.5');
-      // Mueve a la izquierda
-      imageEl.setAttribute('position', '-0.35 0.2 0'); // AJUSTE: Mueve ligeramente hacia el centro (-0.4 a -0.35)
-      infoContainer.appendChild(imageEl);
+            // --- Crear Contenedores (Menú y Paneles de Contenido) ---
+            const menuContainer = document.createElement('a-entity');
+            menuContainer.setAttribute('id', `menu-container-${index}`);
+            menuContainer.setAttribute('position', '0 0.6 0');
+            menuContainer.setAttribute('visible', 'false');
 
-      // 🇨 VIDEO (Derecha)
-      const videoEl = document.createElement('a-video');
-      videoEl.setAttribute('src', `#video-asset-${index}`);
-      videoEl.setAttribute('width', '0.6');
-      videoEl.setAttribute('height', '0.5');
-      // Mueve a la derecha
-      videoEl.setAttribute('position', '0.35 0.2 0'); // AJUSTE: Mueve ligeramente hacia el centro (0.4 a 0.35)
-      videoEl.setAttribute('geometry', 'primitive: plane');
-      targetEl.setAttribute('video-on-target', { targetIndex: index }); 
-      infoContainer.appendChild(videoEl);
+            const contentContainer = document.createElement('a-entity');
+            contentContainer.setAttribute('id', `content-container-${index}`);
+            contentContainer.setAttribute('visible', 'false');
+            
+            // --- Crear Botones del Menú ---
+            const buttons = [
+                { id: `btn-model-${index}`, text: 'Ver Modelo 3D', pos: '-0.5 0 0', panel: 'model' },
+                { id: `btn-video-${index}`, text: 'Ver Video', pos: '0.5 0 0', panel: 'video' },
+                { id: `btn-trivia-${index}`, text: 'Jugar Trivia', pos: '0 -0.3 0', panel: 'trivia' },
+            ];
 
-// TEXTO DESCRIPTIVO:
-const textEl = document.createElement('a-text');
-textEl.setAttribute('value', data.text);
-textEl.setAttribute('color', '#FFFF00'); // Color: Amarillo brillante (Alto contraste)
-textEl.setAttribute('width', '1.0'); 
-textEl.setAttribute('position', '0 -0.25 -0.10'); 
-textEl.setAttribute('align', 'center');
-infoContainer.appendChild(textEl);
+            buttons.forEach(btnInfo => {
+                const button = document.createElement('a-plane');
+                button.setAttribute('id', btnInfo.id);
+                button.setAttribute('class', 'clickable');
+                button.setAttribute('color', '#0A192F');
+                button.setAttribute('width', '0.9');
+                button.setAttribute('height', '0.25');
+                button.setAttribute('position', btnInfo.pos);
+                button.innerHTML = `<a-text value="${btnInfo.text}" align="center" color="#FFF" width="1.8"></a-text>`;
+                menuContainer.appendChild(button);
 
-      // Adjuntar el contenedor al target
-      targetEl.appendChild(infoContainer);
-    });
-  }
+                button.addEventListener('click', () => showPanel(index, btnInfo.panel));
+            });
+            
+            // --- Crear Paneles de Contenido (inicialmente ocultos) ---
+            // Panel del Modelo 3D
+            const modelPanel = document.createElement('a-entity');
+            modelPanel.setAttribute('id', `model-panel-${index}`);
+            modelPanel.setAttribute('visible', 'false');
+            modelPanel.innerHTML = `
+                <a-gltf-model src="#model-asset-${index}" scale="${data.model.scale}"></a-gltf-model>
+                <a-text value="${data.model.infoText}" align="center" color="#FFF" width="2" position="0 -0.5 0"></a-text>
+            `;
+            contentContainer.appendChild(modelPanel);
 
-  // --- Lógica de la interfaz de usuario (AHORA AUTOMÁTICA) ---
-  
-  // Ya no necesitamos la lógica del botón. El loader se maneja al iniciar MindAR.
-  
-  sceneEl.addEventListener('arReady', () => {
-    loader.style.display = 'none';
-    console.log('🟢 AR listo');
-  });
+            // Panel del Video
+            const videoPanel = document.createElement('a-entity');
+            videoPanel.setAttribute('id', `video-panel-${index}`);
+            videoPanel.setAttribute('visible', 'false');
+            videoPanel.innerHTML = `
+                <a-video src="#video-asset-${index}" width="1.6" height="0.9"></a-video>
+                <a-text value="${data.video.infoText}" align="center" color="#FFF" width="2" position="0 -0.6 0"></a-text>
+            `;
+            contentContainer.appendChild(videoPanel);
+            
+            // Panel de Trivia (se crea al hacer clic)
+            const triviaPanel = document.createElement('a-entity');
+            triviaPanel.setAttribute('id', `trivia-panel-${index}`);
+            triviaPanel.setAttribute('visible', 'false');
+            contentContainer.appendChild(triviaPanel);
 
-  // Opcional: Aseguramos que el loader esté visible mientras carga
-  loader.style.display = 'block';
+            // Botón de Volver al Menú
+            const backButton = document.createElement('a-plane');
+            backButton.setAttribute('class', 'clickable');
+            backButton.setAttribute('color', '#E31B23');
+            backButton.setAttribute('width', '0.5');
+            backButton.setAttribute('height', '0.2');
+            backButton.setAttribute('position', '0 -0.8 0');
+            backButton.innerHTML = `<a-text value="Volver" align="center" color="#FFF" width="1.5"></a-text>`;
+            contentContainer.appendChild(backButton);
+            backButton.addEventListener('click', () => showMenu(index));
 
+            targetEl.appendChild(menuContainer);
+            targetEl.appendChild(contentContainer);
+        });
+    };
+
+    // --- 2. FUNCIONES AUXILIARES PARA MOSTRAR/OCULTAR ---
+    const showMenu = (index) => {
+        document.querySelector(`#menu-container-${index}`).setAttribute('visible', 'true');
+        document.querySelector(`#content-container-${index}`).setAttribute('visible', 'false');
+        // Ocultar todos los paneles de contenido
+        document.querySelectorAll(`#content-container-${index} > a-entity`).forEach(panel => panel.setAttribute('visible', 'false'));
+        // Pausar video
+        const video = document.querySelector(`#video-asset-${index}`);
+        video.pause();
+    };
+
+    const showPanel = (index, panelType) => {
+        document.querySelector(`#menu-container-${index}`).setAttribute('visible', 'false');
+        document.querySelector(`#content-container-${index}`).setAttribute('visible', 'true');
+
+        if (panelType === 'video') {
+            document.querySelector(`#video-panel-${index}`).setAttribute('visible', 'true');
+            const video = document.querySelector(`#video-asset-${index}`);
+            video.play();
+        } else if (panelType === 'model') {
+            document.querySelector(`#model-panel-${index}`).setAttribute('visible', 'true');
+        } else if (panelType === 'trivia') {
+            buildTrivia(index);
+            document.querySelector(`#trivia-panel-${index}`).setAttribute('visible', 'true');
+        }
+    };
+    
+    // --- 3. LÓGICA DE TRIVIA ---
+    const buildTrivia = (index) => {
+        const triviaData = arData[index].trivia;
+        const panel = document.querySelector(`#trivia-panel-${index}`);
+        panel.innerHTML = ''; // Limpiar trivia anterior
+
+        // Pregunta
+        panel.innerHTML += `<a-text value="${triviaData.question}" width="2" align="center" position="0 0.3 0"></a-text>`;
+        
+        // Opciones
+        triviaData.options.forEach((option, i) => {
+            const optionPlane = document.createElement('a-plane');
+            optionPlane.setAttribute('class', 'clickable');
+            optionPlane.setAttribute('width', '1');
+            optionPlane.setAttribute('height', '0.2');
+            optionPlane.setAttribute('color', '#006847');
+            optionPlane.setAttribute('position', `0 ${-0.1 * (i * 2)} 0`);
+            optionPlane.innerHTML = `<a-text value="${option}" align="center" width="2"></a-text>`;
+            panel.appendChild(optionPlane);
+
+            optionPlane.addEventListener('click', () => {
+                panel.innerHTML = ''; // Limpiar al responder
+                const feedbackText = (i === triviaData.answerIndex) ? triviaData.feedback : "Incorrecto, intenta de nuevo!";
+                panel.innerHTML += `<a-text value="${feedbackText}" width="2" align="center"></a-text>`;
+            });
+        });
+    };
+
+    // --- 4. FLUJO DE ARRANQUE Y EVENTOS ---
+    try {
+        const response = await fetch('./js/ar-data.json');
+        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+        arData = await response.json();
+        console.log('✅ Datos de AR cargados:', arData);
+        buildARScene(arData);
+    } catch (error) {
+        console.error("❌ Fallo crítico al cargar ar-data.json:", error);
+    }
+
+    startButton.addEventListener('click', () => {
+        const arSystem = sceneEl.systems["mindar-image-system"];
+        startOverlay.style.display = 'none';
+        loader.style.display = 'block';
+        arSystem.start();
+    });
+
+    sceneEl.addEventListener('arReady', () => {
+        loader.style.display = 'none';
+    });
+
+    // Eventos para mostrar/ocultar la UI principal
+    sceneEl.addEventListener('targetFound', event => {
+        showMenu(event.detail.targetIndex);
+    });
+    sceneEl.addEventListener('targetLost', event => {
+        showMenu(event.detail.targetIndex); // Llama a showMenu que oculta el contenido
+        document.querySelector(`#menu-container-${event.detail.targetIndex}`).setAttribute('visible', 'false');
+    });
 });
