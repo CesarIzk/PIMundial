@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const sceneEl = document.querySelector('#ar-scene');
-    const startOverlay = document.getElementById('start-overlay');
-    const startButton = document.getElementById('start-button');
+    const tapToStartOverlay = document.getElementById('tap-to-start-overlay');
     const loader = document.getElementById('loader');
 
     let arData = [];
 
-    // --- 1. FUNCIÓN PRINCIPAL PARA CONSTRUIR LA ESCENA ---
+    // --- FUNCIÓN PARA CONSTRUIR LA ESCENA (sin cambios) ---
     const buildARScene = (dataArray) => {
+        // ... (El código de la función buildARScene que ya tienes va aquí) ...
         const assetsEl = document.createElement('a-assets');
         sceneEl.appendChild(assetsEl);
 
@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const targetEl = sceneEl.querySelector(`[mindar-image-target="targetIndex: ${index}"]`);
             if (!targetEl) return;
 
-            // --- Pre-cargar Assets ---
             const modelAsset = document.createElement('a-asset-item');
             modelAsset.setAttribute('id', `model-asset-${index}`);
             modelAsset.setAttribute('src', data.model.src);
@@ -30,7 +29,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             videoAsset.setAttribute('muted', 'true');
             assetsEl.appendChild(videoAsset);
 
-            // --- Crear Contenedores (Menú y Paneles de Contenido) ---
             const menuContainer = document.createElement('a-entity');
             menuContainer.setAttribute('id', `menu-container-${index}`);
             menuContainer.setAttribute('position', '0 0.6 0');
@@ -40,7 +38,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             contentContainer.setAttribute('id', `content-container-${index}`);
             contentContainer.setAttribute('visible', 'false');
             
-            // --- Crear Botones del Menú ---
             const buttons = [
                 { id: `btn-model-${index}`, text: 'Ver Modelo 3D', pos: '-0.5 0 0', panel: 'model' },
                 { id: `btn-video-${index}`, text: 'Ver Video', pos: '0.5 0 0', panel: 'video' },
@@ -57,38 +54,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                 button.setAttribute('position', btnInfo.pos);
                 button.innerHTML = `<a-text value="${btnInfo.text}" align="center" color="#FFF" width="1.8"></a-text>`;
                 menuContainer.appendChild(button);
-
                 button.addEventListener('click', () => showPanel(index, btnInfo.panel));
             });
             
-            // --- Crear Paneles de Contenido (inicialmente ocultos) ---
-            // Panel del Modelo 3D
             const modelPanel = document.createElement('a-entity');
             modelPanel.setAttribute('id', `model-panel-${index}`);
             modelPanel.setAttribute('visible', 'false');
-            modelPanel.innerHTML = `
-                <a-gltf-model src="#model-asset-${index}" scale="${data.model.scale}"></a-gltf-model>
-                <a-text value="${data.model.infoText}" align="center" color="#FFF" width="2" position="0 -0.5 0"></a-text>
-            `;
+            modelPanel.innerHTML = `<a-gltf-model src="#model-asset-${index}" scale="${data.model.scale}"></a-gltf-model><a-text value="${data.model.infoText}" align="center" color="#FFF" width="2" position="0 -0.5 0"></a-text>`;
             contentContainer.appendChild(modelPanel);
 
-            // Panel del Video
             const videoPanel = document.createElement('a-entity');
             videoPanel.setAttribute('id', `video-panel-${index}`);
             videoPanel.setAttribute('visible', 'false');
-            videoPanel.innerHTML = `
-                <a-video src="#video-asset-${index}" width="1.6" height="0.9"></a-video>
-                <a-text value="${data.video.infoText}" align="center" color="#FFF" width="2" position="0 -0.6 0"></a-text>
-            `;
+            videoPanel.innerHTML = `<a-video src="#video-asset-${index}" width="1.6" height="0.9"></a-video><a-text value="${data.video.infoText}" align="center" color="#FFF" width="2" position="0 -0.6 0"></a-text>`;
             contentContainer.appendChild(videoPanel);
             
-            // Panel de Trivia (se crea al hacer clic)
             const triviaPanel = document.createElement('a-entity');
             triviaPanel.setAttribute('id', `trivia-panel-${index}`);
             triviaPanel.setAttribute('visible', 'false');
             contentContainer.appendChild(triviaPanel);
 
-            // Botón de Volver al Menú
             const backButton = document.createElement('a-plane');
             backButton.setAttribute('class', 'clickable');
             backButton.setAttribute('color', '#E31B23');
@@ -104,78 +89,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    // --- 2. FUNCIONES AUXILIARES PARA MOSTRAR/OCULTAR ---
-    const showMenu = (index) => {
-        document.querySelector(`#menu-container-${index}`).setAttribute('visible', 'true');
-        document.querySelector(`#content-container-${index}`).setAttribute('visible', 'false');
-        // Ocultar todos los paneles de contenido
-        document.querySelectorAll(`#content-container-${index} > a-entity`).forEach(panel => panel.setAttribute('visible', 'false'));
-        // Pausar video
-        const video = document.querySelector(`#video-asset-${index}`);
-        video.pause();
-    };
+    // --- El resto de tus funciones (showMenu, showPanel, buildTrivia) van aquí sin cambios ---
+    // ...
 
-    const showPanel = (index, panelType) => {
-        document.querySelector(`#menu-container-${index}`).setAttribute('visible', 'false');
-        document.querySelector(`#content-container-${index}`).setAttribute('visible', 'true');
-
-        if (panelType === 'video') {
-            document.querySelector(`#video-panel-${index}`).setAttribute('visible', 'true');
-            const video = document.querySelector(`#video-asset-${index}`);
-            video.play();
-        } else if (panelType === 'model') {
-            document.querySelector(`#model-panel-${index}`).setAttribute('visible', 'true');
-        } else if (panelType === 'trivia') {
-            buildTrivia(index);
-            document.querySelector(`#trivia-panel-${index}`).setAttribute('visible', 'true');
-        }
-    };
-    
-    // --- 3. LÓGICA DE TRIVIA ---
-    const buildTrivia = (index) => {
-        const triviaData = arData[index].trivia;
-        const panel = document.querySelector(`#trivia-panel-${index}`);
-        panel.innerHTML = ''; // Limpiar trivia anterior
-
-        // Pregunta
-        panel.innerHTML += `<a-text value="${triviaData.question}" width="2" align="center" position="0 0.3 0"></a-text>`;
-        
-        // Opciones
-        triviaData.options.forEach((option, i) => {
-            const optionPlane = document.createElement('a-plane');
-            optionPlane.setAttribute('class', 'clickable');
-            optionPlane.setAttribute('width', '1');
-            optionPlane.setAttribute('height', '0.2');
-            optionPlane.setAttribute('color', '#006847');
-            optionPlane.setAttribute('position', `0 ${-0.1 * (i * 2)} 0`);
-            optionPlane.innerHTML = `<a-text value="${option}" align="center" width="2"></a-text>`;
-            panel.appendChild(optionPlane);
-
-            optionPlane.addEventListener('click', () => {
-                panel.innerHTML = ''; // Limpiar al responder
-                const feedbackText = (i === triviaData.answerIndex) ? triviaData.feedback : "Incorrecto, intenta de nuevo!";
-                panel.innerHTML += `<a-text value="${feedbackText}" width="2" align="center"></a-text>`;
-            });
-        });
-    };
-
-    // --- 4. FLUJO DE ARRANQUE Y EVENTOS ---
-    try {
-        const response = await fetch('./js/ar-data.json');
-        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-        arData = await response.json();
-        console.log('✅ Datos de AR cargados:', arData);
-        buildARScene(arData);
-    } catch (error) {
-        console.error("❌ Fallo crítico al cargar ar-data.json:", error);
-    }
-
-    startButton.addEventListener('click', () => {
+    // --- FLUJO DE ARRANQUE Y EVENTOS (AQUÍ ESTÁ EL CAMBIO) ---
+    const startExperience = () => {
         const arSystem = sceneEl.systems["mindar-image-system"];
-        startOverlay.style.display = 'none';
+        tapToStartOverlay.style.display = 'none';
         loader.style.display = 'block';
         arSystem.start();
-    });
+    };
+    
+    // Escucha el primer clic en CUALQUIER PARTE del cuerpo de la página
+    document.body.addEventListener('click', startExperience, { once: true });
 
     sceneEl.addEventListener('arReady', () => {
         loader.style.display = 'none';
@@ -186,7 +112,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         showMenu(event.detail.targetIndex);
     });
     sceneEl.addEventListener('targetLost', event => {
-        showMenu(event.detail.targetIndex); // Llama a showMenu que oculta el contenido
+        showMenu(event.detail.targetIndex); 
         document.querySelector(`#menu-container-${event.detail.targetIndex}`).setAttribute('visible', 'false');
     });
+
+    // Carga de datos
+    try {
+        const response = await fetch('./js/ar-data.json');
+        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+        arData = await response.json();
+        buildARScene(arData);
+    } catch (error) {
+        console.error("❌ Fallo crítico al cargar ar-data.json:", error);
+    }
 });
