@@ -7,7 +7,7 @@
       "infoText": "Modelo 3D del Estadio Azteca, sede inaugural."
     },
     "video": {
-      "src": "./videos/mexico_highlights.mp4",
+      "src": "./videos/mexico.mp4",
       "infoText": "Video: Mejores momentos de la Selección Mexicana."
     },
     "trivia": {
@@ -16,23 +16,6 @@
       "answerIndex": 1,
       "feedback": "Correcto! México llegó a cuartos en 1970 y 1986, ambos como anfitrión."
     }
-  },
-  {
-    "targetName": "Canadá",
-    "model": {
-      "src": "./modelos/world_cup_trophy.glb",
-      "scale": "0.1 0.1 0.1",
-      "infoText": "Modelo 3D del Trofeo de la Copa del Mundo."
-    },
-    "video": {
-      "src": "./videos/canada_highlights.mp4",
-      "infoText": "Video: El camino de Canadá a la clasificación."
-    },
-    "trivia": {
-      "question": "¿En qué año fue la última participación de Canadá en un mundial antes de 2022?",
-      "options": ["1986", "1994", "2002"],
-      "answerIndex": 0,
-      "feedback": "Así es, su anterior participación fue en México 1986."
-    }
   }
+
 ]
