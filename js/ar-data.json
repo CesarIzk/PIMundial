@@ -1,6 +1,6 @@
 [
   {
-    "targetName": "México",
+    "targetName": 0,
     "model": {
       "src": "./modelos/mexico_flag.glb",
       "scale": "0.005 0.005 0.005",
