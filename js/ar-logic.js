@@ -1,8 +1,11 @@
 document.addEventListener('DOMContentLoaded', async () => {
     console.log("DOM Cargado. Iniciando script AR...");
+
+    // Obtenemos los elementos correctos del DOM
     const sceneEl = document.querySelector('#ar-scene');
-    const startOverlay = document.getElementById('start-overlay');
+    const startOverlay = document.getElementById('tap-to-start-overlay'); // Corregido: ID del overlay
     const loader = document.getElementById('loader');
+
     let arData = [];
 
     // --- 1. FUNCIÓN PARA CONSTRUIR LA ESCENA ---
@@ -14,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const targetEl = sceneEl.querySelector(`[mindar-image-target="targetIndex: ${index}"]`);
             if (!targetEl) return;
 
-            // Pre-cargar assets...
+            // --- Pre-cargar Assets ---
             const modelAsset = document.createElement('a-asset-item');
             modelAsset.setAttribute('id', `model-asset-${index}`);
             modelAsset.setAttribute('src', data.model.src);
@@ -29,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             videoAsset.setAttribute('muted', 'true');
             assetsEl.appendChild(videoAsset);
 
-            // Crear contenedores...
+            // --- Crear Contenedores ---
             const menuContainer = document.createElement('a-entity');
             menuContainer.setAttribute('id', `menu-container-${index}`);
             menuContainer.setAttribute('position', '0 0.6 0');
@@ -39,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             contentContainer.setAttribute('id', `content-container-${index}`);
             contentContainer.setAttribute('visible', 'false');
             
-            // Crear botones del menú...
+            // --- Crear Botones del Menú ---
             const buttons = [
                 { id: `btn-model-${index}`, text: 'Ver Modelo 3D', pos: '-0.5 0 0', panel: 'model' },
                 { id: `btn-video-${index}`, text: 'Ver Video', pos: '0.5 0 0', panel: 'video' },
@@ -49,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             buttons.forEach(btnInfo => {
                 const button = document.createElement('a-plane');
                 button.setAttribute('id', btnInfo.id);
-                button.setAttribute('class', 'clickable'); // Importante para el raycaster
+                button.setAttribute('class', 'clickable');
                 button.setAttribute('color', '#0A192F');
                 button.setAttribute('width', '0.9');
                 button.setAttribute('height', '0.25');
@@ -57,11 +60,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 button.innerHTML = `<a-text value="${btnInfo.text}" align="center" color="#FFF" width="1.8"></a-text>`;
                 menuContainer.appendChild(button);
                 
-                // 🔥 CORRECCIÓN: Usar solo 'click'. El raycaster de A-Frame convierte el toque en un click.
+                // 🔥 CORRECCIÓN: Solo 'click'. El raycaster de A-Frame convierte el toque en un click para objetos 3D.
                 button.addEventListener('click', () => showPanel(index, btnInfo.panel));
             });
             
-            // Crear paneles de contenido...
+            // --- Crear Paneles de Contenido ---
             const modelPanel = document.createElement('a-entity');
             modelPanel.setAttribute('id', `model-panel-${index}`);
             modelPanel.setAttribute('visible', 'false');
@@ -80,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             contentContainer.appendChild(triviaPanel);
 
             const backButton = document.createElement('a-plane');
-            backButton.setAttribute('class', 'clickable'); // Importante para el raycaster
+            backButton.setAttribute('class', 'clickable');
             backButton.setAttribute('color', '#E31B23');
             backButton.setAttribute('width', '0.5');
             backButton.setAttribute('height', '0.2');
@@ -88,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             backButton.innerHTML = `<a-text value="Volver" align="center" color="#FFF" width="1.5"></a-text>`;
             contentContainer.appendChild(backButton);
             
-            // 🔥 CORRECCIÓN: Usar solo 'click'.
+            // 🔥 CORRECCIÓN: Solo 'click'.
             backButton.addEventListener('click', () => showMenu(index));
 
             targetEl.appendChild(menuContainer);
@@ -96,46 +99,64 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    // --- 2. FUNCIONES AUXILIARES (sin cambios) ---
-    const showMenu = (index) => { /* ... tu código ... */ };
-    const showPanel = (index, panelType) => { /* ... tu código ... */ };
-    const buildTrivia = (index) => { /* ... tu código ... */ };
+    // --- 2. FUNCIONES AUXILIARES PARA MOSTRAR/OCULTAR ---
+    const showMenu = (index) => {
+        const menu = document.querySelector(`#menu-container-${index}`);
+        const content = document.querySelector(`#content-container-${index}`);
+        
+        if (menu) menu.setAttribute('visible', 'true');
+        if (content) content.setAttribute('visible', 'false');
+        
+        const video = document.querySelector(`#video-asset-${index}`);
+        if (video) video.pause();
+    };
 
-    // --- 4. FLUJO DE ARRANQUE Y EVENTOS (CORREGIDO) ---
-    
-    // Función para iniciar la experiencia AR
-    const startExperience = () => {
-        // Removemos los listeners para que no se ejecute dos veces
-        document.body.removeEventListener('click', startExperience);
-        document.body.removeEventListener('touchstart', startExperience);
+    const showPanel = (index, panelType) => {
+        document.querySelector(`#menu-container-${index}`).setAttribute('visible', 'false');
+        document.querySelector(`#content-container-${index}`).setAttribute('visible', 'true');
 
-        const arSystem = sceneEl.systems["mindar-image-system"];
-        startOverlay.style.display = 'none';
-        loader.style.display = 'block';
-        arSystem.start();
+        // Ocultar todos los sub-paneles primero
+        document.querySelectorAll(`#content-container-${index} > a-entity`).forEach(panel => panel.setAttribute('visible', 'false'));
+
+        if (panelType === 'video') {
+            document.querySelector(`#video-panel-${index}`).setAttribute('visible', 'true');
+            const video = document.querySelector(`#video-asset-${index}`);
+            if (video) video.play();
+        } else if (panelType === 'model') {
+            document.querySelector(`#model-panel-${index}`).setAttribute('visible', 'true');
+        } else if (panelType === 'trivia') {
+            buildTrivia(index);
+            document.querySelector(`#trivia-panel-${index}`).setAttribute('visible', 'true');
+        }
     };
     
-    // Escuchamos tanto el clic como el toque para iniciar
-    document.body.addEventListener('click', startExperience);
-    document.body.addEventListener('touchstart', startExperience);
+    // --- 3. LÓGICA DE TRIVIA ---
+    const buildTrivia = (index) => {
+        const triviaData = arData[index].trivia;
+        const panel = document.querySelector(`#trivia-panel-${index}`);
+        panel.innerHTML = ''; 
 
-    sceneEl.addEventListener('arReady', () => {
-        loader.style.display = 'none';
-    });
-
-    // Eventos para mostrar/ocultar la UI principal
-    sceneEl.addEventListener('targetFound', event => {
-        showMenu(event.detail.targetIndex);
-    });
-    sceneEl.addEventListener('targetLost', event => {
-        const menu = document.querySelector(`#menu-container-${event.detail.targetIndex}`);
-        if (menu) menu.setAttribute('visible', 'false');
+        panel.innerHTML += `<a-text value="${triviaData.question}" width="2" align="center" position="0 0.3 0"></a-text>`;
         
-        const content = document.querySelector(`#content-container-${event.detail.targetIndex}`);
-        if (content) content.setAttribute('visible', 'false');
-    });
+        triviaData.options.forEach((option, i) => {
+            const optionPlane = document.createElement('a-plane');
+            optionPlane.setAttribute('class', 'clickable');
+            optionPlane.setAttribute('width', '1');
+            optionPlane.setAttribute('height', '0.2');
+            optionPlane.setAttribute('color', '#006847');
+            optionPlane.setAttribute('position', `0 ${-0.1 * (i * 2)} 0`);
+            optionPlane.innerHTML = `<a-text value="${option}" align="center" width="2"></a-text>`;
+            panel.appendChild(optionPlane);
 
-    // Carga de datos
+            optionPlane.addEventListener('click', () => {
+                panel.innerHTML = '';
+                const feedbackText = (i === triviaData.answerIndex) ? triviaData.feedback : "Incorrecto, intenta de nuevo!";
+                panel.innerHTML += `<a-text value="${feedbackText}" width="2" align="center"></a-text>`;
+            });
+        });
+    };
+
+    // --- 4. FLUJO DE ARRANQUE Y EVENTOS ---
     try {
         const response = await fetch('./js/ar-data.json');
         arData = await response.json();
@@ -144,4 +165,35 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (error) {
         console.error("❌ Fallo crítico al cargar ar-data.json:", error);
     }
+
+    const startExperience = () => {
+        const arSystem = sceneEl.systems["mindar-image-system"];
+        startOverlay.style.display = 'none';
+        loader.style.display = 'block';
+        arSystem.start();
+    };
+    
+    // 🔥 CORRECCIÓN: Usamos un solo listener que se elimina a sí mismo para evitar problemas
+    document.body.addEventListener('click', startExperience, { once: true });
+    document.body.addEventListener('touchstart', startExperience, { once: true });
+
+    sceneEl.addEventListener('arReady', () => {
+        loader.style.display = 'none';
+    });
+
+    sceneEl.addEventListener('targetFound', event => {
+        if (event.detail && event.detail.targetIndex !== undefined) {
+            showMenu(event.detail.targetIndex);
+        }
+    });
+
+    sceneEl.addEventListener('targetLost', event => {
+        if (event.detail && event.detail.targetIndex !== undefined) {
+            const menu = document.querySelector(`#menu-container-${event.detail.targetIndex}`);
+            if (menu) menu.setAttribute('visible', 'false');
+            
+            const content = document.querySelector(`#content-container-${event.detail.targetIndex}`);
+            if (content) content.setAttribute('visible', 'false');
+        }
+    });
 });
