@@ -1,46 +1,54 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>MundialCUM 2026 - AR Interactivo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <meta charset="UTF-8">
+  <title>MundialCUM 2026 - AR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
 </head>
 <body>
-  
-  <div id="start-overlay" class="start-overlay">
-    <div class="start-content">
-      <h2>Experiencia AR Interactiva</h2>
-      <p>Apunta tu cámara a uno de los marcadores para comenzar.</p>
-      <button id="start-button">▶️ Iniciar Cámara</button>
-    </div>
-  </div>
-  
-  <div class="ar-container">
-    <div id="loader" class="loader" style="display: none;">Cargando AR...</div>
-    
-    <a-scene
-      id="ar-scene"
-      mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false; maxTrack: 1;"
-      renderer="colorManagement: true, physicallyCorrectLights"
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: false"
-      color-space="sRGB"
-    >
-      <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .clickable"></a-camera>
+  
+  <noscript>
+    <div class="noscript-warning">
+      <h1>JavaScript es necesario</h1>
+      <p>Esta experiencia de Realidad Aumentada requiere que JavaScript esté habilitado.</p>
+    </div>
+  </noscript>
 
-      <a-entity mindar-image-target="targetIndex: 0"></a-entity>
-      <a-entity mindar-image-target="targetIndex: 1"></a-entity>
-      <a-entity mindar-image-target="targetIndex: 2"></a-entity>
-    </a-scene>
-  </div>
 
-  <div class="ar-menu">
-    <a href="index.html"><button>🏠 Volver al Inicio</button></a>
-  </div>
+  <div class="ar-container">
+    <div id="loader" class="loader" style="display: none;">Cargando AR...</div>
+    
+    <a-scene
+      id="ar-scene"
+      mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: true; maxTrack: 3"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+    >
+      <a-assets>
+                <img id="target-img-0" crossorigin="anonymous" src="ruta/a/imagen0.jpg">
+        <video id="target-vid-0" crossorigin="anonymous" loop="true" src="ruta/a/video0.mp4"></video>
+        <img id="target-img-1" crossorigin="anonymous" src="ruta/a/imagen1.jpg">
+        <video id="target-vid-1" crossorigin="anonymous" loop="true" src="ruta/a/video1.mp4"></video>
+      </a-assets>
+      
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <script src="js/ar-logic.js" defer></script>
+      <a-entity mindar-image-target="targetIndex: 0"></a-entity>
+      <a-entity mindar-image-target="targetIndex: 1"></a-entity>
+      <a-entity mindar-image-target="targetIndex: 2"></a-entity>
+    </a-scene>
+  </div>
+
+    <div class="ar-menu">
+    <a href="index.html"><button>🏠 Volver al Inicio</button></a>
+  </div>
+
+  <script src="js/ar-logic.js" defer></script>
 </body>
 </html>
