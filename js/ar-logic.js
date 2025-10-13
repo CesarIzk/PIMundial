@@ -1,3 +1,5 @@
+// js/ar-logic.js
+
 document.addEventListener('DOMContentLoaded', async () => {
     const sceneEl = document.querySelector('#ar-scene');
     const tapToStartOverlay = document.getElementById('tap-to-start-overlay');
@@ -7,7 +9,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- FUNCIÓN PARA CONSTRUIR LA ESCENA (sin cambios) ---
     const buildARScene = (dataArray) => {
-        // ... (El código de la función buildARScene que ya tienes va aquí) ...
         const assetsEl = document.createElement('a-assets');
         sceneEl.appendChild(assetsEl);
 
@@ -89,34 +90,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    // --- El resto de tus funciones (showMenu, showPanel, buildTrivia) van aquí sin cambios ---
-    // ...
+    // --- El resto de tus funciones (showMenu, showPanel, buildTrivia) van aquí ---
+    const showMenu = (index) => { /* ... tu código ... */ };
+    const showPanel = (index, panelType) => { /* ... tu código ... */ };
+    const buildTrivia = (index) => { /* ... tu código ... */ };
 
-    // --- FLUJO DE ARRANQUE Y EVENTOS (AQUÍ ESTÁ EL CAMBIO) ---
+    // --- FLUJO DE ARRANQUE Y EVENTOS (SECCIÓN CORREGIDA) ---
+
+    // Definimos la función que iniciará la experiencia
     const startExperience = () => {
+        // Inmediatamente removemos ambos listeners para que no se ejecute dos veces
+        document.body.removeEventListener('click', startExperience);
+        document.body.removeEventListener('touchstart', startExperience);
+
+        // El resto de la lógica que ya tenías
         const arSystem = sceneEl.systems["mindar-image-system"];
         tapToStartOverlay.style.display = 'none';
         loader.style.display = 'block';
         arSystem.start();
     };
     
-    // Escucha el primer clic en CUALQUIER PARTE del cuerpo de la página
-    document.body.addEventListener('click', startExperience, { once: true });
+    // Añadimos los dos listeners: uno para el clic (PC) y otro para el toque (móvil)
+    document.body.addEventListener('click', startExperience);
+    document.body.addEventListener('touchstart', startExperience);
 
+    // El resto de los listeners que ya tenías
     sceneEl.addEventListener('arReady', () => {
         loader.style.display = 'none';
     });
 
-    // Eventos para mostrar/ocultar la UI principal
     sceneEl.addEventListener('targetFound', event => {
         showMenu(event.detail.targetIndex);
     });
+
     sceneEl.addEventListener('targetLost', event => {
         showMenu(event.detail.targetIndex); 
         document.querySelector(`#menu-container-${event.detail.targetIndex}`).setAttribute('visible', 'false');
     });
 
-    // Carga de datos
+    // Carga de datos (sin cambios)
     try {
         const response = await fetch('./js/ar-data.json');
         if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
