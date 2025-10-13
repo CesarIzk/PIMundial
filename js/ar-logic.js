@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 button.innerHTML = `<a-text value="${btnInfo.text}" align="center" color="#FFF" width="1.8"></a-text>`;
                 menuContainer.appendChild(button);
                 button.addEventListener('click', () => showPanel(index, btnInfo.panel));
+                button.addEventListener('touchstart', () => showPanel(index, btnInfo.panel));
             });
             
             // --- Crear Paneles de Contenido ---
@@ -93,6 +94,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             backButton.innerHTML = `<a-text value="Volver" align="center" color="#FFF" width="1.5"></a-text>`;
             contentContainer.appendChild(backButton);
             backButton.addEventListener('click', () => showMenu(index));
+            backButton.addEventListener('touchstart', () => showMenu(index));
+
 
             targetEl.appendChild(menuContainer);
             targetEl.appendChild(contentContainer);
