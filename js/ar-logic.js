@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   let arData = [];
 
   try {
-    // 1️⃣ Cargar datos desde JSON
+    // 1️⃣ Cargar datos JSON
     const response = await fetch("./js/ar-data.json");
     arData = await response.json();
     console.log("✅ Datos AR cargados:", arData);
@@ -15,9 +15,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (sceneEl.hasLoaded) resolve();
       else sceneEl.addEventListener("loaded", resolve);
     });
-    console.log("🎬 Escena lista.");
+    console.log("🎬 Escena A-Frame lista.");
 
-    // 3️⃣ Crear dinámicamente los targets
+    // 3️⃣ Crear dinámicamente los targets MindAR
     arData.forEach((data, index) => {
       const target = document.createElement("a-entity");
       target.setAttribute("id", `target-${index}`);
@@ -25,10 +25,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       sceneEl.appendChild(target);
     });
 
-    // 4️⃣ Crear contenido asociado a cada target
+    // 4️⃣ Construir contenido AR
     buildARScene(arData);
 
-    // 5️⃣ Agregar eventos de detección
+    // 5️⃣ Configurar eventos de detección
     arData.forEach((_, index) => {
       const targetEl = document.getElementById(`target-${index}`);
       targetEl.addEventListener("targetFound", () => {
@@ -41,41 +41,31 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     });
 
-    // 6️⃣ Iniciar MindAR tras interacción del usuario
+    // 6️⃣ Iniciar AR al hacer tap
     overlay.addEventListener("click", async () => {
       overlay.style.display = "none";
       loader.style.display = "block";
 
       try {
-        // 🔸 1. Pedir acceso a la cámara *antes* de iniciar MindAR
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        console.log("📸 Permiso de cámara otorgado.");
-
-        // 🔸 2. Asegurar que el sistema MindAR esté listo
         const mindarSystem = sceneEl.systems["mindar-image"];
-        if (!mindarSystem) throw new Error("MindAR no inicializado correctamente.");
+        await mindarSystem.start();
 
-        // 🔸 3. Iniciar el sistema AR con un pequeño retraso
-        setTimeout(async () => {
-          await mindarSystem.start();
-          loader.style.display = "none";
-          console.log("🚀 MindAR iniciado correctamente.");
-        }, 500);
+        loader.style.display = "none";
+        console.log("🚀 MindAR iniciado. Cámara activa.");
       } catch (err) {
-        loader.innerText = "❌ Error al iniciar cámara AR";
+        loader.innerText = "❌ Error al iniciar MindAR";
         console.error("Error al iniciar MindAR:", err);
       }
     });
 
   } catch (error) {
-    console.error("❌ Error general al inicializar AR:", error);
+    console.error("❌ Error general al iniciar AR:", error);
   }
 });
 
 /* ===========================================================
    FUNCIONES AUXILIARES
    =========================================================== */
-
 function buildARScene(arData) {
   const sceneEl = document.querySelector("a-scene");
 
@@ -105,16 +95,17 @@ function buildARScene(arData) {
       menuContainer.appendChild(model);
     }
 
-    // 🎥 Video (controlado manualmente)
+    // 🎥 Video
     if (data.video?.src) {
       const videoEl = document.createElement("video");
       videoEl.setAttribute("id", `video-${index}`);
       videoEl.src = data.video.src;
-      videoEl.playsInline = true;
+      videoEl.setAttribute("playsinline", "");
       videoEl.setAttribute("webkit-playsinline", "");
       videoEl.loop = true;
-      videoEl.muted = false;
-      videoEl.preload = "auto";
+      videoEl.muted = false; // 🔈 activable tras interacción
+      videoEl.preload = "none"; // evita carga prematura
+      videoEl.style.display = "none";
       document.body.appendChild(videoEl);
 
       const videoPlane = document.createElement("a-video");
