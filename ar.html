@@ -1,55 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>MundialCUM 2026 - AR Interactivo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" href="css/style.css" />
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
 </head>
 <body>
-  
-  <noscript>
-    <div class="noscript-warning">
-      <h1>JavaScript es necesario</h1>
-      <p>Esta experiencia de Realidad Aumentada requiere que JavaScript esté habilitado.</p>
-    </div>
-  </noscript>
-
   <div id="tap-to-start-overlay" class="start-overlay">
     <div class="start-content">
       <h2>Experiencia AR Interactiva</h2>
       <p>Toca la pantalla para comenzar</p>
     </div>
   </div>
-  
-  <div class="ar-container">
-    <div id="loader" class="loader" style="display: none;">Cargando AR...</div>
-    
-    <a-scene
-      id="ar-scene"
-      mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false; maxTrack: 1;"
-      renderer="colorManagement: true; physicallyCorrectLights: true;"
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: false"
-      color-space="sRGB"
-    >
-      <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .clickable"></a-camera>
-    </a-scene>
-  </div>
 
-  <div class="ar-menu">
-    <a href="index.html"><button>🏠 Volver al Inicio</button></a>
-  </div>
+  <div id="loader" class="loader" style="display:none;">Cargando AR...</div>
 
-  <!-- ✅ Tu script de lógica -->
+  <a-scene
+    id="ar-scene"
+    mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false; maxTrack: 1;"
+    renderer="colorManagement: true; physicallyCorrectLights: true;"
+    vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: false"
+  >
+    <a-camera
+      position="0 0 0"
+      look-controls="enabled: false"
+      cursor="fuse: false; rayOrigin: mouse;"
+      raycaster="objects: .clickable"
+    ></a-camera>
+  </a-scene>
+
   <script src="js/ar-logic.js" defer></script>
 
-  <!-- ✅ Script de inicio AR corregido -->
   <script>
-  document.addEventListener("DOMContentLoaded", async () => {
+  document.addEventListener("DOMContentLoaded", () => {
     const overlay = document.getElementById("tap-to-start-overlay");
     const loader = document.getElementById("loader");
     const sceneEl = document.querySelector("a-scene");
@@ -58,20 +46,28 @@
       overlay.style.display = "none";
       loader.style.display = "block";
 
-      // 🔥 Espera a que la escena y MindAR estén listos
-      await new Promise(resolve => {
-        if (sceneEl.hasLoaded) resolve();
-        else sceneEl.addEventListener("loaded", resolve);
-      });
-
       try {
-        const mindar = sceneEl.systems["mindar-image"];
-        await mindar.start();
+        // 🔸 1. Pedir permiso explícito de cámara
+        await navigator.mediaDevices.getUserMedia({ video: true });
+        console.log("📸 Permiso de cámara otorgado.");
+
+        // 🔸 2. Esperar a que la escena esté lista
+        await new Promise(resolve => {
+          if (sceneEl.hasLoaded) resolve();
+          else sceneEl.addEventListener("loaded", resolve);
+        });
+
+        // 🔸 3. Esperar a que el sistema MindAR esté listo
+        const mindarSystem = sceneEl.systems["mindar-image"];
+        if (!mindarSystem) throw new Error("MindAR no inicializado correctamente.");
+
+        // 🔸 4. Iniciar MindAR manualmente
+        await mindarSystem.start();
         loader.style.display = "none";
-        console.log("🚀 MindAR iniciado correctamente.");
+        console.log("🚀 MindAR iniciado y cámara activa.");
       } catch (err) {
-        console.error("❌ Error al iniciar MindAR:", err);
-        loader.innerText = "Error al iniciar cámara AR";
+        loader.innerText = "❌ Error al iniciar cámara AR";
+        console.error(err);
       }
     });
   });

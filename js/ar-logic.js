@@ -42,6 +42,32 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     });
 
+    // 6️⃣ Pedir permiso de cámara y esperar interacción del usuario
+    const overlay = document.getElementById("tap-to-start-overlay");
+    const loader = document.getElementById("loader");
+    const mindarSystem = sceneEl.systems["mindar-image"];
+
+    overlay.addEventListener("click", async () => {
+      overlay.style.display = "none";
+      loader.style.display = "block";
+
+      try {
+        // Pedir permiso de cámara antes de iniciar
+        await navigator.mediaDevices.getUserMedia({ video: true });
+        console.log("📸 Permiso de cámara otorgado.");
+
+        // Esperar que el sistema MindAR esté listo
+        if (!mindarSystem) throw new Error("MindAR no está inicializado.");
+        await mindarSystem.start();
+
+        loader.style.display = "none";
+        console.log("🚀 MindAR iniciado y cámara activa.");
+      } catch (err) {
+        loader.innerText = "❌ Error al iniciar cámara AR";
+        console.error("Error al iniciar MindAR:", err);
+      }
+    });
+
   } catch (error) {
     console.error("❌ Error al inicializar el sistema AR:", error);
   }
@@ -89,6 +115,8 @@ function buildARScene(arData) {
       videoPlane.setAttribute("width", "1.5");
       videoPlane.setAttribute("height", "0.85");
       videoPlane.setAttribute("position", "0 -0.7 0");
+      videoPlane.setAttribute("autoplay", "false");
+      videoPlane.setAttribute("loop", "true");
       menuContainer.appendChild(videoPlane);
     }
 
@@ -113,10 +141,18 @@ function buildARScene(arData) {
 function showMenu(index) {
   const menu = document.querySelector(`#menu-container-${index}`);
   if (menu) menu.setAttribute("visible", "true");
+
+  // 🎥 Reproducir video al detectar target
+  const video = menu?.querySelector("video");
+  if (video) video.play().catch(() => console.warn("⚠️ No se pudo reproducir video aún."));
 }
 
 // Ocultar menú al perder el target
 function hideMenu(index) {
   const menu = document.querySelector(`#menu-container-${index}`);
   if (menu) menu.setAttribute("visible", "false");
+
+  // ⏸️ Pausar video al perder el target
+  const video = menu?.querySelector("video");
+  if (video) video.pause();
 }
