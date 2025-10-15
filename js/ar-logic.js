@@ -156,15 +156,48 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    // --- 4. FLUJO DE ARRANQUE Y EVENTOS ---
-    try {
-        const response = await fetch('./js/ar-data.json');
-        arData = await response.json();
-        console.log('✅ Datos de AR cargados:', arData);
-        buildARScene(arData);
-    } catch (error) {
-        console.error("❌ Fallo crítico al cargar ar-data.json:", error);
-    }
+  
+try {
+  const response = await fetch('./js/ar-data.json');
+  arData = await response.json();
+  console.log('✅ Datos de AR cargados:', arData);
+
+  // 1️⃣ Crear los targets dinámicamente antes de construir la escena
+  arData.forEach((data, index) => {
+    const target = document.createElement('a-entity');
+    target.setAttribute('id', `target-${index}`);
+    target.setAttribute('mindar-image-target', `targetIndex: ${index}`);
+    sceneEl.appendChild(target);
+  });
+
+  // 2️⃣ Construir la escena (botones, paneles, etc.)
+  buildARScene(arData);
+
+  // 3️⃣ 🔽 AQUÍ AGREGA ESTE BLOQUE 🔽
+  arData.forEach((_, index) => {
+    const targetEl = document.getElementById(`target-${index}`);
+
+    // Cuando se detecta el marcador
+    targetEl.addEventListener('targetFound', () => {
+      console.log(`🎯 Target ${index} detectado`);
+      showMenu(index);
+    });
+
+    // Cuando se pierde la detección
+    targetEl.addEventListener('targetLost', () => {
+      console.log(`❌ Target ${index} perdido`);
+      const menu = document.querySelector(`#menu-container-${index}`);
+      const content = document.querySelector(`#content-container-${index}`);
+      if (menu) menu.setAttribute('visible', 'false');
+      if (content) content.setAttribute('visible', 'false');
+    });
+  });
+
+} catch (error) {
+  console.error("❌ Fallo crítico al cargar ar-data.json:", error);
+}
+
+
 
     const startExperience = () => {
         const arSystem = sceneEl.systems["mindar-image-system"];
