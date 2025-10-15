@@ -5,19 +5,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   let arData = [];
 
   try {
-    // 1️⃣ Cargar datos del archivo JSON
+    // 1️⃣ Cargar datos desde JSON
     const response = await fetch("./js/ar-data.json");
     arData = await response.json();
     console.log("✅ Datos AR cargados:", arData);
 
-    // 2️⃣ Esperar que la escena A-Frame esté lista
+    // 2️⃣ Esperar a que la escena esté lista
     await new Promise(resolve => {
       if (sceneEl.hasLoaded) resolve();
       else sceneEl.addEventListener("loaded", resolve);
     });
     console.log("🎬 Escena lista.");
 
-    // 3️⃣ Crear entidades MindAR dinámicamente
+    // 3️⃣ Crear dinámicamente los targets
     arData.forEach((data, index) => {
       const target = document.createElement("a-entity");
       target.setAttribute("id", `target-${index}`);
@@ -25,12 +25,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       sceneEl.appendChild(target);
     });
 
-    console.log(`🧩 ${arData.length} targets creados.`);
-
-    // 4️⃣ Construir contenido para cada target
+    // 4️⃣ Crear contenido asociado a cada target
     buildARScene(arData);
 
-    // 5️⃣ Detectar target encontrado/perdido
+    // 5️⃣ Agregar eventos de detección
     arData.forEach((_, index) => {
       const targetEl = document.getElementById(`target-${index}`);
       targetEl.addEventListener("targetFound", () => {
@@ -43,34 +41,41 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     });
 
-    // 6️⃣ Interacción: iniciar cámara y MindAR solo al tocar pantalla
+    // 6️⃣ Iniciar MindAR tras interacción del usuario
     overlay.addEventListener("click", async () => {
       overlay.style.display = "none";
       loader.style.display = "block";
 
       try {
-        await navigator.mediaDevices.getUserMedia({ video: true });
+        // 🔸 1. Pedir acceso a la cámara *antes* de iniciar MindAR
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         console.log("📸 Permiso de cámara otorgado.");
 
+        // 🔸 2. Asegurar que el sistema MindAR esté listo
         const mindarSystem = sceneEl.systems["mindar-image"];
-        if (!mindarSystem) throw new Error("MindAR no inicializado.");
-        await mindarSystem.start();
+        if (!mindarSystem) throw new Error("MindAR no inicializado correctamente.");
 
-        loader.style.display = "none";
-        console.log("🚀 MindAR iniciado correctamente.");
+        // 🔸 3. Iniciar el sistema AR con un pequeño retraso
+        setTimeout(async () => {
+          await mindarSystem.start();
+          loader.style.display = "none";
+          console.log("🚀 MindAR iniciado correctamente.");
+        }, 500);
       } catch (err) {
         loader.innerText = "❌ Error al iniciar cámara AR";
         console.error("Error al iniciar MindAR:", err);
       }
     });
+
   } catch (error) {
-    console.error("❌ Error general al iniciar AR:", error);
+    console.error("❌ Error general al inicializar AR:", error);
   }
 });
 
 /* ===========================================================
    FUNCIONES AUXILIARES
    =========================================================== */
+
 function buildARScene(arData) {
   const sceneEl = document.querySelector("a-scene");
 
@@ -104,13 +109,12 @@ function buildARScene(arData) {
     if (data.video?.src) {
       const videoEl = document.createElement("video");
       videoEl.setAttribute("id", `video-${index}`);
-      videoEl.setAttribute("src", data.video.src);
-      videoEl.setAttribute("playsinline", "");
+      videoEl.src = data.video.src;
+      videoEl.playsInline = true;
       videoEl.setAttribute("webkit-playsinline", "");
-      videoEl.muted = false;
       videoEl.loop = true;
+      videoEl.muted = false;
       videoEl.preload = "auto";
-
       document.body.appendChild(videoEl);
 
       const videoPlane = document.createElement("a-video");
@@ -138,6 +142,7 @@ function buildARScene(arData) {
   console.log("📦 Escena AR construida correctamente.");
 }
 
+// Mostrar menú y reproducir video
 function showMenu(index) {
   const menu = document.querySelector(`#menu-container-${index}`);
   if (menu) menu.setAttribute("visible", "true");
@@ -145,10 +150,14 @@ function showMenu(index) {
   const video = document.querySelector(`#video-${index}`);
   if (video) {
     video.currentTime = 0;
-    video.play().catch(err => console.warn("⚠️ No se pudo reproducir el video:", err));
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(err => console.warn("⚠️ No se pudo reproducir el video:", err));
+    }
   }
 }
 
+// Ocultar menú y pausar video
 function hideMenu(index) {
   const menu = document.querySelector(`#menu-container-${index}`);
   if (menu) menu.setAttribute("visible", "false");
