@@ -31,13 +31,12 @@
     <a-scene
       id="ar-scene"
       mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false; maxTrack: 1;"
-      renderer="colorManagement: true, physicallyCorrectLights"
+      renderer="colorManagement: true; physicallyCorrectLights: true;"
       vr-mode-ui="enabled: false"
       device-orientation-permission-ui="enabled: false"
       color-space="sRGB"
     >
       <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .clickable"></a-camera>
-     
     </a-scene>
   </div>
 
@@ -45,27 +44,37 @@
     <a href="index.html"><button>🏠 Volver al Inicio</button></a>
   </div>
 
-  <script src="js/ar-logic.js" defer></script>\<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const overlay = document.getElementById("tap-to-start-overlay");
-  const loader = document.getElementById("loader");
-  const sceneEl = document.querySelector("a-scene");
-  const mindar = sceneEl.systems["mindar-image"];
+  <!-- ✅ Tu script de lógica -->
+  <script src="js/ar-logic.js" defer></script>
 
-  overlay.addEventListener("click", async () => {
-    overlay.style.display = "none";
-    loader.style.display = "block";
-    try {
-      await mindar.start();
-      loader.style.display = "none";
-      console.log("🚀 MindAR iniciado correctamente.");
-    } catch (err) {
-      console.error("❌ Error al iniciar MindAR:", err);
-      loader.innerText = "Error al iniciar cámara AR";
-    }
+  <!-- ✅ Script de inicio AR corregido -->
+  <script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const overlay = document.getElementById("tap-to-start-overlay");
+    const loader = document.getElementById("loader");
+    const sceneEl = document.querySelector("a-scene");
+
+    overlay.addEventListener("click", async () => {
+      overlay.style.display = "none";
+      loader.style.display = "block";
+
+      // 🔥 Espera a que la escena y MindAR estén listos
+      await new Promise(resolve => {
+        if (sceneEl.hasLoaded) resolve();
+        else sceneEl.addEventListener("loaded", resolve);
+      });
+
+      try {
+        const mindar = sceneEl.systems["mindar-image"];
+        await mindar.start();
+        loader.style.display = "none";
+        console.log("🚀 MindAR iniciado correctamente.");
+      } catch (err) {
+        console.error("❌ Error al iniciar MindAR:", err);
+        loader.innerText = "Error al iniciar cámara AR";
+      }
+    });
   });
-});
-</script>
-
+  </script>
 </body>
 </html>
