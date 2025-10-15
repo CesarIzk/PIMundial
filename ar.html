@@ -36,41 +36,5 @@
 
   <script src="js/ar-logic.js" defer></script>
 
-  <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const overlay = document.getElementById("tap-to-start-overlay");
-    const loader = document.getElementById("loader");
-    const sceneEl = document.querySelector("a-scene");
-
-    overlay.addEventListener("click", async () => {
-      overlay.style.display = "none";
-      loader.style.display = "block";
-
-      try {
-        // 🔸 1. Pedir permiso explícito de cámara
-        await navigator.mediaDevices.getUserMedia({ video: true });
-        console.log("📸 Permiso de cámara otorgado.");
-
-        // 🔸 2. Esperar a que la escena esté lista
-        await new Promise(resolve => {
-          if (sceneEl.hasLoaded) resolve();
-          else sceneEl.addEventListener("loaded", resolve);
-        });
-
-        // 🔸 3. Esperar a que el sistema MindAR esté listo
-        const mindarSystem = sceneEl.systems["mindar-image"];
-        if (!mindarSystem) throw new Error("MindAR no inicializado correctamente.");
-
-        // 🔸 4. Iniciar MindAR manualmente
-        await mindarSystem.start();
-        loader.style.display = "none";
-        console.log("🚀 MindAR iniciado y cámara activa.");
-      } catch (err) {
-        loader.innerText = "❌ Error al iniciar cámara AR";
-        console.error(err);
-      }
-    });
-  });
-  </script>
 </body>
 </html>
