@@ -571,48 +571,26 @@ footer {
 
 
 
-/* 1. Contenedor de la escena AR */
 .ar-container, #ar-scene, a-scene {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    /* Compatibilidad total con alturas dinámicas */
-    height: 100lvh; /* Usa el viewport real visible */
-    height: 100svh;
-    height: 100dvh;
-    margin: 0;
-    padding: 0;
-    z-index: 1;
-    background: transparent !important;
+  height: 100vh; /* altura clásica compatible */
 }
 
-/* 2. Video de cámara (de MindAR o A-Frame) */
 video {
- position: fixed !important;
-/* 🔥 CAMBIO CLAVE: Cubrir los cuatro lados (top, right, bottom, left) */
- inset: 0 !important; 
- /* width y height específicos ya no son necesarios con inset:0, pero los mantendremos por precaución */
- width: 100vw !important; 
- /* Evita cortes en móviles con diferentes barras de navegación */
- height: 100lvh !important;
- height: 100svh !important;
- height: 100dvh !important;
- object-fit: cover !important;
- background: black; /* Fallback visual */
- z-index: 0 !important;
+  position: absolute; /* en lugar de fixed */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
 }
 
-/* 3. Overlays e interfaces 2D */
+/* Overlays e interfaces 2D */
 .info-panel-container,
 .start-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100lvh;
-    height: 100svh;
-    height: 100dvh;
+    height: 100%;  /* usar 100% en lugar de lvh/svh/dvh */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -624,10 +602,6 @@ video {
     display: none;
     z-index: 2000;
 }
-
-
-
-
 
 /* Loader */
 .loader {
@@ -641,6 +615,7 @@ video {
     border-radius: 10px;
     z-index: 1500;
 }
+
 
 /* Contenido AR */
 .ar-content {
