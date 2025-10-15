@@ -45,6 +45,27 @@
     <a href="index.html"><button>🏠 Volver al Inicio</button></a>
   </div>
 
-  <script src="js/ar-logic.js" defer></script>
+  <script src="js/ar-logic.js" defer></script>\<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const overlay = document.getElementById("tap-to-start-overlay");
+  const loader = document.getElementById("loader");
+  const sceneEl = document.querySelector("a-scene");
+  const mindar = sceneEl.systems["mindar-image"];
+
+  overlay.addEventListener("click", async () => {
+    overlay.style.display = "none";
+    loader.style.display = "block";
+    try {
+      await mindar.start();
+      loader.style.display = "none";
+      console.log("🚀 MindAR iniciado correctamente.");
+    } catch (err) {
+      console.error("❌ Error al iniciar MindAR:", err);
+      loader.innerText = "Error al iniciar cámara AR";
+    }
+  });
+});
+</script>
+
 </body>
 </html>
