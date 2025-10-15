@@ -1,97 +1,50 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const sceneEl = document.querySelector("a-scene");
-  let arData = [];
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>MundialCUM 2026 - AR Interactivo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
+</head>
+<body>
+  
+  <noscript>
+    <div class="noscript-warning">
+      <h1>JavaScript es necesario</h1>
+      <p>Esta experiencia de Realidad Aumentada requiere que JavaScript esté habilitado.</p>
+    </div>
+  </noscript>
 
-  try {
-    // 1️⃣ Cargar datos desde el archivo JSON
-    const response = await fetch("./js/ar-data.json");
-    arData = await response.json();
-    console.log("✅ Datos de AR cargados:", arData);
+  <div id="tap-to-start-overlay" class="start-overlay">
+    <div class="start-content">
+      <h2>Experiencia AR Interactiva</h2>
+      <p>Toca la pantalla para comenzar</p>
+    </div>
+  </div>
+  
+  <div class="ar-container">
+    <div id="loader" class="loader" style="display: none;">Cargando AR...</div>
+    
+    <a-scene
+      id="ar-scene"
+      mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: false; maxTrack: 1;"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+      color-space="sRGB"
+    >
+      <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .clickable"></a-camera>
+     
+    </a-scene>
+  </div>
 
-    // 2️⃣ Esperar a que la escena de A-Frame esté completamente lista
-    await new Promise(resolve => {
-      if (sceneEl.hasLoaded) resolve();
-      else sceneEl.addEventListener("loaded", resolve);
-    });
-    console.log("🎬 Escena A-Frame lista.");
+  <div class="ar-menu">
+    <a href="index.html"><button>🏠 Volver al Inicio</button></a>
+  </div>
 
-    // 3️⃣ Crear dinámicamente los targets basados en los datos del JSON
-    arData.forEach((data, index) => {
-      const target = document.createElement("a-entity");
-      target.setAttribute("id", `target-${index}`);
-      target.setAttribute("mindar-image-target", `targetIndex: ${index}`);
-      sceneEl.appendChild(target);
-    });
-    console.log(`🧩 ${arData.length} targets creados en la escena.`);
-
-    // 4️⃣ Construir elementos visuales (menús, paneles, etc.)
-    buildARScene(arData);
-
-    // 5️⃣ Agregar eventos de detección a cada target
-    arData.forEach((_, index) => {
-      const targetEl = document.getElementById(`target-${index}`);
-
-      targetEl.addEventListener("targetFound", () => {
-        console.log(`🎯 Target ${index} detectado`);
-        showMenu(index);
-      });
-
-      targetEl.addEventListener("targetLost", () => {
-        console.log(`❌ Target ${index} perdido`);
-        const menu = document.querySelector(`#menu-container-${index}`);
-        const content = document.querySelector(`#content-container-${index}`);
-        if (menu) menu.setAttribute("visible", "false");
-        if (content) content.setAttribute("visible", "false");
-      });
-    });
-
-  } catch (error) {
-    console.error("❌ Error al inicializar el sistema AR:", error);
-  }
-});
-
-/* ===========================================================
-   FUNCIONES AUXILIARES
-   =========================================================== */
-
-// Crear los elementos de menú, texto, imágenes, etc.
-function buildARScene(arData) {
-  const sceneEl = document.querySelector("a-scene");
-
-  arData.forEach((data, index) => {
-    const targetEl = document.getElementById(`target-${index}`);
-    if (!targetEl) return;
-
-    // Contenedor de menú (invisible al inicio)
-    const menuContainer = document.createElement("a-entity");
-    menuContainer.setAttribute("id", `menu-container-${index}`);
-    menuContainer.setAttribute("visible", "false");
-    menuContainer.setAttribute("position", "0 0 0");
-
-    // Ejemplo de texto de país
-    const textEl = document.createElement("a-text");
-    textEl.setAttribute("value", data.nombre || `País ${index + 1}`);
-    textEl.setAttribute("align", "center");
-    textEl.setAttribute("position", "0 0.1 0");
-    textEl.setAttribute("color", "#FFD700");
-    textEl.setAttribute("width", "2");
-
-    menuContainer.appendChild(textEl);
-    targetEl.appendChild(menuContainer);
-  });
-
-  console.log("📦 Menús generados para todos los targets.");
-}
-
-// Mostrar el menú del país detectado
-function showMenu(index) {
-  const menu = document.querySelector(`#menu-container-${index}`);
-  if (menu) {
-    menu.setAttribute("visible", "true");
-  }
-
-  const content = document.querySelector(`#content-container-${index}`);
-  if (content) {
-    content.setAttribute("visible", "true");
-  }
-}
+  <script src="js/ar-logic.js" defer></script>
+</body>
+</html>
