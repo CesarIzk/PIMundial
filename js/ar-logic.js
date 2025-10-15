@@ -41,22 +41,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     });
 
-    // 6️⃣ Iniciar AR al hacer tap
-    overlay.addEventListener("click", async () => {
-      overlay.style.display = "none";
-      loader.style.display = "block";
+    // 6️ Iniciar AR al hacer tap
+  overlay.addEventListener("click", async () => {
+  overlay.style.display = "none";
+  loader.style.display = "block";
 
-      try {
-        const mindarSystem = sceneEl.systems["mindar-image"];
-        await mindarSystem.start();
+  try {
+    // ✅ Corrección: obtener correctamente el sistema MindAR
+    const mindarSystem = sceneEl.systems["mindar-image"];
+    if (!mindarSystem) throw new Error("MindAR no inicializado.");
+    await mindarSystem.start();
 
-        loader.style.display = "none";
-        console.log("🚀 MindAR iniciado. Cámara activa.");
-      } catch (err) {
-        loader.innerText = "❌ Error al iniciar MindAR";
-        console.error("Error al iniciar MindAR:", err);
-      }
-    });
+    loader.style.display = "none";
+    console.log("🚀 MindAR iniciado. Cámara activa.");
+  } catch (err) {
+    loader.innerText = "❌ Error al iniciar MindAR";
+    console.error("Error al iniciar MindAR:", err);
+  }
+});
 
   } catch (error) {
     console.error("❌ Error general al iniciar AR:", error);
