@@ -4,7 +4,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const loader = document.getElementById("loader");
   let arData = [];
 
-  // Función para construir la escena AR (igual que antes)
+  // Esperar que A-Frame cargue
+  sceneEl.addEventListener("loaded", () => {
+    console.log("🎬 Escena A-Frame lista.");
+
+    // Cargar datos AR
+    fetch("./js/ar-data.json")
+      .then(res => res.json())
+      .then(data => {
+        arData = data;
+        console.log("✅ Datos AR cargados:", arData);
+        buildARScene(arData);
+      })
+      .catch(err => console.error("❌ Error cargando AR data:", err));
+
+    // Listeners directos sobre overlay
+    overlay.addEventListener("click", startAR, { once: true });
+    overlay.addEventListener("touchstart", startAR, { once: true });
+  });
+
   function buildARScene(arData) {
     arData.forEach((data, index) => {
       const targetEl = document.createElement("a-entity");
@@ -16,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
       menuContainer.setAttribute("id", `menu-container-${index}`);
       menuContainer.setAttribute("visible", "false");
 
-      // Nombre del país
       const nameText = document.createElement("a-text");
       nameText.setAttribute("value", data.targetName || `País ${index+1}`);
       nameText.setAttribute("align", "center");
@@ -30,17 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("📦 Escena AR construida correctamente.");
   }
 
-  // Cargar datos AR
-  fetch("./js/ar-data.json")
-    .then(res => res.json())
-    .then(data => {
-      arData = data;
-      console.log("✅ Datos AR cargados:", arData);
-      buildARScene(arData);
-    })
-    .catch(err => console.error("❌ Error cargando AR data:", err));
-
-  // Función para iniciar MindAR
   function startAR() {
     overlay.style.display = "none";
     loader.style.display = "block";
@@ -61,8 +67,4 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error al iniciar MindAR:", err);
       });
   }
-
-  // Listeners directos sobre overlay (garantiza interacción de usuario)
-  overlay.addEventListener("click", startAR, { once: true });
-  overlay.addEventListener("touchstart", startAR, { once: true });
 });
