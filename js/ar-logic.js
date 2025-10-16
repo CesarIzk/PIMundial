@@ -69,9 +69,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     mindar.appendChild(target);
 
-    // Obtener elemento <video> real
-    const vidEl = videoAsset;
-
     // --- Eventos ---
     target.addEventListener("targetFound", () => {
       uiContainer.classList.add("show");
@@ -79,22 +76,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
-      vidEl.pause();
-      vidEl.currentTime = 0;
+      videoAsset.pause();
+      videoAsset.currentTime = 0;
 
       btnModel.onclick = () => {
         model.setAttribute("visible", "true");
         video.setAttribute("visible", "false");
-        vidEl.pause();
-        vidEl.currentTime = 0;
+        videoAsset.pause();
+        videoAsset.currentTime = 0;
       };
 
       btnVideo.onclick = () => {
         model.setAttribute("visible", "false");
         video.setAttribute("visible", "true");
-        vidEl.pause();
-        vidEl.currentTime = 0;
-        vidEl.play();
+        videoAsset.pause();
+        videoAsset.currentTime = 0;
+        videoAsset.play();
       };
 
       btnTrivia.onclick = () => {
@@ -112,12 +109,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       uiContainer.classList.add("hide");
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
-      vidEl.pause();
-      vidEl.currentTime = 0;
+      videoAsset.pause();
+      videoAsset.currentTime = 0;
     });
   });
 
-  // Loader
   scene.addEventListener("arReady", () => loader.style.display = "none");
   scene.addEventListener("arError", (err) => console.error("Error AR:", err));
 });
