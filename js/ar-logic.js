@@ -4,18 +4,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const loader = document.getElementById("loader");
   let arData = [];
 
-  sceneEl.addEventListener("loaded", async () => {
-    console.log("🎬 Escena A-Frame lista.");
-
-    // Cargar datos AR
-    try {
-      const res = await fetch("./js/ar-data.json");
-      arData = await res.json();
+  // Cargar datos AR apenas se cargue la página
+  fetch("./js/ar-data.json")
+    .then(res => res.json())
+    .then(data => {
+      arData = data;
       console.log("✅ Datos AR cargados:", arData);
       buildARScene(arData);
-    } catch (err) {
-      console.error("❌ Error cargando AR data:", err);
-    }
+    })
+    .catch(err => console.error("❌ Error cargando AR data:", err));
+
+  // Esperar que MindAR esté listo
+  sceneEl.addEventListener("mindar-image-ready", () => {
+    console.log("🎬 MindAR listo para iniciar");
 
     // Listeners sobre overlay
     overlay.addEventListener("click", startAR, { once: true });
@@ -50,11 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.style.display = "none";
     loader.style.display = "block";
 
-    // Esperar a que MindAR esté disponible
-    let mindarSystem;
-    while (!mindarSystem) {
-      mindarSystem = sceneEl.systems["mindar-image"];
-      if (!mindarSystem) await new Promise(r => setTimeout(r, 50));
+    const mindarSystem = sceneEl.systems["mindar-image"];
+    if (!mindarSystem) {
+      loader.innerText = "❌ MindAR no inicializado";
+      return console.error("MindAR no inicializado");
     }
 
     try {
