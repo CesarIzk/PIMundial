@@ -565,10 +565,10 @@ footer {
   border-left: 4px solid var(--verde-anfitrion);
 }
 /* =========================================
-   AJUSTES DE CAPAS Y VISIBILIDAD PARA AR
+   AJUSTES DE ESCENA AR
    ========================================= */
 
-/* Escena AR */
+/* Escena principal */
 .ar-container,
 #ar-scene,
 a-scene {
@@ -580,20 +580,20 @@ a-scene {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background: black; /* fondo negro solo al inicio */
+  background: transparent; /* importante para ver la cámara */
   z-index: 0;
 }
 
-/* a-video y video */
+/* Videos dentro de a-video */
 a-video video {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover; /* cubre toda la pantalla */
-  z-index: 0;
+  object-fit: contain; /* evita franjas negras y recortes */
+  z-index: 1;
   pointer-events: none;
 }
 
-/* Loader */
+/* Loader mientras se carga MindAR */
 .loader {
   position: fixed;
   top: 50%;
@@ -607,14 +607,15 @@ a-video video {
   text-align: center;
 }
 
-/* UI botones */
+/* UI botones flotantes */
 #ui-container {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: none;
-  gap: 10px;
+  flex-direction: row;
+  gap: 12px;
   z-index: 10000;
   opacity: 0;
   transition: opacity 0.4s ease-in-out;
@@ -630,6 +631,7 @@ a-video video {
   transition: opacity 0.3s ease-in-out;
 }
 
+/* Botones AR */
 #ui-container button {
   background: rgba(0,0,0,0.65);
   border: 2px solid #ffffffcc;
@@ -644,6 +646,11 @@ a-video video {
   touch-action: manipulation;
 }
 
+#ui-container button:hover,
+#ui-container button:active {
+  background: #007bff;
+  transform: scale(1.08);
+}
 
 /* Contenido AR flotante */
 .ar-content {
@@ -683,6 +690,7 @@ a-video video {
   50%  { transform: translateY(0.05rem); }
   100% { transform: translateY(0); }
 }
+
 
 /* =========================================
    INTERFAZ DE BOTONES FIJOS (UI)
