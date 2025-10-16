@@ -7,19 +7,27 @@ document.addEventListener("DOMContentLoaded", async () => {
   const btnModel = document.getElementById("btn-model");
   const btnVideo = document.getElementById("btn-video");
   const btnTrivia = document.getElementById("btn-trivia");
+  const loader = document.getElementById("loader");
 
   let arData = [];
 
-  // 🔹 Cargar datos desde el JSON
+  // Cargar datos desde JSON
   try {
     const response = await fetch("./js/ar-data.json");
     arData = await response.json();
     console.log("✅ Datos AR cargados:", arData);
   } catch (err) {
-    console.error("❌ Error cargando data.json", err);
+    console.error("❌ Error cargando ar-data.json", err);
+    loader.innerText = "❌ Error cargando datos AR";
+    return;
   }
 
-  // 🔹 Crear targets dinámicamente
+  // Crear entidad principal para targets
+  const mindar = document.createElement("a-entity");
+  mindar.setAttribute("mindar-image-targets", "");
+  scene.appendChild(mindar);
+
+  // Iterar sobre cada item AR
   arData.forEach((item, index) => {
     const target = document.createElement("a-entity");
     target.setAttribute("mindar-image-target", `targetIndex: ${index}`);
@@ -33,50 +41,38 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Video
     const video = document.createElement("a-video");
-    const videoId = `video-${index}`;
-    video.setAttribute("id", videoId);
-    video.setAttribute("src", `#${videoId}-asset`);
+    video.setAttribute("src", item.video.src);
     video.setAttribute("width", "1.5");
     video.setAttribute("height", "0.85");
     video.setAttribute("visible", "false");
     target.appendChild(video);
 
-    // Crear el asset <video> real (con muted y playsinline)
-    const assetVideo = document.createElement("video");
-    assetVideo.setAttribute("id", `${videoId}-asset`);
-    assetVideo.setAttribute("src", item.video.src);
-    assetVideo.setAttribute("loop", "false");
-    assetVideo.setAttribute("muted", "false");
-    assetVideo.setAttribute("playsinline", "true");
-    assetVideo.setAttribute("webkit-playsinline", "true");
-    assetVideo.preload = "auto";
-    scene.appendChild(assetVideo);
+    mindar.appendChild(target);
 
-    scene.appendChild(target);
-
-    // 🔹 Eventos de detección
+    // Eventos de detección
     target.addEventListener("targetFound", () => {
       console.log(`📸 Imagen detectada: ${item.targetName}`);
-      uiContainer.style.display = "flex";
+      uiContainer.classList.add("show");
+      uiContainer.classList.remove("hide");
 
-      // Asegurar que todo inicie oculto
+      // Ocultar todos los assets al inicio
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
+      const vidEl = video.querySelector("video");
+      if (vidEl) vidEl.pause();
+      if (vidEl) vidEl.currentTime = 0;
 
-      // Botones
+      // Botones interactivos
       btnModel.onclick = () => {
-        console.log("🧱 Mostrando modelo 3D");
         model.setAttribute("visible", "true");
         video.setAttribute("visible", "false");
-        assetVideo.pause();
-        assetVideo.currentTime = 0;
+        if (vidEl) vidEl.pause();
       };
 
       btnVideo.onclick = () => {
-        console.log("🎥 Reproduciendo video");
-        model.setAttribute("visible", "false");
         video.setAttribute("visible", "true");
-        assetVideo.play().catch(err => console.warn("No se pudo reproducir video:", err));
+        model.setAttribute("visible", "false");
+        if (vidEl) vidEl.play();
       };
 
       btnTrivia.onclick = () => {
@@ -86,20 +82,36 @@ document.addEventListener("DOMContentLoaded", async () => {
             .map((opt, i) => `${i + 1}. ${opt}`)
             .join("\n")}`
         );
-        if (userAnswer - 1 === trivia.answerIndex)
-          alert(trivia.feedback);
+        if (userAnswer - 1 === trivia.answerIndex) alert(trivia.feedback);
         else alert("❌ Respuesta incorrecta, intenta de nuevo.");
       };
     });
 
     target.addEventListener("targetLost", () => {
       console.log(`👋 Imagen perdida: ${item.targetName}`);
-      uiContainer.style.display = "none";
+      uiContainer.classList.remove("show");
+      uiContainer.classList.add("hide");
+
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
-      assetVideo.pause();
-      assetVideo.currentTime = 0;
+
+      const vidEl = video.querySelector("video");
+      if (vidEl) {
+        vidEl.pause();
+        vidEl.currentTime = 0;
+      }
     });
+  });
+
+  // MindAR listo
+  scene.addEventListener("arReady", () => {
+    loader.style.display = "none";
+    console.log("🚀 MindAR iniciado automáticamente. Cámara activa.");
+  });
+
+  scene.addEventListener("arError", (err) => {
+    loader.innerText = "❌ Error al iniciar MindAR";
+    console.error("Error al iniciar AR:", err);
   });
 
   console.log("📦 Escena AR lista.");
