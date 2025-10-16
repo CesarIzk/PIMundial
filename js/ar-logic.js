@@ -1,4 +1,3 @@
-// ar-logic.js
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("🚀 Iniciando AR Mundial 2026...");
 
@@ -27,63 +26,70 @@ document.addEventListener("DOMContentLoaded", async () => {
   mindar.setAttribute("mindar-image-targets", "");
   scene.appendChild(mindar);
 
+  // Iterar sobre cada target
   arData.forEach((item, index) => {
     const target = document.createElement("a-entity");
     target.setAttribute("mindar-image-target", `targetIndex: ${index}`);
-
+    
     // Modelo 3D
     const model = document.createElement("a-gltf-model");
-    model.setAttribute("src", item.model.src);
+    model.setAttribute("src", `#model${index}`);
     model.setAttribute("scale", item.model.scale);
     model.setAttribute("visible", "false");
     target.appendChild(model);
 
     // Video
     const video = document.createElement("a-video");
-    video.setAttribute("src", item.video.src);
+    video.setAttribute("src", `#video${index}`);
     video.setAttribute("width", "1.5");
     video.setAttribute("height", "0.85");
     video.setAttribute("visible", "false");
-    video.setAttribute("autoplay", "false"); // evita reproducción automática
     target.appendChild(video);
 
     mindar.appendChild(target);
 
-    // Obtener el elemento <video> real dentro de a-video
+    // Elemento <video> real
     const vidEl = video.querySelector("video");
 
-    // Eventos de detección
-   // Dentro del targetFound
-target.addEventListener("targetFound", () => {
-  console.log(`📸 Imagen detectada: ${item.targetName}`);
-  uiContainer.classList.add("show");
-  uiContainer.classList.remove("hide");
+    target.addEventListener("targetFound", () => {
+      console.log(`📸 Imagen detectada: ${item.targetName}`);
+      uiContainer.classList.add("show");
+      uiContainer.classList.remove("hide");
 
-  // Detener video al inicio
-  const vidEl = video.querySelector("video");
-  if (vidEl) {
-    vidEl.pause();
-    vidEl.currentTime = 0;
-  }
+      // Ocultar al inicio
+      model.setAttribute("visible", "false");
+      video.setAttribute("visible", "false");
+      if (vidEl) {
+        vidEl.pause();
+        vidEl.currentTime = 0;
+      }
 
-  btnModel.onclick = () => {
-    model.setAttribute("visible", "true");
-    video.setAttribute("visible", "false");
-    if (vidEl) vidEl.pause();
-    vidEl.currentTime = 0;
-  };
+      btnModel.onclick = () => {
+        model.setAttribute("visible", "true");
+        video.setAttribute("visible", "false");
+        if (vidEl) vidEl.pause();
+        vidEl.currentTime = 0;
+      };
 
-  btnVideo.onclick = () => {
-    model.setAttribute("visible", "false");
-    video.setAttribute("visible", "true");
-    if (vidEl) {
-      vidEl.pause();      // asegurar que se reinicia
-      vidEl.currentTime = 0;
-      vidEl.play();       // reproducir solo al presionar botón
-    }
-  };
-});
+      btnVideo.onclick = () => {
+        model.setAttribute("visible", "false");
+        video.setAttribute("visible", "true");
+        if (vidEl) {
+          vidEl.pause();
+          vidEl.currentTime = 0;
+          vidEl.play();
+        }
+      };
 
+      btnTrivia.onclick = () => {
+        const trivia = item.trivia;
+        const userAnswer = prompt(
+          `${trivia.question}\n${trivia.options.map((opt,i)=>`${i+1}. ${opt}`).join("\n")}`
+        );
+        if (userAnswer-1 === trivia.answerIndex) alert(trivia.feedback);
+        else alert("❌ Respuesta incorrecta, intenta de nuevo.");
+      };
+    });
 
     target.addEventListener("targetLost", () => {
       console.log(`👋 Imagen perdida: ${item.targetName}`);
