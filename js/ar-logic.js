@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const loader = document.getElementById("loader");
   let arData = [];
 
-  // Esperar que A-Frame cargue
   sceneEl.addEventListener("loaded", () => {
     console.log("🎬 Escena A-Frame lista.");
 
@@ -18,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch(err => console.error("❌ Error cargando AR data:", err));
 
-    // Listeners directos sobre overlay
+    // Listeners sobre overlay
     overlay.addEventListener("click", startAR, { once: true });
     overlay.addEventListener("touchstart", startAR, { once: true });
   });
@@ -51,20 +50,23 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.style.display = "none";
     loader.style.display = "block";
 
-    const mindarSystem = sceneEl.systems["mindar-image"];
-    if (!mindarSystem) {
-      loader.innerText = "❌ MindAR no inicializado";
-      return console.error("MindAR no inicializado");
-    }
-
-    mindarSystem.start()
-      .then(() => {
-        loader.style.display = "none";
-        console.log("🚀 MindAR iniciado. Cámara activa.");
-      })
-      .catch(err => {
-        loader.innerText = "❌ Error al iniciar MindAR";
-        console.error("Error al iniciar MindAR:", err);
-      });
+    // Esperar a que MindAR se inicialice
+    const checkMindAR = setInterval(() => {
+      const mindarSystem = sceneEl.systems["mindar-image"];
+      if (mindarSystem) {
+        clearInterval(checkMindAR);
+        mindarSystem.start()
+          .then(() => {
+            loader.style.display = "none";
+            console.log("🚀 MindAR iniciado. Cámara activa.");
+          })
+          .catch(err => {
+            loader.innerText = "❌ Error al iniciar MindAR";
+            console.error("Error al iniciar MindAR:", err);
+          });
+      } else {
+        console.log("⏳ Esperando a que MindAR se inicialice...");
+      }
+    }, 100);
   }
 });
