@@ -569,51 +569,46 @@ footer {
    AJUSTES DE CAPAS Y VISIBILIDAD PARA AR
    ========================================= */
 
-
-
+/* Escena y video AR */
 .ar-container, #ar-scene, a-scene {
-  height: 100vh; /* altura clásica compatible */
+  height: 100vh;
 }
 
 video {
-  position: absolute; /* en lugar de fixed */
+  position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
   z-index: 1;
 }
 
-/* Overlays e interfaces 2D */
-.info-panel-container,
+/* Overlay de inicio */
 .start-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;  /* usar 100% en lugar de lvh/svh/dvh */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.info-panel-container {
-    background: rgba(15, 15, 15, 0.85);
-    display: none;
-    z-index: 2000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5); /* semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 2000;
+  pointer-events: auto;
 }
 
 /* Loader */
 .loader {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 1rem 2rem;
-    border-radius: 10px;
-    z-index: 1500;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  z-index: 1500;
 }
 
 
