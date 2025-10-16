@@ -570,35 +570,26 @@ footer {
    ========================================= */
 
 /* Escena y video AR */
-.ar-container, #ar-scene, a-scene {
-  height: 100vh;
+.ar-container,
+#ar-scene,
+a-scene {
+  position: relative;
+  width: 100%;
+  height: 100dvh; /* altura total en móviles */
+  overflow: hidden;
 }
 
+/* Video del modelo o fondo */
 video {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
   z-index: 1;
+  pointer-events: none;
 }
 
-/* Overlay de inicio */
-.start-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5); /* semitransparente */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  z-index: 2000;
-  pointer-events: auto;
-}
-
-/* Loader */
+/* Loader (mientras carga MindAR) */
 .loader {
   position: fixed;
   top: 50%;
@@ -609,46 +600,93 @@ video {
   padding: 1rem 2rem;
   border-radius: 10px;
   z-index: 1500;
+  text-align: center;
+  font-size: 1rem;
 }
 
-
-/* Contenido AR */
+/* Contenido AR flotante */
 .ar-content {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 1rem;
-    animation: float 3s ease-in-out infinite alternate;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+  animation: float 3s ease-in-out infinite alternate;
 }
 
 .ar-content img,
 .ar-content video {
-    border-radius: 5px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
 .ar-content img {
-    width: 200px;
-    height: auto;
+  width: 200px;
+  height: auto;
 }
 
 .ar-content video {
-    width: 300px;
-    height: auto;
+  width: 300px;
+  height: auto;
 }
 
 .ar-content p {
-    max-width: 300px;
-    color: rgb(15, 55, 47);
-    font-size: 1rem;
-    line-height: 1.4;
+  max-width: 300px;
+  color: rgb(15, 55, 47);
+  font-size: 1rem;
+  line-height: 1.4;
 }
 
 /* Animación flotante */
 @keyframes float {
-    0%   { transform: translateY(0); }
-    50%  { transform: translateY(0.05rem); }
-    100% { transform: translateY(0); }
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(0.05rem); }
+  100% { transform: translateY(0); }
+}
+
+/* =========================================
+   INTERFAZ DE BOTONES FIJOS (UI)
+   ========================================= */
+#ui-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none; /* Se muestra al detectar imagen */
+  gap: 10px;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+#ui-container.show {
+  display: flex;
+  opacity: 1;
+}
+
+#ui-container.hide {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Botones AR */
+#ui-container button {
+  background: rgba(0, 0, 0, 0.65);
+  border: 2px solid #ffffffcc;
+  color: #fff;
+  font-size: 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  min-width: 85px;
+  backdrop-filter: blur(4px);
+  transition: all 0.25s ease;
+  touch-action: manipulation; /* mejora respuesta táctil */
+}
+
+#ui-container button:hover,
+#ui-container button:active {
+  background: #007bff;
+  transform: scale(1.08);
 }
 
 /* =========================================
