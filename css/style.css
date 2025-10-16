@@ -580,7 +580,7 @@ a-scene {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background: transparent; /* importante para ver la cámara */
+  background: transparent; /* cámara visible */
   z-index: 0;
 }
 
@@ -588,12 +588,12 @@ a-scene {
 a-video video {
   width: 100% !important;
   height: 100% !important;
-  object-fit: contain; /* evita franjas negras y recortes */
+  object-fit: contain; /* evita franjas negras */
   z-index: 1;
   pointer-events: none;
 }
 
-/* Loader mientras se carga MindAR */
+/* Loader */
 .loader {
   position: fixed;
   top: 50%;
