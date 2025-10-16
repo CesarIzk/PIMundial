@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   mindar.setAttribute("mindar-image-targets", "");
   scene.appendChild(mindar);
 
-  // Iterar sobre cada item AR
   arData.forEach((item, index) => {
     const target = document.createElement("a-entity");
     target.setAttribute("mindar-image-target", `targetIndex: ${index}`);
@@ -45,9 +44,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     video.setAttribute("width", "1.5");
     video.setAttribute("height", "0.85");
     video.setAttribute("visible", "false");
+    video.setAttribute("autoplay", "false"); // evita reproducción automática
     target.appendChild(video);
 
     mindar.appendChild(target);
+
+    // Obtener el elemento <video> real dentro de a-video
+    const vidEl = video.querySelector("video");
 
     // Eventos de detección
     target.addEventListener("targetFound", () => {
@@ -55,14 +58,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       uiContainer.classList.add("show");
       uiContainer.classList.remove("hide");
 
-      // Ocultar todos los assets al inicio
+      // Ocultar al inicio
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
-      const vidEl = video.querySelector("video");
-      if (vidEl) vidEl.pause();
-      if (vidEl) vidEl.currentTime = 0;
+      if (vidEl) {
+        vidEl.pause();
+        vidEl.currentTime = 0;
+      }
 
-      // Botones interactivos
+      // Botones
       btnModel.onclick = () => {
         model.setAttribute("visible", "true");
         video.setAttribute("visible", "false");
@@ -78,9 +82,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       btnTrivia.onclick = () => {
         const trivia = item.trivia;
         const userAnswer = prompt(
-          `${trivia.question}\n${trivia.options
-            .map((opt, i) => `${i + 1}. ${opt}`)
-            .join("\n")}`
+          `${trivia.question}\n${trivia.options.map((opt, i) => `${i + 1}. ${opt}`).join("\n")}`
         );
         if (userAnswer - 1 === trivia.answerIndex) alert(trivia.feedback);
         else alert("❌ Respuesta incorrecta, intenta de nuevo.");
@@ -94,8 +96,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
-
-      const vidEl = video.querySelector("video");
       if (vidEl) {
         vidEl.pause();
         vidEl.currentTime = 0;
@@ -103,14 +103,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // MindAR listo
   scene.addEventListener("arReady", () => {
     loader.style.display = "none";
-    console.log("🚀 MindAR iniciado automáticamente. Cámara activa.");
+    console.log("🚀 MindAR listo. Cámara activa.");
   });
 
   scene.addEventListener("arError", (err) => {
-    loader.innerText = "❌ Error al iniciar MindAR";
+    loader.innerText = "❌ Error al iniciar AR";
     console.error("Error al iniciar AR:", err);
   });
 

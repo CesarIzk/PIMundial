@@ -564,7 +564,6 @@ footer {
   margin-bottom: 0.5rem;
   border-left: 4px solid var(--verde-anfitrion);
 }
-
 /* =========================================
    AJUSTES DE CAPAS Y VISIBILIDAD PARA AR
    ========================================= */
@@ -577,14 +576,15 @@ a-scene {
   width: 100%;
   height: 100dvh; /* altura total en móviles */
   overflow: hidden;
+  background: transparent; /* evita franja negra */
 }
 
 /* Video del modelo o fondo */
-video {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+a-video, video {
+  position: absolute !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain; /* evita franjas negras */
   z-index: 1;
   pointer-events: none;
 }
@@ -688,6 +688,7 @@ video {
   background: #007bff;
   transform: scale(1.08);
 }
+
 
 /* =========================================
    ESTILOS PARA BANNERS DE NOTICIAS
