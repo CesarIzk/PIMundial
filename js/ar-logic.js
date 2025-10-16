@@ -34,6 +34,24 @@ document.addEventListener("DOMContentLoaded", async () => {
   arData.forEach((item, index) => {
     const target = document.createElement("a-entity");
     target.setAttribute("mindar-image-target", `targetIndex: ${index}`);
+// --- Imagen informativa ---
+const infoImage = document.createElement("a-image");
+infoImage.setAttribute("src", item.infoImage || "./img/default.png");
+infoImage.setAttribute("width", "1");
+infoImage.setAttribute("height", "0.6");
+infoImage.setAttribute("position", "0 0.8 0");
+infoImage.setAttribute("visible", "false");
+target.appendChild(infoImage);
+
+// --- Texto informativo ---
+const infoText = document.createElement("a-text");
+infoText.setAttribute("value", item.infoText || "Información del modelo");
+infoText.setAttribute("align", "center");
+infoText.setAttribute("color", "#ffffff");
+infoText.setAttribute("width", "2");
+infoText.setAttribute("position", "0 -0.8 0");
+infoText.setAttribute("visible", "false");
+target.appendChild(infoText);
 
     // --- Modelos ---
     const modelId = `model-${index}`;
@@ -73,6 +91,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     target.addEventListener("targetFound", () => {
       uiContainer.classList.add("show");
       uiContainer.classList.remove("hide");
+      infoImage.setAttribute("visible", "true");
+      infoText.setAttribute("visible", "true");
 
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
@@ -107,6 +127,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     target.addEventListener("targetLost", () => {
       uiContainer.classList.remove("show");
       uiContainer.classList.add("hide");
+      infoImage.setAttribute("visible", "false");
+      infoText.setAttribute("visible", "false");
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
       videoAsset.pause();
