@@ -568,41 +568,82 @@ footer {
    AJUSTES DE CAPAS Y VISIBILIDAD PARA AR
    ========================================= */
 
-/* Escena y video AR */
+/* Escena AR */
 .ar-container,
 #ar-scene,
 a-scene {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100dvh; /* altura total en móviles */
+  height: 100%;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
-  background: transparent; /* evita franja negra */
+  background: black; /* fondo negro solo al inicio */
+  z-index: 0;
 }
 
-/* Video del modelo o fondo */
-a-video, video {
-  position: absolute !important;
+/* a-video y video */
+a-video video {
   width: 100% !important;
   height: 100% !important;
-  object-fit: contain; /* evita franjas negras */
-  z-index: 1;
+  object-fit: cover; /* cubre toda la pantalla */
+  z-index: 0;
   pointer-events: none;
 }
 
-/* Loader (mientras carga MindAR) */
+/* Loader */
 .loader {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0,0,0,0.6);
   padding: 1rem 2rem;
   border-radius: 10px;
-  z-index: 1500;
+  z-index: 9999;
   text-align: center;
-  font-size: 1rem;
 }
+
+/* UI botones */
+#ui-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  gap: 10px;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+#ui-container.show {
+  display: flex;
+  opacity: 1;
+}
+
+#ui-container.hide {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#ui-container button {
+  background: rgba(0,0,0,0.65);
+  border: 2px solid #ffffffcc;
+  color: #fff;
+  font-size: 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  min-width: 85px;
+  backdrop-filter: blur(4px);
+  transition: all 0.25s ease;
+  touch-action: manipulation;
+}
+
 
 /* Contenido AR flotante */
 .ar-content {
@@ -646,14 +687,15 @@ a-video, video {
 /* =========================================
    INTERFAZ DE BOTONES FIJOS (UI)
    ========================================= */
+/* UI botones */
 #ui-container {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  display: none; /* Se muestra al detectar imagen */
+  display: none;
   gap: 10px;
-  z-index: 9999;
+  z-index: 10000;
   opacity: 0;
   transition: opacity 0.4s ease-in-out;
 }
@@ -668,9 +710,8 @@ a-video, video {
   transition: opacity 0.3s ease-in-out;
 }
 
-/* Botones AR */
 #ui-container button {
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0,0,0,0.65);
   border: 2px solid #ffffffcc;
   color: #fff;
   font-size: 14px;
@@ -680,7 +721,7 @@ a-video, video {
   min-width: 85px;
   backdrop-filter: blur(4px);
   transition: all 0.25s ease;
-  touch-action: manipulation; /* mejora respuesta táctil */
+  touch-action: manipulation;
 }
 
 #ui-container button:hover,

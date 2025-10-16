@@ -53,41 +53,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     const vidEl = video.querySelector("video");
 
     // Eventos de detección
-    target.addEventListener("targetFound", () => {
-      console.log(`📸 Imagen detectada: ${item.targetName}`);
-      uiContainer.classList.add("show");
-      uiContainer.classList.remove("hide");
+   // Dentro del targetFound
+target.addEventListener("targetFound", () => {
+  console.log(`📸 Imagen detectada: ${item.targetName}`);
+  uiContainer.classList.add("show");
+  uiContainer.classList.remove("hide");
 
-      // Ocultar al inicio
-      model.setAttribute("visible", "false");
-      video.setAttribute("visible", "false");
-      if (vidEl) {
-        vidEl.pause();
-        vidEl.currentTime = 0;
-      }
+  // Detener video al inicio
+  const vidEl = video.querySelector("video");
+  if (vidEl) {
+    vidEl.pause();
+    vidEl.currentTime = 0;
+  }
 
-      // Botones
-      btnModel.onclick = () => {
-        model.setAttribute("visible", "true");
-        video.setAttribute("visible", "false");
-        if (vidEl) vidEl.pause();
-      };
+  btnModel.onclick = () => {
+    model.setAttribute("visible", "true");
+    video.setAttribute("visible", "false");
+    if (vidEl) vidEl.pause();
+    vidEl.currentTime = 0;
+  };
 
-      btnVideo.onclick = () => {
-        video.setAttribute("visible", "true");
-        model.setAttribute("visible", "false");
-        if (vidEl) vidEl.play();
-      };
+  btnVideo.onclick = () => {
+    model.setAttribute("visible", "false");
+    video.setAttribute("visible", "true");
+    if (vidEl) {
+      vidEl.pause();      // asegurar que se reinicia
+      vidEl.currentTime = 0;
+      vidEl.play();       // reproducir solo al presionar botón
+    }
+  };
+});
 
-      btnTrivia.onclick = () => {
-        const trivia = item.trivia;
-        const userAnswer = prompt(
-          `${trivia.question}\n${trivia.options.map((opt, i) => `${i + 1}. ${opt}`).join("\n")}`
-        );
-        if (userAnswer - 1 === trivia.answerIndex) alert(trivia.feedback);
-        else alert("❌ Respuesta incorrecta, intenta de nuevo.");
-      };
-    });
 
     target.addEventListener("targetLost", () => {
       console.log(`👋 Imagen perdida: ${item.targetName}`);
