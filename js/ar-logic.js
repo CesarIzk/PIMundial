@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   const sceneEl = document.querySelector("a-scene");
-  const overlay = document.getElementById("tap-to-start-overlay");
   const loader = document.getElementById("loader");
   let arData = [];
 
@@ -15,12 +14,25 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(err => console.error("❌ Error cargando AR data:", err));
 
   // Esperar que MindAR esté listo
-  sceneEl.addEventListener("mindar-image-ready", () => {
+  sceneEl.addEventListener("mindar-image-ready", async () => {
     console.log("🎬 MindAR listo para iniciar");
 
-    // Listeners sobre overlay
-    overlay.addEventListener("click", startAR, { once: true });
-    overlay.addEventListener("touchstart", startAR, { once: true });
+    loader.style.display = "block"; // mostrar loader mientras inicia
+
+    const mindarSystem = sceneEl.systems["mindar-image"];
+    if (!mindarSystem) {
+      loader.innerText = "❌ MindAR no inicializado";
+      return console.error("MindAR no inicializado");
+    }
+
+    try {
+      await mindarSystem.start();
+      loader.style.display = "none";
+      console.log("🚀 MindAR iniciado automáticamente. Cámara activa.");
+    } catch (err) {
+      loader.innerText = "❌ Error al iniciar MindAR";
+      console.error("Error al iniciar MindAR:", err);
+    }
   });
 
   function buildARScene(arData) {
@@ -45,25 +57,5 @@ document.addEventListener("DOMContentLoaded", () => {
       targetEl.appendChild(menuContainer);
     });
     console.log("📦 Escena AR construida correctamente.");
-  }
-
-  async function startAR() {
-    overlay.style.display = "none";
-    loader.style.display = "block";
-
-    const mindarSystem = sceneEl.systems["mindar-image"];
-    if (!mindarSystem) {
-      loader.innerText = "❌ MindAR no inicializado";
-      return console.error("MindAR no inicializado");
-    }
-
-    try {
-      await mindarSystem.start();
-      loader.style.display = "none";
-      console.log("🚀 MindAR iniciado. Cámara activa.");
-    } catch (err) {
-      loader.innerText = "❌ Error al iniciar MindAR";
-      console.error("Error al iniciar MindAR:", err);
-    }
   }
 });
