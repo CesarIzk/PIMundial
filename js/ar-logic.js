@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   let arData = [];
 
-  // Cargar datos desde el JSON
+  // 🔹 Cargar datos desde el JSON
   try {
     const response = await fetch("./js/ar-data.json");
     arData = await response.json();
@@ -19,11 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("❌ Error cargando data.json", err);
   }
 
-  // Crear targets dinámicamente
-  const mindar = document.createElement("a-entity");
-  mindar.setAttribute("mindar-image-targets", "");
-  scene.appendChild(mindar);
-
+  // 🔹 Crear targets dinámicamente
   arData.forEach((item, index) => {
     const target = document.createElement("a-entity");
     target.setAttribute("mindar-image-target", `targetIndex: ${index}`);
@@ -37,34 +33,50 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Video
     const video = document.createElement("a-video");
-    video.setAttribute("src", item.video.src);
+    const videoId = `video-${index}`;
+    video.setAttribute("id", videoId);
+    video.setAttribute("src", `#${videoId}-asset`);
     video.setAttribute("width", "1.5");
     video.setAttribute("height", "0.85");
     video.setAttribute("visible", "false");
     target.appendChild(video);
 
-    mindar.appendChild(target);
+    // Crear el asset <video> real (con muted y playsinline)
+    const assetVideo = document.createElement("video");
+    assetVideo.setAttribute("id", `${videoId}-asset`);
+    assetVideo.setAttribute("src", item.video.src);
+    assetVideo.setAttribute("loop", "false");
+    assetVideo.setAttribute("muted", "false");
+    assetVideo.setAttribute("playsinline", "true");
+    assetVideo.setAttribute("webkit-playsinline", "true");
+    assetVideo.preload = "auto";
+    scene.appendChild(assetVideo);
 
-    // Eventos de detección
+    scene.appendChild(target);
+
+    // 🔹 Eventos de detección
     target.addEventListener("targetFound", () => {
       console.log(`📸 Imagen detectada: ${item.targetName}`);
       uiContainer.style.display = "flex";
 
-      // Ocultar todos los assets al inicio
+      // Asegurar que todo inicie oculto
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
 
-      // Botones interactivos
+      // Botones
       btnModel.onclick = () => {
+        console.log("🧱 Mostrando modelo 3D");
         model.setAttribute("visible", "true");
         video.setAttribute("visible", "false");
+        assetVideo.pause();
+        assetVideo.currentTime = 0;
       };
 
       btnVideo.onclick = () => {
-        video.setAttribute("visible", "true");
+        console.log("🎥 Reproduciendo video");
         model.setAttribute("visible", "false");
-        const vidEl = video.querySelector("video");
-        if (vidEl) vidEl.play();
+        video.setAttribute("visible", "true");
+        assetVideo.play().catch(err => console.warn("No se pudo reproducir video:", err));
       };
 
       btnTrivia.onclick = () => {
@@ -85,6 +97,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       uiContainer.style.display = "none";
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
+      assetVideo.pause();
+      assetVideo.currentTime = 0;
     });
   });
 

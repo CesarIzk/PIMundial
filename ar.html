@@ -12,14 +12,19 @@
 </head>
 
 <body>
-  <div id="loader" class="loader" style="display:block;">Cargando AR...</div>
+  <!-- Pantalla de carga -->
+  <div id="loader" class="loader" style="display:flex; align-items:center; justify-content:center; height:100vh; background:#000; color:#fff; font-family:sans-serif;">
+    Cargando AR...
+  </div>
 
+  <!-- Contenedor principal de la escena -->
   <a-scene
     id="ar-scene"
     mindar-image="imageTargetSrc: ./banderas/targets.mind; autoStart: true; maxTrack: 1;"
     renderer="colorManagement: true; physicallyCorrectLights: true;"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: true"
+    embedded
   >
     <a-camera
       position="0 0 0"
@@ -29,6 +34,23 @@
     ></a-camera>
   </a-scene>
 
+  <!-- Interfaz flotante -->
+  <div id="ui-container" style="
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      flex-direction: row;
+      gap: 12px;
+      z-index: 10;
+  ">
+    <button id="btn-model" class="ar-btn">Modelo 3D</button>
+    <button id="btn-video" class="ar-btn">Video</button>
+    <button id="btn-trivia" class="ar-btn">Trivia</button>
+  </div>
+
   <script src="js/ar-logic.js" defer></script>
+
 </body>
 </html>
