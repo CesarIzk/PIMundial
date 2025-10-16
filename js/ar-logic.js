@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Cargar datos desde el JSON
   try {
-    const response = await fetch("./data.json");
+    const response = await fetch("./ar-data.json");
     arData = await response.json();
     console.log("✅ Datos AR cargados:", arData);
   } catch (err) {
