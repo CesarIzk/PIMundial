@@ -165,18 +165,77 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 /* --- Botón Video --- */
 btnVideo.onclick = () => {
-  // Ocultar otros elementos
+  // 🔹 Ocultar otros elementos 3D o efectos
   model.setAttribute("visible", "false");
   video.setAttribute("visible", "false");
   ball.setAttribute("visible", "false");
 
-  // ✅ Mostrar overlay de video
-  overlayVideo.src = item.video.src;
+  // 🔹 Obtener la URL del video (puede ser local, remoto o de YouTube)
+  const videoSrc = item.video?.src || "";
+  if (!videoSrc) {
+    alert("❌ No se encontró el video para este país.");
+    return;
+  }
+
+  // 🔹 Limpiar posibles restos anteriores
+  overlayVideo.pause();
+  overlayVideo.currentTime = 0;
+  overlayVideo.removeAttribute("src");
+  overlayVideo.style.filter = "none";
+  overlayVideo.load();
+
+  // ✅ Si es un video de YouTube (embed), usa un iframe
+  if (videoSrc.includes("youtube.com/embed")) {
+    console.log("🎬 Reproduciendo desde YouTube:", videoSrc);
+
+    // Elimina cualquier iframe previo
+    const existingIframe = document.getElementById("youtube-iframe");
+    if (existingIframe) existingIframe.remove();
+
+    const iframe = document.createElement("iframe");
+    iframe.id = "youtube-iframe";
+    iframe.src = `${videoSrc}?autoplay=1&mute=1`;
+    iframe.allow = "autoplay; encrypted-media";
+    iframe.width = "640";
+    iframe.height = "360";
+    iframe.classList.add("filtered-video", "show");
+    iframe.style.borderRadius = "10px";
+    iframe.style.zIndex = "9999";
+
+    document.body.appendChild(iframe);
+
+    // 🔹 Ocultar overlayVideo si estuviera visible
+    overlayVideo.classList.remove("show");
+    overlayVideo.classList.add("hidden");
+
+    // 🔹 Mostrar filtros (aunque en iframe son decorativos)
+    const filterPanel = document.getElementById("filter-panel");
+    filterPanel.classList.remove("hidden");
+
+    const closeFilters = document.getElementById("close-filters");
+    if (closeFilters)
+      closeFilters.onclick = () => {
+        filterPanel.classList.add("hidden");
+        iframe.remove(); // cerrar el video
+      };
+
+    return; // salir de la función aquí
+  }
+
+  // 🎞️ Caso normal: archivo .mp4 o URL directa
+  overlayVideo.src = videoSrc;
+  if (videoSrc.startsWith("http")) {
+    overlayVideo.setAttribute("crossorigin", "anonymous");
+  }
+
   overlayVideo.classList.remove("hidden");
   overlayVideo.classList.add("show");
-  overlayVideo.play();
 
-  // ✅ Mostrar filtros
+  overlayVideo.play()
+    .then(() => console.log("🎬 Video iniciado:", videoSrc))
+    .catch((err) => console.warn("⚠️ No se pudo reproducir automáticamente:", err));
+
+  // ✅ Mostrar filtros para videos locales/remotos
   const filterPanel = document.getElementById("filter-panel");
   filterPanel.classList.remove("hidden");
 
@@ -188,11 +247,12 @@ btnVideo.onclick = () => {
   filterButtons.forEach((btn) => {
     btn.onclick = () => {
       const filterValue = btn.dataset.filter;
-      overlayVideo.style.filter =
-        filterValue === "none" ? "none" : filterValue;
+      overlayVideo.style.filter = filterValue === "none" ? "none" : filterValue;
     };
   });
 };
+
+
 
 
 

@@ -6,7 +6,7 @@
       "src": "./modelos/mexico_flag.glb",
       "scale": "0.0005 0.0005 0.0005"
     },
-    "video": { "src": "https://cdn.mundialcum2026.com/videos/mexico.mp4" },
+    "video": { "src": "https://www.youtube.com/embed/mRQE0tk-tTM"},
     "infoText": "México, país del picante y una de las sedes del Mundial 2026.",
     "trivia": [
       {
