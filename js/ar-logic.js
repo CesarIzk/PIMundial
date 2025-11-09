@@ -4,8 +4,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const btnModel = document.getElementById("btn-model");
   const btnVideo = document.getElementById("btn-video");
   const btnTrivia = document.getElementById("btn-trivia");
+  const btnPause = document.getElementById("btn-pause");
+  const btnStats = document.getElementById("btn-stats");
   const loader = document.getElementById("loader");
-  const overlayVideo = document.getElementById("overlayVideo"); // 🟢 Declarar aquí, al inicio
+  const overlayVideo = document.getElementById("overlayVideo");
 
   let arData = [];
 
@@ -38,10 +40,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const target = document.createElement("a-entity");
     target.setAttribute("mindar-image-target", `targetIndex: ${targetIndex}`);
 
-
     // === Texto informativo ===
     const infoText = document.createElement("a-text");
-    infoText.setAttribute("value", item.infoText || "Información del modelo");
+    infoText.setAttribute("value", item.infoText || "");
     infoText.setAttribute("align", "center");
     infoText.setAttribute("color", "#ffffff");
     infoText.setAttribute("width", "2");
@@ -96,147 +97,65 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.log(`🎯 Target detectado: ${item.targetName || targetIndex}`);
       uiContainer.classList.add("show");
       uiContainer.classList.remove("hide");
-      infoImage.setAttribute("visible", "true");
+
       infoText.setAttribute("visible", "true");
 
       // Reset de estado
       model.setAttribute("visible", "false");
+      model.setAttribute("scale", item.model?.scale || "1 1 1"); // ✅ Restaura escala original
       video.setAttribute("visible", "false");
       ball.setAttribute("visible", "false");
       videoAsset.pause();
       videoAsset.currentTime = 0;
 
-      /* --- Botón Estadísticas --- */
-const btnStats = document.getElementById("btn-stats");
-
-btnStats.onclick = () => {
-  overlayVideo.classList.remove("show");
-  overlayVideo.pause();
-  document.getElementById("filter-panel").classList.add("hidden");
-
-  const stats = item.stats;
-  if (!stats) return alert("❌ No hay estadísticas disponibles.");
-
-  const statsContainer = document.getElementById("stats-container");
-  const statsTitle = document.getElementById("stats-title");
-  const statsList = document.getElementById("stats-list");
-  const statsClose = document.getElementById("stats-close");
-
-  statsTitle.textContent = `📊 ${item.targetName} - Estadísticas`;
-  statsList.innerHTML = `
-    <li><strong>Ranking FIFA:</strong> ${stats.rankingFIFA}</li>
-    <li><strong>Partidos ganados:</strong> ${stats.partidosGanados}</li>
-    <li><strong>Mundiales jugados:</strong> ${stats.mundialesJugados}</li>
-    <li><strong>Mejor etapa:</strong> ${stats.maxEtapa}</li>
-  `;
-
-  statsContainer.classList.remove("hidden");
-
-  statsClose.onclick = () => {
-    statsContainer.classList.add("hidden");
-  };
-};
-
       /* --- Botón Modelo --- */
       btnModel.onclick = () => {
         model.setAttribute("visible", "true");
-        // 🔄 Animación del modelo (si está definida)
-if (item.animation) {
-  const anim = item.animation;
 
-  // Eliminar animaciones previas para evitar superposición
-  model.removeAttribute("animation");
-  model.removeAttribute("animation__extra");
+        // 🔄 Aplicar animación si está definida
+        if (item.animation) {
+          const anim = item.animation;
+          model.removeAttribute("animation");
 
-  switch (anim.type) {
-    case "rotateY":
-      model.setAttribute("animation", {
-        property: "rotation",
-        to: `0 360 0`,
-        dur: anim.speed || 3000,
-        loop: anim.loop !== "false",
-        easing: "linear"
-      });
-      break;
+          model.setAttribute("animation", {
+            property: anim.type === "rotateY" ? "rotation" : "position",
+            to:
+              anim.type === "rotateY"
+                ? "0 360 0"
+                : `0 ${anim.intensity || 0.3} 0`,
+            dur: anim.speed || 3000,
+            loop: anim.loop !== "false",
+            easing: "easeInOutSine",
+          });
+        }
 
-    case "bounce":
-      model.setAttribute("animation", {
-        property: "position",
-        dir: "alternate",
-        dur: anim.speed || 1200,
-        loop: anim.loop !== "false",
-        easing: "easeInOutSine",
-        to: `0 ${anim.intensity || 0.3} 0`
-      });
-      break;
-
-    case "pulse":
-      model.setAttribute("animation", {
-        property: "scale",
-        dir: "alternate",
-        dur: anim.speed || 1500,
-        loop: anim.loop !== "false",
-        easing: "easeInOutQuad",
-        to: "1.2 1.2 1.2"
-      });
-      break;
-
-    case "rotateX":
-      model.setAttribute("animation", {
-        property: "rotation",
-        to: `360 0 0`,
-        dur: anim.speed || 3000,
-        loop: anim.loop !== "false",
-        easing: "linear"
-      });
-      break;
-
-    case "float":
-      model.setAttribute("animation", {
-        property: "position",
-        dir: "alternate",
-        dur: anim.speed || 2000,
-        loop: anim.loop !== "false",
-        easing: "easeInOutSine",
-        to: `0 ${anim.intensity || 0.2} 0`
-      });
-      break;
-
-    default:
-      console.log("ℹ️ Tipo de animación no reconocido:", anim.type);
-  }
-}
-
+        // Ocultar otros elementos
         video.setAttribute("visible", "false");
         ball.setAttribute("visible", "false");
-
-        // 🔸 Ocultar overlay y filtros
         overlayVideo.classList.remove("show");
         overlayVideo.pause();
         document.getElementById("filter-panel").classList.add("hidden");
       };
-const btnPause = document.getElementById("btn-pause");
-let isPaused = false; // Estado de animación
 
-btnPause.onclick = () => {
-  if (!item.animation) return alert("❌ Este modelo no tiene animación.");
+      /* --- Botón Pausa --- */
+      let isPaused = false;
+      btnPause.onclick = () => {
+        if (!item.animation) return alert("❌ Este modelo no tiene animación.");
+        if (model.getAttribute("visible") === "false") {
+          alert("⚠️ Primero muestra el modelo 3D.");
+          return;
+        }
 
-  // Si el modelo no está visible aún, no hacemos nada
-  if (model.getAttribute("visible") === "false") {
-    alert("⚠️ Primero muestra el modelo 3D.");
-    return;
-  }
-
-  if (!isPaused) {
-    model.pause(); // pausa todas las animaciones
-    btnPause.textContent = "▶️ Reanudar";
-    isPaused = true;
-  } else {
-    model.play(); // reanuda
-    btnPause.textContent = "⏸️ Pausar";
-    isPaused = false;
-  }
-};
+        if (!isPaused) {
+          model.pause();
+          btnPause.textContent = "▶️ Reanudar";
+          isPaused = true;
+        } else {
+          model.play();
+          btnPause.textContent = "⏸️ Pausar";
+          isPaused = false;
+        }
+      };
 
       /* --- Botón Video --- */
       btnVideo.onclick = () => {
@@ -314,7 +233,6 @@ btnPause.onclick = () => {
     target.addEventListener("targetLost", () => {
       uiContainer.classList.remove("show");
       uiContainer.classList.add("hide");
-      infoImage.setAttribute("visible", "false");
       infoText.setAttribute("visible", "false");
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
