@@ -144,6 +144,85 @@ btnStats.onclick = () => {
     statsContainer.classList.add("hidden");
   };
 };
+
+      /* --- Botón Modelo --- */
+      btnModel.onclick = () => {
+        model.setAttribute("visible", "true");
+        // 🔄 Animación del modelo (si está definida)
+if (item.animation) {
+  const anim = item.animation;
+
+  // Eliminar animaciones previas para evitar superposición
+  model.removeAttribute("animation");
+  model.removeAttribute("animation__extra");
+
+  switch (anim.type) {
+    case "rotateY":
+      model.setAttribute("animation", {
+        property: "rotation",
+        to: `0 360 0`,
+        dur: anim.speed || 3000,
+        loop: anim.loop !== "false",
+        easing: "linear"
+      });
+      break;
+
+    case "bounce":
+      model.setAttribute("animation", {
+        property: "position",
+        dir: "alternate",
+        dur: anim.speed || 1200,
+        loop: anim.loop !== "false",
+        easing: "easeInOutSine",
+        to: `0 ${anim.intensity || 0.3} 0`
+      });
+      break;
+
+    case "pulse":
+      model.setAttribute("animation", {
+        property: "scale",
+        dir: "alternate",
+        dur: anim.speed || 1500,
+        loop: anim.loop !== "false",
+        easing: "easeInOutQuad",
+        to: "1.2 1.2 1.2"
+      });
+      break;
+
+    case "rotateX":
+      model.setAttribute("animation", {
+        property: "rotation",
+        to: `360 0 0`,
+        dur: anim.speed || 3000,
+        loop: anim.loop !== "false",
+        easing: "linear"
+      });
+      break;
+
+    case "float":
+      model.setAttribute("animation", {
+        property: "position",
+        dir: "alternate",
+        dur: anim.speed || 2000,
+        loop: anim.loop !== "false",
+        easing: "easeInOutSine",
+        to: `0 ${anim.intensity || 0.2} 0`
+      });
+      break;
+
+    default:
+      console.log("ℹ️ Tipo de animación no reconocido:", anim.type);
+  }
+}
+
+        video.setAttribute("visible", "false");
+        ball.setAttribute("visible", "false");
+
+        // 🔸 Ocultar overlay y filtros
+        overlayVideo.classList.remove("show");
+        overlayVideo.pause();
+        document.getElementById("filter-panel").classList.add("hidden");
+      };
 const btnPause = document.getElementById("btn-pause");
 let isPaused = false; // Estado de animación
 
@@ -166,31 +245,6 @@ btnPause.onclick = () => {
     isPaused = false;
   }
 };
-
-      /* --- Botón Modelo --- */
-    btnModel.onclick = () => {
-  model.setAttribute("visible", "true");
-
-  // 🔄 Si tiene animación configurada en JSON
-  if (item.animation) {
-    const anim = item.animation;
-    model.removeAttribute("animation");
-
-    model.setAttribute("animation", {
-      property: "rotation",
-      to: "0 360 0",
-      dur: anim.speed || 3000,
-      loop: anim.loop !== "false",
-      easing: "linear"
-    });
-  }
-
-  overlayVideo.classList.remove("show");
-  overlayVideo.pause();
-  document.getElementById("filter-panel").classList.add("hidden");
-};
-
-
 
       /* --- Botón Video --- */
       btnVideo.onclick = () => {
