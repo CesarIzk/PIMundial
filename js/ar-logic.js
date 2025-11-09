@@ -180,31 +180,39 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       };
 
-      /* --- Botón Video --- */
-      btnVideo.onclick = () => {
-        model.setAttribute("visible", "false");
-        video.setAttribute("visible", "false");
-        ball.setAttribute("visible", "false");
 
-        overlayVideo.src = item.video.src;
-        overlayVideo.classList.add("show");
-        overlayVideo.play();
+/* --- Botón Video --- */
+btnVideo.onclick = () => {
+  // Ocultar otros elementos
+  model.setAttribute("visible", "false");
+  video.setAttribute("visible", "false");
+  ball.setAttribute("visible", "false");
 
-        const filterPanel = document.getElementById("filter-panel");
-        filterPanel.classList.remove("hidden");
+  // ✅ Mostrar overlay de video
+  overlayVideo.src = item.video.src;
+  overlayVideo.classList.remove("hidden");
+  overlayVideo.classList.add("show");
+  overlayVideo.play();
 
-        const closeFilters = document.getElementById("close-filters");
-        if (closeFilters)
-          closeFilters.onclick = () => filterPanel.classList.add("hidden");
+  // ✅ Mostrar filtros
+  const filterPanel = document.getElementById("filter-panel");
+  filterPanel.classList.remove("hidden");
 
-        const filterButtons = document.querySelectorAll("#filter-options button");
-        filterButtons.forEach((btn) => {
-          btn.onclick = () => {
-            overlayVideo.style.filter =
-              btn.dataset.filter === "none" ? "none" : btn.dataset.filter;
-          };
-        });
-      };
+  const closeFilters = document.getElementById("close-filters");
+  if (closeFilters)
+    closeFilters.onclick = () => filterPanel.classList.add("hidden");
+
+  const filterButtons = document.querySelectorAll("#filter-options button");
+  filterButtons.forEach((btn) => {
+    btn.onclick = () => {
+      const filterValue = btn.dataset.filter;
+      overlayVideo.style.filter =
+        filterValue === "none" ? "none" : filterValue;
+    };
+  });
+};
+
+
 
       /* --- Botón Trivia --- */
       btnTrivia.onclick = () => {
@@ -242,8 +250,18 @@ document.addEventListener("DOMContentLoaded", async () => {
           triviaOptions.appendChild(btn);
         });
 
-        triviaContainer.classList.remove("hidden");
-        triviaClose.onclick = () => triviaContainer.classList.add("hidden");
+       // ✅ Mostrar trivia correctamente
+if (triviaContainer.classList.contains("hidden")) {
+  triviaContainer.classList.remove("hidden");
+}
+triviaContainer.style.display = "block";
+
+        triviaClose.onclick = () => {
+  triviaContainer.classList.add("hidden");
+  triviaContainer.style.display = "none";
+  triviaFeedback.textContent = "";
+};
+
       };
     });
 
