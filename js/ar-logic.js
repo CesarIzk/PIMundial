@@ -38,14 +38,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const target = document.createElement("a-entity");
     target.setAttribute("mindar-image-target", `targetIndex: ${targetIndex}`);
 
-    // === Imagen informativa ===
-    const infoImage = document.createElement("a-image");
-    infoImage.setAttribute("src", item.infoImage || "./img/default.png");
-    infoImage.setAttribute("width", "1");
-    infoImage.setAttribute("height", "0.6");
-    infoImage.setAttribute("position", "0 0.8 0");
-    infoImage.setAttribute("visible", "false");
-    target.appendChild(infoImage);
 
     // === Texto informativo ===
     const infoText = document.createElement("a-text");
