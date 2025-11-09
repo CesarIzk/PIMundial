@@ -97,39 +97,62 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.log(`🎯 Target detectado: ${item.targetName || targetIndex}`);
       uiContainer.classList.add("show");
       uiContainer.classList.remove("hide");
-
       infoText.setAttribute("visible", "true");
+
+      // ✅ Restaura escala original
+      model.setAttribute("scale", item.model?.scale || "1 1 1");
 
       // Reset de estado
       model.setAttribute("visible", "false");
-      model.setAttribute("scale", item.model?.scale || "1 1 1"); // ✅ Restaura escala original
       video.setAttribute("visible", "false");
       ball.setAttribute("visible", "false");
       videoAsset.pause();
       videoAsset.currentTime = 0;
 
+      /* --- Botón Estadísticas --- */
+      btnStats.onclick = () => {
+        overlayVideo.classList.remove("show");
+        overlayVideo.pause();
+        document.getElementById("filter-panel").classList.add("hidden");
+
+        const stats = item.stats;
+        if (!stats) return alert("❌ No hay estadísticas disponibles.");
+
+        const statsContainer = document.getElementById("stats-container");
+        const statsTitle = document.getElementById("stats-title");
+        const statsList = document.getElementById("stats-list");
+        const statsClose = document.getElementById("stats-close");
+
+        statsTitle.textContent = `📊 ${item.targetName} - Estadísticas`;
+        statsList.innerHTML = `
+          <li><strong>Ranking FIFA:</strong> ${stats.rankingFIFA}</li>
+          <li><strong>Partidos ganados:</strong> ${stats.partidosGanados}</li>
+          <li><strong>Mundiales jugados:</strong> ${stats.mundialesJugados}</li>
+          <li><strong>Mejor etapa:</strong> ${stats.maxEtapa}</li>
+        `;
+
+        statsContainer.classList.remove("hidden");
+        statsClose.onclick = () => statsContainer.classList.add("hidden");
+      };
+
       /* --- Botón Modelo --- */
       btnModel.onclick = () => {
         model.setAttribute("visible", "true");
 
-        // 🔄 Aplicar animación si está definida
+        // 🔄 Animación del modelo (si está definida)
         if (item.animation) {
           const anim = item.animation;
           model.removeAttribute("animation");
-
           model.setAttribute("animation", {
-            property: anim.type === "rotateY" ? "rotation" : "position",
-            to:
-              anim.type === "rotateY"
-                ? "0 360 0"
-                : `0 ${anim.intensity || 0.3} 0`,
+            property: anim.property || "rotation",
+            to: anim.to || "0 360 0",
             dur: anim.speed || 3000,
             loop: anim.loop !== "false",
             easing: "easeInOutSine",
           });
         }
 
-        // Ocultar otros elementos
+        // Ocultar overlay y otros elementos
         video.setAttribute("visible", "false");
         ball.setAttribute("visible", "false");
         overlayVideo.classList.remove("show");
@@ -137,7 +160,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("filter-panel").classList.add("hidden");
       };
 
-      /* --- Botón Pausa --- */
+      /* --- Botón Pausar --- */
       let isPaused = false;
       btnPause.onclick = () => {
         if (!item.animation) return alert("❌ Este modelo no tiene animación.");
@@ -171,16 +194,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         filterPanel.classList.remove("hidden");
 
         const closeFilters = document.getElementById("close-filters");
-        if (closeFilters) {
+        if (closeFilters)
           closeFilters.onclick = () => filterPanel.classList.add("hidden");
-        }
 
         const filterButtons = document.querySelectorAll("#filter-options button");
         filterButtons.forEach((btn) => {
           btn.onclick = () => {
-            const filterValue = btn.dataset.filter;
             overlayVideo.style.filter =
-              filterValue === "none" ? "none" : filterValue;
+              btn.dataset.filter === "none" ? "none" : btn.dataset.filter;
           };
         });
       };
@@ -222,10 +243,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         triviaContainer.classList.remove("hidden");
-        triviaClose.onclick = () => {
-          triviaContainer.classList.add("hidden");
-          triviaFeedback.textContent = "";
-        };
+        triviaClose.onclick = () => triviaContainer.classList.add("hidden");
       };
     });
 
