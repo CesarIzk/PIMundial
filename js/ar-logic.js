@@ -1,7 +1,3 @@
-/* =========================================
-   🧠 LÓGICA PRINCIPAL DE LA EXPERIENCIA AR
-   ========================================= */
-
 document.addEventListener("DOMContentLoaded", async () => {
   const scene = document.querySelector("a-scene");
   const uiContainer = document.getElementById("ui-container");
@@ -9,12 +5,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const btnVideo = document.getElementById("btn-video");
   const btnTrivia = document.getElementById("btn-trivia");
   const loader = document.getElementById("loader");
+  const overlayVideo = document.getElementById("overlayVideo"); // 🟢 Declarar aquí, al inicio
 
   let arData = [];
 
-  /* -----------------------------------------
-     1️⃣ Cargar datos AR desde JSON
-  ----------------------------------------- */
+  /* 1️⃣ Cargar datos AR */
   try {
     const response = await fetch("./js/ar-data.json");
     arData = await response.json();
@@ -25,31 +20,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  /* -----------------------------------------
-     2️⃣ Crear contenedor de assets
-  ----------------------------------------- */
+  /* 2️⃣ Crear contenedor de assets */
   let assets = document.querySelector("a-assets");
   if (!assets) {
     assets = document.createElement("a-assets");
     scene.appendChild(assets);
   }
 
-  /* -----------------------------------------
-     3️⃣ Entidad principal de MindAR
-  ----------------------------------------- */
+  /* 3️⃣ Entidad principal MindAR */
   const mindar = document.createElement("a-entity");
   mindar.setAttribute("mindar-image-targets", "");
   scene.appendChild(mindar);
 
-  /* -----------------------------------------
-     4️⃣ Crear entidades dinámicas por marcador
-  ----------------------------------------- */
+  /* 4️⃣ Crear entidades dinámicas */
   arData.forEach((item, i) => {
-    const targetIndex = item.targetIndex ?? i; // fallback al orden
+    const targetIndex = item.targetIndex ?? i;
     const target = document.createElement("a-entity");
     target.setAttribute("mindar-image-target", `targetIndex: ${targetIndex}`);
 
-    /* --- Imagen informativa --- */
+    // === Imagen informativa ===
     const infoImage = document.createElement("a-image");
     infoImage.setAttribute("src", item.infoImage || "./img/default.png");
     infoImage.setAttribute("width", "1");
@@ -58,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     infoImage.setAttribute("visible", "false");
     target.appendChild(infoImage);
 
-    /* --- Texto informativo --- */
+    // === Texto informativo ===
     const infoText = document.createElement("a-text");
     infoText.setAttribute("value", item.infoText || "Información del modelo");
     infoText.setAttribute("align", "center");
@@ -68,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     infoText.setAttribute("visible", "false");
     target.appendChild(infoText);
 
-    /* --- Modelo 3D --- */
+    // === Modelo 3D ===
     const modelId = `model-${targetIndex}`;
     const modelAsset = document.createElement("a-asset-item");
     modelAsset.setAttribute("id", modelId);
@@ -81,7 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     model.setAttribute("visible", "false");
     target.appendChild(model);
 
-    /* --- Video --- */
+    // === Video ===
     const videoId = `video-${targetIndex}`;
     const videoAsset = document.createElement("video");
     videoAsset.setAttribute("id", videoId);
@@ -100,7 +89,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     video.setAttribute("visible", "false");
     target.appendChild(video);
 
-    /* --- Efecto balón (celebración) --- */
+    // === Efecto balón ===
     const ball = document.createElement("a-sphere");
     ball.classList.add("fx-ball");
     ball.setAttribute("radius", "0.12");
@@ -110,9 +99,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     mindar.appendChild(target);
 
-    /* -----------------------------------------
-       5️⃣ Eventos de detección de marcador
-    ----------------------------------------- */
+    /* 5️⃣ Eventos de detección */
     target.addEventListener("targetFound", () => {
       console.log(`🎯 Target detectado: ${item.targetName || targetIndex}`);
       uiContainer.classList.add("show");
@@ -120,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       infoImage.setAttribute("visible", "true");
       infoText.setAttribute("visible", "true");
 
-      // Ocultar todo al iniciar
+      // Reset de estado
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
       ball.setAttribute("visible", "false");
@@ -132,122 +119,106 @@ document.addEventListener("DOMContentLoaded", async () => {
         model.setAttribute("visible", "true");
         video.setAttribute("visible", "false");
         ball.setAttribute("visible", "false");
-        videoAsset.pause();
+
+        // 🔸 Ocultar overlay y filtros
+        overlayVideo.classList.remove("show");
+        overlayVideo.pause();
+        document.getElementById("filter-panel").classList.add("hidden");
       };
 
-btnVideo.onclick = () => {
-  model.setAttribute("visible", "false");
-  video.setAttribute("visible", "false"); // ocultar el de AR
-  ball.setAttribute("visible", "false");
+      /* --- Botón Video --- */
+      btnVideo.onclick = () => {
+        model.setAttribute("visible", "false");
+        video.setAttribute("visible", "false");
+        ball.setAttribute("visible", "false");
 
-  // Usar video HTML para aplicar filtros CSS
-  const overlayVideo = document.getElementById("overlayVideo");
-  overlayVideo.src = item.video.src;
-  overlayVideo.classList.add("show");
-  overlayVideo.play();
+        overlayVideo.src = item.video.src;
+        overlayVideo.classList.add("show");
+        overlayVideo.play();
 
-  // Mostrar panel de filtros
-  const filterPanel = document.getElementById("filter-panel");
-  filterPanel.classList.remove("hidden");
+        const filterPanel = document.getElementById("filter-panel");
+        filterPanel.classList.remove("hidden");
 
-  // Botón para cerrar panel de filtros
-const closeFilters = document.getElementById("close-filters");
-if (closeFilters) {
-  closeFilters.onclick = () => {
-    const filterPanel = document.getElementById("filter-panel");
-    filterPanel.classList.add("hidden");
-  };
-}
+        const closeFilters = document.getElementById("close-filters");
+        if (closeFilters) {
+          closeFilters.onclick = () => filterPanel.classList.add("hidden");
+        }
 
-  const filterButtons = document.querySelectorAll("#filter-options button");
-  filterButtons.forEach((btn) => {
-    btn.onclick = () => {
-      const filterValue = btn.dataset.filter;
-      overlayVideo.style.filter = filterValue === "none" ? "none" : filterValue;
-    };
-  });
-};
+        const filterButtons = document.querySelectorAll("#filter-options button");
+        filterButtons.forEach((btn) => {
+          btn.onclick = () => {
+            const filterValue = btn.dataset.filter;
+            overlayVideo.style.filter =
+              filterValue === "none" ? "none" : filterValue;
+          };
+        });
+      };
 
+      /* --- Botón Trivia --- */
+      btnTrivia.onclick = () => {
+        overlayVideo.classList.remove("show");
+        overlayVideo.pause();
+        document.getElementById("filter-panel").classList.add("hidden");
 
+        const trivia = item.trivia;
+        if (!trivia) return alert("❌ No hay trivia disponible.");
 
-    /* --- Botón Trivia --- */
-btnTrivia.onclick = () => {
-  const trivia = item.trivia;
-  if (!trivia) return alert("❌ No hay trivia disponible.");
+        const triviaContainer = document.getElementById("trivia-container");
+        const triviaQuestion = document.getElementById("trivia-question");
+        const triviaOptions = document.getElementById("trivia-options");
+        const triviaFeedback = document.getElementById("trivia-feedback");
+        const triviaClose = document.getElementById("trivia-close");
 
-  // Obtener elementos de la UI
-  const triviaContainer = document.getElementById("trivia-container");
-  const triviaQuestion = document.getElementById("trivia-question");
-  const triviaOptions = document.getElementById("trivia-options");
-  const triviaFeedback = document.getElementById("trivia-feedback");
-  const triviaClose = document.getElementById("trivia-close");
+        triviaQuestion.textContent = trivia.question;
+        triviaOptions.innerHTML = "";
+        triviaFeedback.textContent = "";
 
-  // Rellenar datos
-  triviaQuestion.textContent = trivia.question;
-  triviaOptions.innerHTML = ""; // limpiar opciones anteriores
-  triviaFeedback.textContent = "";
+        trivia.options.forEach((option, index) => {
+          const btn = document.createElement("button");
+          btn.textContent = option;
+          btn.onclick = () => {
+            if (index === trivia.answerIndex) {
+              triviaFeedback.textContent = trivia.feedback;
+              triviaFeedback.style.color = "#00ff88";
+              ball.setAttribute("color", item.effects?.color || "#00ff00");
+              ball.setAttribute("visible", "true");
+            } else {
+              triviaFeedback.textContent = "❌ Respuesta incorrecta.";
+              triviaFeedback.style.color = "#ff5555";
+            }
+          };
+          triviaOptions.appendChild(btn);
+        });
 
-  trivia.options.forEach((option, index) => {
-    const btn = document.createElement("button");
-    btn.textContent = option;
-    btn.onclick = () => {
-      if (index === trivia.answerIndex) {
-        triviaFeedback.textContent = trivia.feedback;
-        triviaFeedback.style.color = "#00ff88";
-
-        // Celebración (balón)
-        ball.setAttribute("color", item.effects?.color || "#00ff00");
-        ball.setAttribute("visible", "true");
-      } else {
-        triviaFeedback.textContent = "❌ Respuesta incorrecta.";
-        triviaFeedback.style.color = "#ff5555";
-      }
-    };
-    triviaOptions.appendChild(btn);
-  });
-
-  // Mostrar contenedor
-  triviaContainer.classList.remove("hidden");
-
-  // Cerrar trivia
-  triviaClose.onclick = () => {
-    triviaContainer.classList.add("hidden");
-    triviaFeedback.textContent = "";
-  };
-};
-
+        triviaContainer.classList.remove("hidden");
+        triviaClose.onclick = () => {
+          triviaContainer.classList.add("hidden");
+          triviaFeedback.textContent = "";
+        };
+      };
     });
 
-    /* -----------------------------------------
-       6️⃣ Evento de pérdida de marcador
-    ----------------------------------------- */
-target.addEventListener("targetLost", () => {
-  uiContainer.classList.remove("show");
-  uiContainer.classList.add("hide");
-  infoImage.setAttribute("visible", "false");
-  infoText.setAttribute("visible", "false");
-  model.setAttribute("visible", "false");
-  video.setAttribute("visible", "false");
-  ball.setAttribute("visible", "false");
+    /* 6️⃣ Cuando se pierde el marcador */
+    target.addEventListener("targetLost", () => {
+      uiContainer.classList.remove("show");
+      uiContainer.classList.add("hide");
+      infoImage.setAttribute("visible", "false");
+      infoText.setAttribute("visible", "false");
+      model.setAttribute("visible", "false");
+      video.setAttribute("visible", "false");
+      ball.setAttribute("visible", "false");
 
-  const overlayVideo = document.getElementById("overlayVideo");
-  overlayVideo.classList.remove("show");
-  overlayVideo.pause();
-
-  document.getElementById("filter-panel").classList.add("hidden");
-});
-
-
+      overlayVideo.classList.remove("show");
+      overlayVideo.pause();
+      document.getElementById("filter-panel").classList.add("hidden");
+    });
   });
 
-  /* -----------------------------------------
-     7️⃣ Eventos globales del sistema AR
-  ----------------------------------------- */
+  /* 7️⃣ Estado global AR */
   scene.addEventListener("arReady", () => {
     loader.style.display = "none";
     console.log("🟢 AR lista.");
   });
-
   scene.addEventListener("arError", (err) => {
     console.error("❌ Error AR:", err);
     loader.innerText = "Error al iniciar AR.";
