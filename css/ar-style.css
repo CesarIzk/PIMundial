@@ -1,0 +1,193 @@
+/* =========================================
+   🌎 ESTILOS PARA EXPERIENCIA AR - MUNDIALCUM 2026
+   ========================================= */
+
+/* --- COLORES Y VARIABLES BASE (inspirados en México, EE.UU., Canadá) --- */
+:root {
+  --rojo-anfitrion: #E31B23;
+  --azul-anfitrion: #0A192F;
+  --verde-anfitrion: #006847;
+  --blanco-texto: #F0F2F5;
+  --color-acento: #3B82F6;
+
+  --fondo-principal: var(--azul-anfitrion);
+  --texto-principal: var(--blanco-texto);
+}
+
+/* =========================================
+   🔧 ESCENA PRINCIPAL
+   ========================================= */
+.ar-container,
+#ar-scene,
+a-scene {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: transparent; /* cámara visible */
+  z-index: 0;
+}
+
+/* =========================================
+   🎥 VIDEOS DENTRO DE LA ESCENA
+   ========================================= */
+a-video video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* =========================================
+   ⏳ LOADER DE CARGA
+   ========================================= */
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--texto-principal);
+  background: rgba(0,0,0,0.7);
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  z-index: 9999;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  text-align: center;
+  box-shadow: 0 0 12px rgba(0,0,0,0.5);
+}
+
+/* =========================================
+   🕹️ INTERFAZ DE BOTONES FLOTANTES (UI)
+   ========================================= */
+#ui-container {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  flex-direction: row;
+  gap: 12px;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+/* Mostrar/Ocultar UI */
+#ui-container.show {
+  display: flex;
+  opacity: 1;
+}
+#ui-container.hide {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Botones generales */
+#ui-container button {
+  background: rgba(0,0,0,0.65);
+  border: 2px solid #ffffffcc;
+  color: #fff;
+  font-size: 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  min-width: 85px;
+  backdrop-filter: blur(4px);
+  transition: all 0.25s ease;
+  touch-action: manipulation;
+  font-weight: 600;
+}
+
+#ui-container button:hover,
+#ui-container button:active {
+  background: var(--color-acento);
+  transform: scale(1.08);
+}
+
+/* =========================================
+   🧩 CONTENIDO FLOTANTE (IMAGEN, VIDEO, TEXTO)
+   ========================================= */
+.ar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  animation: float 3s ease-in-out infinite alternate;
+}
+
+.ar-content img,
+.ar-content video {
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.ar-content img {
+  width: 220px;
+  height: auto;
+}
+
+.ar-content video {
+  width: 320px;
+  height: auto;
+}
+
+.ar-content p {
+  max-width: 300px;
+  color: var(--texto-principal);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+  background: rgba(0,0,0,0.4);
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+/* Animación flotante */
+@keyframes float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(0.08rem); }
+  100% { transform: translateY(0); }
+}
+
+/* =========================================
+   ⚽ EFECTOS DE ANIMACIÓN (CELEBRACIÓN / BRILLO)
+   ========================================= */
+@keyframes celebrate {
+  0% { transform: scale(1); box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+  50% { transform: scale(1.2); box-shadow: 0 0 25px rgba(255,255,255,0.7); }
+  100% { transform: scale(1); box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+}
+
+.fx-ball {
+  animation: celebrate 1s ease-in-out infinite;
+}
+
+/* =========================================
+   🧭 MODO RESPONSIVO (MÓVILES Y TABLETS)
+   ========================================= */
+@media (max-width: 768px) {
+  #ui-container {
+    bottom: 15px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #ui-container button {
+    font-size: 13px;
+    padding: 8px 12px;
+    min-width: 100px;
+  }
+
+  .ar-content img {
+    width: 180px;
+  }
+  .ar-content video {
+    width: 260px;
+  }
+}
