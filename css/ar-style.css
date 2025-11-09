@@ -378,3 +378,54 @@ a-video video {
   transform: scale(1.1);
   color: #ff6666;
 }
+
+.stats-card {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  width: 85%;
+  max-width: 360px;
+  z-index: 10001;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.stats-card.hidden {
+  display: none;
+}
+
+.stats-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #00ffcc;
+  text-align: center;
+}
+
+#stats-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#stats-list li {
+  padding: 0.2rem 0;
+  font-size: 0.95rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+#stats-close {
+  display: block;
+  margin: 0.6rem auto 0;
+  background: #00ffcc;
+  color: #000;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}

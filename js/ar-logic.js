@@ -114,6 +114,37 @@ document.addEventListener("DOMContentLoaded", async () => {
       videoAsset.pause();
       videoAsset.currentTime = 0;
 
+      /* --- Botón Estadísticas --- */
+const btnStats = document.getElementById("btn-stats");
+
+btnStats.onclick = () => {
+  overlayVideo.classList.remove("show");
+  overlayVideo.pause();
+  document.getElementById("filter-panel").classList.add("hidden");
+
+  const stats = item.stats;
+  if (!stats) return alert("❌ No hay estadísticas disponibles.");
+
+  const statsContainer = document.getElementById("stats-container");
+  const statsTitle = document.getElementById("stats-title");
+  const statsList = document.getElementById("stats-list");
+  const statsClose = document.getElementById("stats-close");
+
+  statsTitle.textContent = `📊 ${item.targetName} - Estadísticas`;
+  statsList.innerHTML = `
+    <li><strong>Ranking FIFA:</strong> ${stats.rankingFIFA}</li>
+    <li><strong>Partidos ganados:</strong> ${stats.partidosGanados}</li>
+    <li><strong>Mundiales jugados:</strong> ${stats.mundialesJugados}</li>
+    <li><strong>Mejor etapa:</strong> ${stats.maxEtapa}</li>
+  `;
+
+  statsContainer.classList.remove("hidden");
+
+  statsClose.onclick = () => {
+    statsContainer.classList.add("hidden");
+  };
+};
+
       /* --- Botón Modelo --- */
       btnModel.onclick = () => {
         model.setAttribute("visible", "true");

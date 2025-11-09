@@ -12,6 +12,12 @@
       "answerIndex": 1,
       "feedback": "✅ ¡Correcto! México llegó en 1970 y 1986."
     },
-    "effects": { "color": "#00ff00" }
+    "effects": { "color": "#00ff00" },
+    "stats": {
+      "rankingFIFA": 15,
+      "partidosGanados": 58,
+      "mundialesJugados": 17,
+      "maxEtapa": "Cuartos de Final (1970, 1986)"
+    }
   }
 ]
