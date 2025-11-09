@@ -136,15 +136,33 @@ document.addEventListener("DOMContentLoaded", async () => {
       };
 
       /* --- Botón Video --- */
-      btnVideo.onclick = () => {
-        model.setAttribute("visible", "false");
-        video.setAttribute("visible", "true");
-        ball.setAttribute("visible", "false");
-        videoAsset.currentTime = 0;
-        videoAsset.play();
-      };
+   btnVideo.onclick = () => {
+  model.setAttribute("visible", "false");
+  video.setAttribute("visible", "true");
+  ball.setAttribute("visible", "false");
+  videoAsset.currentTime = 0;
+  videoAsset.play();
 
-      /* --- Botón Trivia --- */
+  // Mostrar panel de filtros
+  const filterPanel = document.getElementById("filter-panel");
+  filterPanel.classList.remove("hidden");
+
+  const filterButtons = document.querySelectorAll("#filter-options button");
+
+  // Aplicar filtro seleccionado
+  filterButtons.forEach((btn) => {
+    btn.onclick = () => {
+      const filterValue = btn.dataset.filter;
+      if (filterValue === "none") {
+        videoAsset.style.filter = "none";
+      } else {
+        videoAsset.style.filter = filterValue;
+      }
+    };
+  });
+};
+
+
     /* --- Botón Trivia --- */
 btnTrivia.onclick = () => {
   const trivia = item.trivia;
@@ -196,20 +214,23 @@ btnTrivia.onclick = () => {
     /* -----------------------------------------
        6️⃣ Evento de pérdida de marcador
     ----------------------------------------- */
-    target.addEventListener("targetLost", () => {
-      console.log(`🔻 Target perdido: ${item.targetName || targetIndex}`);
-      uiContainer.classList.remove("show");
-      uiContainer.classList.add("hide");
+   target.addEventListener("targetLost", () => {
+  uiContainer.classList.remove("show");
+  uiContainer.classList.add("hide");
 
-      infoImage.setAttribute("visible", "false");
-      infoText.setAttribute("visible", "false");
-      model.setAttribute("visible", "false");
-      video.setAttribute("visible", "false");
-      ball.setAttribute("visible", "false");
+  infoImage.setAttribute("visible", "false");
+  infoText.setAttribute("visible", "false");
+  model.setAttribute("visible", "false");
+  video.setAttribute("visible", "false");
+  ball.setAttribute("visible", "false");
 
-      videoAsset.pause();
-      videoAsset.currentTime = 0;
-    });
+  // 🔹 Ocultar panel de filtros
+  document.getElementById("filter-panel").classList.add("hidden");
+
+  videoAsset.pause();
+  videoAsset.currentTime = 0;
+});
+
   });
 
   /* -----------------------------------------

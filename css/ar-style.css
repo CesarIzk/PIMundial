@@ -261,3 +261,55 @@ a-video video {
   margin-top: 0.8rem;
   font-size: 0.95rem;
 }
+
+/* =========================================
+   🎨 PANEL DE FILTROS DE VIDEO
+   ========================================= */
+.filter-card {
+  position: fixed;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  z-index: 10001;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  backdrop-filter: blur(6px);
+  transition: opacity 0.3s ease;
+}
+
+.filter-card.hidden {
+  display: none;
+}
+
+.filter-card h4 {
+  margin-top: 0;
+  font-size: 1rem;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.5px;
+}
+
+#filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+#filter-options button {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid #ffffffaa;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#filter-options button:hover {
+  background: rgba(255,255,255,0.3);
+}
