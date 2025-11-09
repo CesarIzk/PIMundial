@@ -135,32 +135,30 @@ document.addEventListener("DOMContentLoaded", async () => {
         videoAsset.pause();
       };
 
-      /* --- Botón Video --- */
-   btnVideo.onclick = () => {
+btnVideo.onclick = () => {
   model.setAttribute("visible", "false");
-  video.setAttribute("visible", "true");
+  video.setAttribute("visible", "false"); // ocultar el de AR
   ball.setAttribute("visible", "false");
-  videoAsset.currentTime = 0;
-  videoAsset.play();
+
+  // Usar video HTML para aplicar filtros CSS
+  const overlayVideo = document.getElementById("overlayVideo");
+  overlayVideo.src = item.video.src;
+  overlayVideo.classList.add("show");
+  overlayVideo.play();
 
   // Mostrar panel de filtros
   const filterPanel = document.getElementById("filter-panel");
   filterPanel.classList.remove("hidden");
 
   const filterButtons = document.querySelectorAll("#filter-options button");
-
-  // Aplicar filtro seleccionado
   filterButtons.forEach((btn) => {
     btn.onclick = () => {
       const filterValue = btn.dataset.filter;
-      if (filterValue === "none") {
-        videoAsset.style.filter = "none";
-      } else {
-        videoAsset.style.filter = filterValue;
-      }
+      overlayVideo.style.filter = filterValue === "none" ? "none" : filterValue;
     };
   });
 };
+
 
 
     /* --- Botón Trivia --- */
@@ -214,22 +212,22 @@ btnTrivia.onclick = () => {
     /* -----------------------------------------
        6️⃣ Evento de pérdida de marcador
     ----------------------------------------- */
-   target.addEventListener("targetLost", () => {
+target.addEventListener("targetLost", () => {
   uiContainer.classList.remove("show");
   uiContainer.classList.add("hide");
-
   infoImage.setAttribute("visible", "false");
   infoText.setAttribute("visible", "false");
   model.setAttribute("visible", "false");
   video.setAttribute("visible", "false");
   ball.setAttribute("visible", "false");
 
-  // 🔹 Ocultar panel de filtros
-  document.getElementById("filter-panel").classList.add("hidden");
+  const overlayVideo = document.getElementById("overlayVideo");
+  overlayVideo.classList.remove("show");
+  overlayVideo.pause();
 
-  videoAsset.pause();
-  videoAsset.currentTime = 0;
+  document.getElementById("filter-panel").classList.add("hidden");
 });
+
 
   });
 

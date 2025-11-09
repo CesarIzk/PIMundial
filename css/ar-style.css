@@ -313,3 +313,20 @@ a-video video {
 #filter-options button:hover {
   background: rgba(255,255,255,0.3);
 }
+
+/* Video superpuesto visible en pantalla */
+.filtered-video {
+  position: fixed;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70vw;
+  max-width: 700px;
+  border-radius: 10px;
+  z-index: 9999;
+  display: none;
+  transition: filter 0.3s ease;
+}
+.filtered-video.show {
+  display: block;
+}
