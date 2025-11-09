@@ -4,7 +4,7 @@
     "targetName": "México",
     "model": {
       "src": "./modelos/mexico_flag.glb",
-      "scale": "0.0025 0.00011 0.00011"
+      "scale": "0.5 0.5 0.5"
     },
     "video": { "src": "./videos/mexico.mp4" },
     "infoImage": "./images/flag_mex.png",
