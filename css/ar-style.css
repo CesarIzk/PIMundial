@@ -191,3 +191,73 @@ a-video video {
     width: 260px;
   }
 }
+
+/* =========================================
+   🧩 TARJETA DE TRIVIA (UI FLOTANTE)
+   ========================================= */
+.trivia-card {
+  position: fixed;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  max-width: 320px;
+  width: 90%;
+  text-align: center;
+  z-index: 10001;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  backdrop-filter: blur(6px);
+  transition: opacity 0.3s ease;
+}
+
+.trivia-card.hidden {
+  display: none;
+}
+
+.trivia-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.trivia-card button {
+  background: var(--color-acento, #3B82F6);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 0.8rem;
+}
+
+.trivia-card button:hover {
+  background: var(--rojo-anfitrion, #E31B23);
+}
+
+#trivia-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#trivia-options button {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid #fff;
+  padding: 0.5rem;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#trivia-options button:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+#trivia-feedback {
+  margin-top: 0.8rem;
+  font-size: 0.95rem;
+}
