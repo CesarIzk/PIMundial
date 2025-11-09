@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const btnModel = document.getElementById("btn-model");
   const btnVideo = document.getElementById("btn-video");
   const btnTrivia = document.getElementById("btn-trivia");
-  const btnPause = document.getElementById("btn-pause");
   const btnStats = document.getElementById("btn-stats");
   const loader = document.getElementById("loader");
   const overlayVideo = document.getElementById("overlayVideo");
@@ -160,25 +159,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("filter-panel").classList.add("hidden");
       };
 
-      /* --- Botón Pausar --- */
-      let isPaused = false;
-      btnPause.onclick = () => {
-        if (!item.animation) return alert("❌ Este modelo no tiene animación.");
-        if (model.getAttribute("visible") === "false") {
-          alert("⚠️ Primero muestra el modelo 3D.");
-          return;
-        }
 
-        if (!isPaused) {
-          model.pause();
-          btnPause.textContent = "▶️ Reanudar";
-          isPaused = true;
-        } else {
-          model.play();
-          btnPause.textContent = "⏸️ Pausar";
-          isPaused = false;
-        }
-      };
+   
 
 
 /* --- Botón Video --- */
