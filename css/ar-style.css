@@ -429,3 +429,10 @@ a-video video {
   cursor: pointer;
   font-weight: bold;
 }
+
+.filtered-video.hidden {
+  display: none;
+}
+.filtered-video.show {
+  display: block !important;
+}
