@@ -63,20 +63,47 @@ a-video video {
 }
 
 /* =========================================
-   🕹️ INTERFAZ DE BOTONES FLOTANTES (UI)
+   🔘 BOTONES PRINCIPALES DE LA INTERFAZ AR
    ========================================= */
 #ui-container {
   position: fixed;
-  bottom: 25px;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  display: none;
-  flex-direction: row;
-  gap: 12px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
   z-index: 10000;
-  opacity: 0;
-  transition: opacity 0.4s ease-in-out;
+  backdrop-filter: blur(6px);
 }
+
+.ar-btn {
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+
+/* Colores específicos por acción */
+#btn-model  { background: #0D6EFD; }     /* Azul */
+#btn-video  { background: #3B82F6; }     /* Celeste */
+#btn-trivia { background: #FFC107; color: #000; } /* Amarillo */
+#btn-stats  { background: #28A745; }     /* Verde */
+#btn-effect { background: #E31B23; }     /* Rojo */
+
+.ar-btn:hover {
+  transform: scale(1.08);
+  filter: brightness(1.15);
+}
+
 
 /* Mostrar/Ocultar UI */
 #ui-container.show {
@@ -329,4 +356,25 @@ a-video video {
 }
 .filtered-video.show {
   display: block;
+}
+
+/* Cabecera del panel de filtros */
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-filters-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.close-filters-btn:hover {
+  transform: scale(1.1);
+  color: #ff6666;
 }

@@ -150,6 +150,15 @@ btnVideo.onclick = () => {
   const filterPanel = document.getElementById("filter-panel");
   filterPanel.classList.remove("hidden");
 
+  // Botón para cerrar panel de filtros
+const closeFilters = document.getElementById("close-filters");
+if (closeFilters) {
+  closeFilters.onclick = () => {
+    const filterPanel = document.getElementById("filter-panel");
+    filterPanel.classList.add("hidden");
+  };
+}
+
   const filterButtons = document.querySelectorAll("#filter-options button");
   filterButtons.forEach((btn) => {
     btn.onclick = () => {
