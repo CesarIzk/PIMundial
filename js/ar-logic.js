@@ -196,55 +196,78 @@ btnVideo.onclick = () => {
 
 
 
-      /* --- Botón Trivia --- */
-      btnTrivia.onclick = () => {
-        overlayVideo.classList.remove("show");
-        overlayVideo.pause();
-        document.getElementById("filter-panel").classList.add("hidden");
+    /* --- Botón Trivia (múltiples preguntas) --- */
+btnTrivia.onclick = () => {
+  overlayVideo.classList.remove("show");
+  overlayVideo.pause();
+  document.getElementById("filter-panel").classList.add("hidden");
 
-        const trivia = item.trivia;
-        if (!trivia) return alert("❌ No hay trivia disponible.");
+  const triviaSet = item.trivia;
+  if (!triviaSet || !Array.isArray(triviaSet) || triviaSet.length === 0)
+    return alert("❌ No hay trivia disponible.");
 
-        const triviaContainer = document.getElementById("trivia-container");
-        const triviaQuestion = document.getElementById("trivia-question");
-        const triviaOptions = document.getElementById("trivia-options");
-        const triviaFeedback = document.getElementById("trivia-feedback");
-        const triviaClose = document.getElementById("trivia-close");
+  const triviaContainer = document.getElementById("trivia-container");
+  const triviaQuestion = document.getElementById("trivia-question");
+  const triviaOptions = document.getElementById("trivia-options");
+  const triviaFeedback = document.getElementById("trivia-feedback");
+  const triviaClose = document.getElementById("trivia-close");
 
-        triviaQuestion.textContent = trivia.question;
-        triviaOptions.innerHTML = "";
-        triviaFeedback.textContent = "";
+  let currentIndex = 0;
+  let correctCount = 0;
 
-        trivia.options.forEach((option, index) => {
-          const btn = document.createElement("button");
-          btn.textContent = option;
-          btn.onclick = () => {
-            if (index === trivia.answerIndex) {
-              triviaFeedback.textContent = trivia.feedback;
-              triviaFeedback.style.color = "#00ff88";
-              ball.setAttribute("color", item.effects?.color || "#00ff00");
-              ball.setAttribute("visible", "true");
-            } else {
-              triviaFeedback.textContent = "❌ Respuesta incorrecta.";
-              triviaFeedback.style.color = "#ff5555";
-            }
-          };
-          triviaOptions.appendChild(btn);
-        });
+  // Función para mostrar una pregunta
+  const showQuestion = () => {
+    const q = triviaSet[currentIndex];
+    triviaQuestion.textContent = `Pregunta ${currentIndex + 1}/${triviaSet.length}: ${q.question}`;
+    triviaOptions.innerHTML = "";
+    triviaFeedback.textContent = "";
 
-       // ✅ Mostrar trivia correctamente
-if (triviaContainer.classList.contains("hidden")) {
+    q.options.forEach((option, index) => {
+      const btn = document.createElement("button");
+      btn.textContent = option;
+      btn.onclick = () => {
+        if (index === q.answerIndex) {
+          triviaFeedback.textContent = q.feedback;
+          triviaFeedback.style.color = "#00ff88";
+          ball.setAttribute("color", item.effects?.color || "#00ff00");
+          ball.setAttribute("visible", "true");
+          correctCount++;
+        } else {
+          triviaFeedback.textContent = "❌ Respuesta incorrecta.";
+          triviaFeedback.style.color = "#ff5555";
+        }
+
+        // Mostrar siguiente pregunta o resultado
+        setTimeout(() => {
+          currentIndex++;
+          if (currentIndex < triviaSet.length) {
+            showQuestion();
+          } else {
+            triviaQuestion.textContent = "🎉 Resultados";
+            triviaOptions.innerHTML = "";
+            triviaFeedback.style.color = "#FFD700";
+            triviaFeedback.textContent = `Respondiste correctamente ${correctCount} de ${triviaSet.length} preguntas.`;
+          triviaFeedback.classList.add("final");
+
+          }
+        }, 1200);
+      };
+      triviaOptions.appendChild(btn);
+    });
+  };
+
+  // Mostrar primera pregunta
+  showQuestion();
   triviaContainer.classList.remove("hidden");
-}
-triviaContainer.style.display = "block";
+  triviaContainer.style.display = "block";
 
-        triviaClose.onclick = () => {
-  triviaContainer.classList.add("hidden");
-  triviaContainer.style.display = "none";
-  triviaFeedback.textContent = "";
+  triviaClose.onclick = () => {
+    triviaContainer.classList.add("hidden");
+    triviaContainer.style.display = "none";
+    triviaFeedback.textContent = "";
+  };
 };
 
-      };
     });
 
     /* 6️⃣ Cuando se pierde el marcador */

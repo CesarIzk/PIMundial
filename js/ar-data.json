@@ -6,14 +6,28 @@
       "src": "./modelos/mexico_flag.glb",
       "scale": "0.0005 0.0005 0.0005"
     },
-    "video": { "src": "./videos/mexico.mp4" },
+    "video": { "src": "https://cdn.mundialcum2026.com/videos/mexico.mp4" },
     "infoText": "México, país del picante y una de las sedes del Mundial 2026.",
-    "trivia": {
-      "question": "¿Cuántas veces ha llegado México a cuartos de final en un Mundial?",
-      "options": ["Nunca", "Dos veces", "Cuatro veces"],
-      "answerIndex": 1,
-      "feedback": "✅ ¡Correcto! México llegó en 1970 y 1986."
-    },
+    "trivia": [
+      {
+        "question": "¿Cuántas veces ha llegado México a cuartos de final en un Mundial?",
+        "options": ["Nunca", "Dos veces", "Cuatro veces"],
+        "answerIndex": 1,
+        "feedback": "✅ Correcto: México llegó en 1970 y 1986."
+      },
+      {
+        "question": "¿Quién es el máximo goleador de México en los mundiales?",
+        "options": ["Luis Hernández", "Hugo Sánchez", "Javier Hernández"],
+        "answerIndex": 0,
+        "feedback": "✅ ¡Bien! Luis Hernández con 4 goles."
+      },
+      {
+        "question": "¿En qué año fue el primer mundial de México?",
+        "options": ["1930", "1950", "1958"],
+        "answerIndex": 0,
+        "feedback": "✅ Correcto: México debutó en 1930."
+      }
+    ],
     "effects": { "color": "#00ff00" },
     "stats": {
       "rankingFIFA": 15,
@@ -22,10 +36,9 @@
       "maxEtapa": "Cuartos de Final (1970, 1986)"
     },
     "animation": {
-      "type": "rotateY",        
-      "speed": 2000,            
-      "loop": "true",           
-      "intensity": 0.3          
+      "type": "rotateY",
+      "speed": 2000,
+      "loop": "true"
     }
   }
 ]

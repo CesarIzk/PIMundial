@@ -436,3 +436,12 @@ a-video video {
 .filtered-video.show {
   display: block !important;
 }
+
+#trivia-feedback {
+  transition: color 0.3s ease;
+}
+#trivia-feedback.final {
+  font-weight: bold;
+  color: #FFD700 !important;
+  font-size: 1.1rem;
+}
