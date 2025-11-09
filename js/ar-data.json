@@ -2,7 +2,10 @@
   {
     "targetIndex": 0,
     "targetName": "México",
-    "model": { "src": "./modelos/mexico_flag.glb", "scale": "0.0025 0.00011 0.00011" },
+    "model": {
+      "src": "./modelos/mexico_flag.glb",
+      "scale": "0.0025 0.00011 0.00011"
+    },
     "video": { "src": "./videos/mexico.mp4" },
     "infoImage": "./images/flag_mex.png",
     "infoText": "México, país del picante y una de las sedes del Mundial 2026.",
@@ -18,6 +21,12 @@
       "partidosGanados": 58,
       "mundialesJugados": 17,
       "maxEtapa": "Cuartos de Final (1970, 1986)"
+    },
+    "animation": {
+      "type": "rotateY",        
+      "speed": 2000,            
+      "loop": "true",           
+      "intensity": 0.3          
     }
   }
 ]

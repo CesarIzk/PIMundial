@@ -144,18 +144,53 @@ btnStats.onclick = () => {
     statsContainer.classList.add("hidden");
   };
 };
+const btnPause = document.getElementById("btn-pause");
+let isPaused = false; // Estado de animación
+
+btnPause.onclick = () => {
+  if (!item.animation) return alert("❌ Este modelo no tiene animación.");
+
+  // Si el modelo no está visible aún, no hacemos nada
+  if (model.getAttribute("visible") === "false") {
+    alert("⚠️ Primero muestra el modelo 3D.");
+    return;
+  }
+
+  if (!isPaused) {
+    model.pause(); // pausa todas las animaciones
+    btnPause.textContent = "▶️ Reanudar";
+    isPaused = true;
+  } else {
+    model.play(); // reanuda
+    btnPause.textContent = "⏸️ Pausar";
+    isPaused = false;
+  }
+};
 
       /* --- Botón Modelo --- */
-      btnModel.onclick = () => {
-        model.setAttribute("visible", "true");
-        video.setAttribute("visible", "false");
-        ball.setAttribute("visible", "false");
+    btnModel.onclick = () => {
+  model.setAttribute("visible", "true");
 
-        // 🔸 Ocultar overlay y filtros
-        overlayVideo.classList.remove("show");
-        overlayVideo.pause();
-        document.getElementById("filter-panel").classList.add("hidden");
-      };
+  // 🔄 Si tiene animación configurada en JSON
+  if (item.animation) {
+    const anim = item.animation;
+    model.removeAttribute("animation");
+
+    model.setAttribute("animation", {
+      property: "rotation",
+      to: "0 360 0",
+      dur: anim.speed || 3000,
+      loop: anim.loop !== "false",
+      easing: "linear"
+    });
+  }
+
+  overlayVideo.classList.remove("show");
+  overlayVideo.pause();
+  document.getElementById("filter-panel").classList.add("hidden");
+};
+
+
 
       /* --- Botón Video --- */
       btnVideo.onclick = () => {
