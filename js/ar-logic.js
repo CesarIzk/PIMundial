@@ -164,6 +164,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 btnVideo.onclick = () => {
+  // Ocultar otros elementos 3D
   model.setAttribute("visible", "false");
   video.setAttribute("visible", "false");
   ball.setAttribute("visible", "false");
@@ -174,48 +175,55 @@ btnVideo.onclick = () => {
     return;
   }
 
-  // Detectar si es un enlace de YouTube
+  // Detectar si es YouTube
   const isYouTube = videoSrc.includes("youtube.com") || videoSrc.includes("youtu.be");
 
   const overlayIframe = document.getElementById("overlayIframe");
   const youtubeFrame = document.getElementById("youtubeFrame");
+  const youtubeLink = document.getElementById("youtubeLink");
 
-  // Ocultar ambos por si había uno activo
+  // Ocultar ambos por si hay uno activo
   overlayVideo.classList.add("hidden");
   overlayIframe.classList.add("hidden");
 
   if (isYouTube) {
-    // 🔹 Extraer ID del video y construir URL embebida
+    // 🟥 Extraer ID del video y construir URL embebida
     const videoId = videoSrc.split("v=")[1]?.split("&")[0] || videoSrc.split("/").pop();
     const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
 
     youtubeFrame.src = embedUrl;
+    youtubeLink.href = videoSrc;
+
     overlayIframe.classList.remove("hidden");
     overlayIframe.classList.add("show");
+
+    // Ocultar filtros (solo aplican a video local)
+    document.getElementById("filter-panel").classList.add("hidden");
   } else {
-    // 🔹 Video local o remoto permitido
+    // 🟢 Video local o remoto permitido
     overlayVideo.src = videoSrc;
     overlayVideo.classList.remove("hidden");
     overlayVideo.classList.add("show");
     overlayVideo.play().catch(err => console.warn("⚠️ No se pudo reproducir:", err));
-  }
 
-  // ✅ Mostrar filtros solo si es video local
-  const filterPanel = document.getElementById("filter-panel");
-  if (!isYouTube) {
+    // Mostrar panel de filtros
+    const filterPanel = document.getElementById("filter-panel");
     filterPanel.classList.remove("hidden");
-  } else {
-    filterPanel.classList.add("hidden");
+
+    // Configurar filtros
+    const closeFilters = document.getElementById("close-filters");
+    if (closeFilters)
+      closeFilters.onclick = () => filterPanel.classList.add("hidden");
+
+    const filterButtons = document.querySelectorAll("#filter-options button");
+    filterButtons.forEach(btn => {
+      btn.onclick = () => {
+        const filterValue = btn.dataset.filter;
+        overlayVideo.style.filter = filterValue === "none" ? "none" : filterValue;
+      };
+    });
   }
-
-  // Cerrar filtros
-  const closeFilters = document.getElementById("close-filters");
-  if (closeFilters)
-    closeFilters.onclick = () => filterPanel.classList.add("hidden");
 };
-
-
-
 
 
 

@@ -889,3 +889,66 @@ footer {
   margin-top: 1rem;
   line-height: 1.4;
 }
+/* === 📹 Overlay general (tanto video como iframe) === */
+.filtered-video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 45vw;
+  max-width: 900px;
+  max-height: 506px;
+  background: black;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  display: none;
+  z-index: 9999; /* 🟢 arriba de los botones */
+}
+
+.filtered-video.show {
+  display: block;
+}
+
+/* 🔘 Panel de filtros */
+.filter-card {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+
+/* 🧭 Contenedor principal de UI (botones) */
+#ui-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10001; /* un poco encima del video local */
+}
+
+/* 📺 Botón para abrir el video en YouTube */
+.yt-link-btn {
+  position: absolute;
+  bottom: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff0000;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s ease;
+}
+
+.yt-link-btn:hover {
+  background: #c00000;
+  transform: translateX(-50%) scale(1.05);
+}
+
