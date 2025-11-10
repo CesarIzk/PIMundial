@@ -37,7 +37,7 @@
     "targets": [3, 4, 5],
     "targetName": "Brasil",
     "model": { "src": "./modelos/balonverde.glb", "scale": "0.001 0.001 0.001" },
-    "video": { "src": "./videos/brazil.mp4" },
+    "video": { "src": "./videos/brasil.mp4" },
     "infoText": "Brasil es el país con más Copas del Mundo ganadas, símbolo del 'jogo bonito' y la creatividad.",
     "trivia": [
       {
@@ -105,7 +105,7 @@
     "targets": [9, 10, 11],
     "targetName": "Corea del Sur",
     "model": { "src": "./modelos/balonazul.glb", "scale": "0.001 0.001 0.001" },
-    "video": { "src": "./videos/korea.mp4" },
+    "video": { "src": "./videos/corea.mp4" },
     "infoText": "Corea del Sur marcó historia al llegar a semifinales en 2002, siendo un orgullo asiático.",
     "trivia": [
       {
@@ -241,7 +241,7 @@
     "targets": [21, 22, 23],
     "targetName": "Jordania",
     "model": { "src": "./modelos/balonverde.glb", "scale": "0.001 0.001 0.001" },
-    "video": { "src": "./videos/jordan.mp4" },
+    "video": { "src": "./videos/jordania.mp4" },
     "infoText": "Jordania busca consolidarse en el fútbol asiático y alcanzar su primera clasificación mundialista.",
     "trivia": [
       {
