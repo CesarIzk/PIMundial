@@ -66,9 +66,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       const model = document.createElement("a-gltf-model");
       model.setAttribute("src", `#${modelId}`);
       model.setAttribute("scale", item.model?.scale || "1 1 1");
-      model.setAttribute("position", item.model?.position || "0 0.3 0");
+     model.setAttribute("position", "0 0.2 0");
+model.setAttribute("visible", "true");
       model.setAttribute("rotation", item.model?.rotation || "0 180 0");
-      model.setAttribute("visible", "false");
+   //   model.setAttribute("visible", "false");
       target.appendChild(model);
 
       // === Video (local mp4) ===
