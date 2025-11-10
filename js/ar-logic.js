@@ -33,11 +33,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   mindar.setAttribute("mindar-image-targets", "");
   scene.appendChild(mindar);
 
-  /* 4️⃣ Crear entidades dinámicas */
-  arData.forEach((item, i) => {
-    const targetIndex = item.targetIndex ?? i;
+/* 4️⃣ Crear entidades dinámicas con soporte multi-target */
+arData.forEach((item, i) => {
+  const targetIndexes = item.targets || [item.targetIndex ?? i];
+
+  targetIndexes.forEach((tIndex) => {
     const target = document.createElement("a-entity");
-    target.setAttribute("mindar-image-target", `targetIndex: ${targetIndex}`);
+    target.setAttribute("mindar-image-target", `targetIndex: ${tIndex}`);
 
     // === Texto informativo ===
     const infoText = document.createElement("a-text");
@@ -50,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     target.appendChild(infoText);
 
     // === Modelo 3D ===
-    const modelId = `model-${targetIndex}`;
+    const modelId = `model-${tIndex}`;
     const modelAsset = document.createElement("a-asset-item");
     modelAsset.setAttribute("id", modelId);
     modelAsset.setAttribute("src", item.model?.src || "");
@@ -59,11 +61,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const model = document.createElement("a-gltf-model");
     model.setAttribute("src", `#${modelId}`);
     model.setAttribute("scale", item.model?.scale || "1 1 1");
+    model.setAttribute("position", item.model?.position || "0 0 0.2");
     model.setAttribute("visible", "false");
     target.appendChild(model);
 
     // === Video ===
-    const videoId = `video-${targetIndex}`;
+    const videoId = `video-${tIndex}`;
     const videoAsset = document.createElement("video");
     videoAsset.setAttribute("id", videoId);
     videoAsset.setAttribute("src", item.video?.src || "");
@@ -78,6 +81,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     video.setAttribute("src", `#${videoId}`);
     video.setAttribute("width", "1.5");
     video.setAttribute("height", "0.85");
+    video.setAttribute("position", "0 0 0.1");
     video.setAttribute("visible", "false");
     target.appendChild(video);
 
@@ -93,328 +97,185 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     /* 5️⃣ Eventos de detección */
     target.addEventListener("targetFound", () => {
-      console.log(`🎯 Target detectado: ${item.targetName || targetIndex}`);
+      console.log(`🎯 Target detectado: ${item.targetName} (índice ${tIndex})`);
+
       uiContainer.classList.add("show");
       uiContainer.classList.remove("hide");
       infoText.setAttribute("visible", "true");
 
-      // ✅ Restaura escala original
-      model.setAttribute("scale", item.model?.scale || "1 1 1");
-
-      // Reset de estado
+      // Reset visual
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
       ball.setAttribute("visible", "false");
       videoAsset.pause();
       videoAsset.currentTime = 0;
 
-      /* --- Botón Estadísticas --- */
-      btnStats.onclick = () => {
-        overlayVideo.classList.remove("show");
-        overlayVideo.pause();
-        document.getElementById("filter-panel").classList.add("hidden");
+      // === Botón Modelo ===
+      btnModel.onclick = () => {
+        model.setAttribute("visible", "true");
+        model.removeAttribute("animation");
+        model.removeAttribute("animation__2");
 
-        const stats = item.stats;
-        if (!stats) return alert("❌ No hay estadísticas disponibles.");
-
-        const statsContainer = document.getElementById("stats-container");
-        const statsTitle = document.getElementById("stats-title");
-        const statsList = document.getElementById("stats-list");
-        const statsClose = document.getElementById("stats-close");
-
-        statsTitle.textContent = `📊 ${item.targetName} - Estadísticas`;
-        statsList.innerHTML = `
-          <li><strong>Ranking FIFA:</strong> ${stats.rankingFIFA}</li>
-          <li><strong>Partidos ganados:</strong> ${stats.partidosGanados}</li>
-          <li><strong>Mundiales jugados:</strong> ${stats.mundialesJugados}</li>
-          <li><strong>Mejor etapa:</strong> ${stats.maxEtapa}</li>
-        `;
-
-        statsContainer.classList.remove("hidden");
-        statsClose.onclick = () => statsContainer.classList.add("hidden");
-      };
-
-      /* --- Botón Modelo --- */
-     /* --- Botón Modelo --- */
-btnModel.onclick = () => {
-  model.setAttribute("visible", "true");
-
-  // Limpiar animaciones previas
-  model.removeAttribute("animation");
-  model.removeAttribute("animation__2");
-
-  // Según el país, aplicar una animación diferente
-  const country = (item.targetName || "").toLowerCase();
-
-  switch (country) {
-    case "méxico":
-      // 🇲🇽 Bandera fija, sin animación
-      model.removeAttribute("animation");
-      break;
-
-    case "canadá":
-      // 🍁 Flotando suavemente arriba y abajo
-      model.setAttribute("animation", {
-        property: "position",
-        dir: "alternate",
-        dur: 2500,
-        easing: "easeInOutSine",
-        loop: true,
-        to: "0 0.25 0"
-      });
-      break;
-
-    case "estados unidos":
-      // 🦅 Rotación rápida en el eje Y
-      model.setAttribute("animation", {
-        property: "rotation",
-        to: "0 360 0",
-        dur: 3000,
-        easing: "linear",
-        loop: true
-      });
-      break;
-
-    case "argentina":
-      // 🇦🇷 Rebote elástico (como un balón)
-      model.setAttribute("animation", {
-        property: "position",
-        dir: "alternate",
-        dur: 1200,
-        easing: "easeOutElastic",
-        loop: true,
-        to: "0 0.4 0"
-      });
-      break;
-
-    case "brasil":
-      // 🇧🇷 Giro diagonal y leve escalado pulsante
-      model.setAttribute("animation", {
-        property: "rotation",
-        to: "360 360 0",
-        dur: 5000,
-        easing: "easeInOutQuad",
-        loop: true
-      });
-      model.setAttribute("animation__2", {
-        property: "scale",
-        dir: "alternate",
-        dur: 1800,
-        to: "1.05 1.05 1.05",
-        easing: "easeInOutSine",
-        loop: true
-      });
-      break;
-
-    case "francia":
-      // 🇫🇷 Vibración leve horizontal (como temblor)
-      model.setAttribute("animation", {
-        property: "position",
-        dir: "alternate",
-        dur: 400,
-        easing: "easeInOutSine",
-        loop: true,
-        to: "0.05 0 0"
-      });
-      break;
-
-    case "alemania":
-      // 🇩🇪 Movimiento orbital (rotación + desplazamiento)
-      model.setAttribute("animation", {
-        property: "rotation",
-        to: "0 360 0",
-        dur: 6000,
-        loop: true,
-        easing: "linear"
-      });
-      model.setAttribute("animation__2", {
-        property: "position",
-        dir: "alternate",
-        to: "0.15 0.15 0",
-        dur: 2500,
-        easing: "easeInOutSine",
-        loop: true
-      });
-      break;
-
-    case "japón":
-      // 🇯🇵 Latido (pulso de escala)
-      model.setAttribute("animation", {
-        property: "scale",
-        dir: "alternate",
-        dur: 1000,
-        loop: true,
-        easing: "easeInOutSine",
-        to: "1.2 1.2 1.2"
-      });
-      break;
-
-    default:
-      // 🌍 Animación genérica si no coincide
-      model.setAttribute("animation", {
-        property: "rotation",
-        to: "0 360 0",
-        dur: 4000,
-        easing: "linear",
-        loop: true
-      });
-      break;
-  }
-
-  // Ocultar overlay y otros elementos
-  video.setAttribute("visible", "false");
-  ball.setAttribute("visible", "false");
-  overlayVideo.classList.remove("show");
-  overlayVideo.pause();
-  document.getElementById("filter-panel").classList.add("hidden");
-};
-
-
-
-   
-
-
-btnVideo.onclick = () => {
-  // Ocultar elementos 3D y efectos
-  model.setAttribute("visible", "false");
-  video.setAttribute("visible", "false");
-  ball.setAttribute("visible", "false");
-
-  const videoSrc = item.video?.src || "";
-  if (!videoSrc) {
-    alert("❌ No se encontró el video para este país.");
-    return;
-  }
-
-  // Detectar si es un enlace de YouTube
-  const isYouTube = videoSrc.includes("youtube.com") || videoSrc.includes("youtu.be");
-
-  const overlayIframe = document.getElementById("overlayIframe");
-  const youtubeFrame = document.getElementById("youtubeFrame");
-  const youtubeLink = document.getElementById("youtubeLink");
-
-  // Ocultar ambos overlays primero
-  overlayVideo.classList.add("hidden");
-  overlayIframe.classList.add("hidden");
-
-  if (isYouTube) {
-    // Extraer ID del video
-    const videoId = videoSrc.split("v=")[1]?.split("&")[0] || videoSrc.split("/").pop();
-    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
-
-    // Mostrar iframe
-    youtubeFrame.src = embedUrl;
-    youtubeLink.href = videoSrc;
-
-    overlayIframe.classList.remove("hidden");
-    overlayIframe.classList.add("show");
-
-    // Ocultar filtros (no aplican a iframe)
-    document.getElementById("filter-panel").classList.add("hidden");
-    console.log("▶️ Mostrando video de YouTube:", embedUrl);
-  } else {
-    // Video local o remoto permitido
-    overlayVideo.src = videoSrc;
-    overlayVideo.classList.remove("hidden");
-    overlayVideo.classList.add("show");
-
-    overlayVideo.play().then(() => {
-      console.log("🎬 Video local iniciado:", videoSrc);
-    }).catch(err => console.warn("⚠️ No se pudo reproducir:", err));
-
-    // Mostrar panel de filtros solo en videos locales
-    const filterPanel = document.getElementById("filter-panel");
-    filterPanel.classList.remove("hidden");
-
-    const closeFilters = document.getElementById("close-filters");
-    if (closeFilters)
-      closeFilters.onclick = () => filterPanel.classList.add("hidden");
-
-    const filterButtons = document.querySelectorAll("#filter-options button");
-    filterButtons.forEach(btn => {
-      btn.onclick = () => {
-        const filterValue = btn.dataset.filter;
-        overlayVideo.style.filter = filterValue === "none" ? "none" : filterValue;
-      };
-    });
-  }
-};
-
-
-
-
-    /* --- Botón Trivia (múltiples preguntas) --- */
-btnTrivia.onclick = () => {
-  overlayVideo.classList.remove("show");
-  overlayVideo.pause();
-  document.getElementById("filter-panel").classList.add("hidden");
-
-  const triviaSet = item.trivia;
-  if (!triviaSet || !Array.isArray(triviaSet) || triviaSet.length === 0)
-    return alert("❌ No hay trivia disponible.");
-
-  const triviaContainer = document.getElementById("trivia-container");
-  const triviaQuestion = document.getElementById("trivia-question");
-  const triviaOptions = document.getElementById("trivia-options");
-  const triviaFeedback = document.getElementById("trivia-feedback");
-  const triviaClose = document.getElementById("trivia-close");
-
-  let currentIndex = 0;
-  let correctCount = 0;
-
-  // Función para mostrar una pregunta
-  const showQuestion = () => {
-    const q = triviaSet[currentIndex];
-    triviaQuestion.textContent = `Pregunta ${currentIndex + 1}/${triviaSet.length}: ${q.question}`;
-    triviaOptions.innerHTML = "";
-    triviaFeedback.textContent = "";
-
-    q.options.forEach((option, index) => {
-      const btn = document.createElement("button");
-      btn.textContent = option;
-      btn.onclick = () => {
-        if (index === q.answerIndex) {
-          triviaFeedback.textContent = q.feedback;
-          triviaFeedback.style.color = "#00ff88";
-          ball.setAttribute("color", item.effects?.color || "#00ff00");
-          ball.setAttribute("visible", "true");
-          correctCount++;
-        } else {
-          triviaFeedback.textContent = "❌ Respuesta incorrecta.";
-          triviaFeedback.style.color = "#ff5555";
+        const country = (item.targetName || "").toLowerCase();
+        switch (country) {
+          case "méxico":
+            break;
+          case "canadá":
+            model.setAttribute("animation", {
+              property: "position",
+              dir: "alternate",
+              dur: 2500,
+              easing: "easeInOutSine",
+              loop: true,
+              to: "0 0.2 0"
+            });
+            break;
+          case "estados unidos":
+            model.setAttribute("animation", {
+              property: "rotation",
+              to: "0 360 0",
+              dur: 3000,
+              easing: "linear",
+              loop: true
+            });
+            break;
+          case "argentina":
+            model.setAttribute("animation", {
+              property: "position",
+              dir: "alternate",
+              dur: 1000,
+              easing: "easeOutElastic",
+              loop: true,
+              to: "0 0.3 0"
+            });
+            break;
+          case "brasil":
+            model.setAttribute("animation", {
+              property: "rotation",
+              to: "360 360 0",
+              dur: 5000,
+              easing: "easeInOutQuad",
+              loop: true
+            });
+            model.setAttribute("animation__2", {
+              property: "scale",
+              dir: "alternate",
+              dur: 1800,
+              to: "1.1 1.1 1.1",
+              easing: "easeInOutSine",
+              loop: true
+            });
+            break;
+          case "francia":
+            model.setAttribute("animation", {
+              property: "position",
+              dir: "alternate",
+              dur: 400,
+              easing: "easeInOutSine",
+              loop: true,
+              to: "0.05 0 0"
+            });
+            break;
+          case "alemania":
+            model.setAttribute("animation", {
+              property: "rotation",
+              to: "0 360 0",
+              dur: 6000,
+              loop: true,
+              easing: "linear"
+            });
+            model.setAttribute("animation__2", {
+              property: "position",
+              dir: "alternate",
+              to: "0.1 0.1 0",
+              dur: 2500,
+              easing: "easeInOutSine",
+              loop: true
+            });
+            break;
+          case "japón":
+            model.setAttribute("animation", {
+              property: "scale",
+              dir: "alternate",
+              dur: 1000,
+              loop: true,
+              easing: "easeInOutSine",
+              to: "1.2 1.2 1.2"
+            });
+            break;
+          default:
+            model.setAttribute("animation", {
+              property: "rotation",
+              to: "0 360 0",
+              dur: 4000,
+              easing: "linear",
+              loop: true
+            });
+            break;
         }
-
-        // Mostrar siguiente pregunta o resultado
-        setTimeout(() => {
-          currentIndex++;
-          if (currentIndex < triviaSet.length) {
-            showQuestion();
-          } else {
-            triviaQuestion.textContent = "🎉 Resultados";
-            triviaOptions.innerHTML = "";
-            triviaFeedback.style.color = "#FFD700";
-            triviaFeedback.textContent = `Respondiste correctamente ${correctCount} de ${triviaSet.length} preguntas.`;
-          triviaFeedback.classList.add("final");
-
-          }
-        }, 1200);
       };
-      triviaOptions.appendChild(btn);
-    });
-  };
 
-  // Mostrar primera pregunta
-  showQuestion();
-  triviaContainer.classList.remove("hidden");
-  triviaContainer.style.display = "block";
+      // === Botón Video ===
+      btnVideo.onclick = () => {
+        overlayVideo.src = item.video?.src || "";
+        overlayVideo.classList.add("show");
+        overlayVideo.play().catch(() => {});
+        overlayVideo.style.pointerEvents = "none";
+        uiContainer.style.pointerEvents = "auto";
+      };
 
-  triviaClose.onclick = () => {
-    triviaContainer.classList.add("hidden");
-    triviaContainer.style.display = "none";
-    triviaFeedback.textContent = "";
-  };
-};
+      // === Botón Trivia ===
+      btnTrivia.onclick = () => {
+        const triviaSet = item.trivia || [];
+        if (!triviaSet.length) return alert("❌ No hay trivia disponible.");
 
+        const triviaContainer = document.getElementById("trivia-container");
+        const triviaQuestion = document.getElementById("trivia-question");
+        const triviaOptions = document.getElementById("trivia-options");
+        const triviaFeedback = document.getElementById("trivia-feedback");
+        const triviaClose = document.getElementById("trivia-close");
+
+        let currentIndex = 0;
+        let correctCount = 0;
+
+        const showQuestion = () => {
+          const q = triviaSet[currentIndex];
+          triviaQuestion.textContent = q.question;
+          triviaOptions.innerHTML = "";
+          triviaFeedback.textContent = "";
+
+          q.options.forEach((opt, idx) => {
+            const b = document.createElement("button");
+            b.textContent = opt;
+            b.onclick = () => {
+              if (idx === q.answerIndex) {
+                triviaFeedback.textContent = q.feedback;
+                triviaFeedback.style.color = "#00ff88";
+                correctCount++;
+              } else {
+                triviaFeedback.textContent = "❌ Respuesta incorrecta.";
+                triviaFeedback.style.color = "#ff5555";
+              }
+              setTimeout(() => {
+                currentIndex++;
+                if (currentIndex < triviaSet.length) {
+                  showQuestion();
+                } else {
+                  triviaQuestion.textContent = "🎉 Resultados";
+                  triviaFeedback.style.color = "#FFD700";
+                  triviaFeedback.textContent = `Acertaste ${correctCount} de ${triviaSet.length}.`;
+                  triviaOptions.innerHTML = "";
+                }
+              }, 1200);
+            };
+            triviaOptions.appendChild(b);
+          });
+        };
+
+        showQuestion();
+        triviaContainer.classList.remove("hidden");
+        triviaClose.onclick = () => triviaContainer.classList.add("hidden");
+      };
     });
 
     /* 6️⃣ Cuando se pierde el marcador */
@@ -425,12 +286,13 @@ btnTrivia.onclick = () => {
       model.setAttribute("visible", "false");
       video.setAttribute("visible", "false");
       ball.setAttribute("visible", "false");
-
+      model.removeAttribute("animation");
+      model.removeAttribute("animation__2");
       overlayVideo.classList.remove("show");
       overlayVideo.pause();
-      document.getElementById("filter-panel").classList.add("hidden");
     });
   });
+});
 
   /* 7️⃣ Estado global AR */
   scene.addEventListener("arReady", () => {
