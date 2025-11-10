@@ -445,3 +445,24 @@ a-video video {
   color: #FFD700 !important;
   font-size: 1.1rem;
 }
+
+.yt-link-btn {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff0000;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 0.9rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s, background 0.3s;
+}
+
+.yt-link-btn:hover {
+  background: #cc0000;
+  transform: translateX(-50%) scale(1.05);
+}

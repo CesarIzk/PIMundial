@@ -24,12 +24,9 @@
     renderer="colorManagement: true; physicallyCorrectLights: true;"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: true"
-
   >
     <!-- Assets (videos y modelos pre-cargados) -->
-    <a-assets id="ar-assets">
-    
-    </a-assets>
+    <a-assets id="ar-assets"></a-assets>
 
     <!-- Cámara -->
     <a-camera
@@ -41,48 +38,60 @@
   </a-scene>
 
   <!-- Interfaz UI -->
-<div id="ui-container">
-  <button id="btn-model" class="ar-btn">Modelo 3D</button>
-  <button id="btn-video" class="ar-btn">Video</button>
-  <button id="btn-trivia" class="ar-btn">Trivia</button>
-  <button id="btn-stats" class="ar-btn">Estadísticas</button>
-  <button id="btn-effect" class="ar-btn">Celebración</button>
-</div>
-<!-- 🎞️ Panel de Filtros de Video -->
-<div id="filter-panel" class="filter-card hidden">
-  <div class="filter-header">
-    <h4>🎨 Filtros</h4>
-    <button id="close-filters" class="close-filters-btn">✖</button>
+  <div id="ui-container">
+    <button id="btn-model" class="ar-btn">Modelo 3D</button>
+    <button id="btn-video" class="ar-btn">Video</button>
+    <button id="btn-trivia" class="ar-btn">Trivia</button>
+    <button id="btn-stats" class="ar-btn">Estadísticas</button>
+    <button id="btn-effect" class="ar-btn">Celebración</button>
   </div>
-  <div id="filter-options">
-    <button data-filter="none">Original</button>
-    <button data-filter="grayscale(1)">Blanco y negro</button>
-    <button data-filter="sepia(0.6) contrast(1.3)">Vintage</button>
-    <button data-filter="hue-rotate(180deg) saturate(1.8)">Neón</button>
-    <button data-filter="contrast(1.4) brightness(1.1) saturate(1.2)">Cinemático</button>
+
+  <!-- 🎞️ Panel de Filtros de Video -->
+  <div id="filter-panel" class="filter-card hidden">
+    <div class="filter-header">
+      <h4>🎨 Filtros</h4>
+      <button id="close-filters" class="close-filters-btn">✖</button>
+    </div>
+    <div id="filter-options">
+      <button data-filter="none">Original</button>
+      <button data-filter="grayscale(1)">Blanco y negro</button>
+      <button data-filter="sepia(0.6) contrast(1.3)">Vintage</button>
+      <button data-filter="hue-rotate(180deg) saturate(1.8)">Neón</button>
+      <button data-filter="contrast(1.4) brightness(1.1) saturate(1.2)">Cinemático</button>
+    </div>
   </div>
-</div>
 
+  <!-- 🎯 Contenedor de Trivia -->
+  <div id="trivia-container" class="trivia-card hidden">
+    <h3 id="trivia-question"></h3>
+    <div id="trivia-options"></div>
+    <p id="trivia-feedback"></p>
+    <button id="trivia-close">Cerrar</button>
+  </div>
 
-<!-- 🎯 Contenedor de Trivia -->
-<div id="trivia-container" class="trivia-card hidden">
-  <h3 id="trivia-question"></h3>
-  <div id="trivia-options"></div>
-  <p id="trivia-feedback"></p>
-  <button id="trivia-close">Cerrar</button>
-</div>
-<!-- 📊 Contenedor de Estadísticas -->
-<div id="stats-container" class="stats-card hidden">
-  <h3 id="stats-title"></h3>
-  <ul id="stats-list"></ul>
-  <button id="stats-close">Cerrar</button>
-</div>
+  <!-- 📊 Contenedor de Estadísticas -->
+  <div id="stats-container" class="stats-card hidden">
+    <h3 id="stats-title"></h3>
+    <ul id="stats-list"></ul>
+    <button id="stats-close">Cerrar</button>
+  </div>
 
+  <!-- 🎬 Videos superpuestos -->
+  <!-- 📹 Video local (con filtros CSS) -->
+  <video id="overlayVideo" class="filtered-video hidden" playsinline muted></video>
 
+  <!-- ▶️ Iframe para videos de YouTube -->
+  <div id="overlayIframe" class="filtered-video hidden">
+    <iframe id="youtubeFrame"
+            width="100%"
+            height="100%"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+    </iframe>
+    <a id="youtubeLink" href="#" target="_blank" class="yt-link-btn">🔗 Ver en YouTube</a>
+  </div>
 
   <script src="js/ar-logic.js" defer></script>
-  <!-- 🎬 Video superpuesto (para filtros CSS reales) -->
-<video id="overlayVideo" class="filtered-video hidden" playsinline muted></video>
-
 </body>
 </html>

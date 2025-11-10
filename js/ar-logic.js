@@ -163,94 +163,57 @@ document.addEventListener("DOMContentLoaded", async () => {
    
 
 
-/* --- Botón Video --- */
 btnVideo.onclick = () => {
-  // 🔹 Ocultar otros elementos 3D o efectos
   model.setAttribute("visible", "false");
   video.setAttribute("visible", "false");
   ball.setAttribute("visible", "false");
 
-  // 🔹 Obtener la URL del video (puede ser local, remoto o de YouTube)
   const videoSrc = item.video?.src || "";
   if (!videoSrc) {
     alert("❌ No se encontró el video para este país.");
     return;
   }
 
-  // 🔹 Limpiar posibles restos anteriores
-  overlayVideo.pause();
-  overlayVideo.currentTime = 0;
-  overlayVideo.removeAttribute("src");
-  overlayVideo.style.filter = "none";
-  overlayVideo.load();
+  // Detectar si es un enlace de YouTube
+  const isYouTube = videoSrc.includes("youtube.com") || videoSrc.includes("youtu.be");
 
-  // ✅ Si es un video de YouTube (embed), usa un iframe
-  if (videoSrc.includes("youtube.com/embed")) {
-    console.log("🎬 Reproduciendo desde YouTube:", videoSrc);
+  const overlayIframe = document.getElementById("overlayIframe");
+  const youtubeFrame = document.getElementById("youtubeFrame");
 
-    // Elimina cualquier iframe previo
-    const existingIframe = document.getElementById("youtube-iframe");
-    if (existingIframe) existingIframe.remove();
+  // Ocultar ambos por si había uno activo
+  overlayVideo.classList.add("hidden");
+  overlayIframe.classList.add("hidden");
 
-    const iframe = document.createElement("iframe");
-    iframe.id = "youtube-iframe";
-    iframe.src = `${videoSrc}?autoplay=1&mute=1`;
-    iframe.allow = "autoplay; encrypted-media";
-    iframe.width = "640";
-    iframe.height = "360";
-    iframe.classList.add("filtered-video", "show");
-    iframe.style.borderRadius = "10px";
-    iframe.style.zIndex = "9999";
+  if (isYouTube) {
+    // 🔹 Extraer ID del video y construir URL embebida
+    const videoId = videoSrc.split("v=")[1]?.split("&")[0] || videoSrc.split("/").pop();
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
 
-    document.body.appendChild(iframe);
-
-    // 🔹 Ocultar overlayVideo si estuviera visible
-    overlayVideo.classList.remove("show");
-    overlayVideo.classList.add("hidden");
-
-    // 🔹 Mostrar filtros (aunque en iframe son decorativos)
-    const filterPanel = document.getElementById("filter-panel");
-    filterPanel.classList.remove("hidden");
-
-    const closeFilters = document.getElementById("close-filters");
-    if (closeFilters)
-      closeFilters.onclick = () => {
-        filterPanel.classList.add("hidden");
-        iframe.remove(); // cerrar el video
-      };
-
-    return; // salir de la función aquí
+    youtubeFrame.src = embedUrl;
+    overlayIframe.classList.remove("hidden");
+    overlayIframe.classList.add("show");
+  } else {
+    // 🔹 Video local o remoto permitido
+    overlayVideo.src = videoSrc;
+    overlayVideo.classList.remove("hidden");
+    overlayVideo.classList.add("show");
+    overlayVideo.play().catch(err => console.warn("⚠️ No se pudo reproducir:", err));
   }
 
-  // 🎞️ Caso normal: archivo .mp4 o URL directa
-  overlayVideo.src = videoSrc;
-  if (videoSrc.startsWith("http")) {
-    overlayVideo.setAttribute("crossorigin", "anonymous");
-  }
-
-  overlayVideo.classList.remove("hidden");
-  overlayVideo.classList.add("show");
-
-  overlayVideo.play()
-    .then(() => console.log("🎬 Video iniciado:", videoSrc))
-    .catch((err) => console.warn("⚠️ No se pudo reproducir automáticamente:", err));
-
-  // ✅ Mostrar filtros para videos locales/remotos
+  // ✅ Mostrar filtros solo si es video local
   const filterPanel = document.getElementById("filter-panel");
-  filterPanel.classList.remove("hidden");
+  if (!isYouTube) {
+    filterPanel.classList.remove("hidden");
+  } else {
+    filterPanel.classList.add("hidden");
+  }
 
+  // Cerrar filtros
   const closeFilters = document.getElementById("close-filters");
   if (closeFilters)
     closeFilters.onclick = () => filterPanel.classList.add("hidden");
-
-  const filterButtons = document.querySelectorAll("#filter-options button");
-  filterButtons.forEach((btn) => {
-    btn.onclick = () => {
-      const filterValue = btn.dataset.filter;
-      overlayVideo.style.filter = filterValue === "none" ? "none" : filterValue;
-    };
-  });
 };
+
 
 
 
