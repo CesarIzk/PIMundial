@@ -889,69 +889,78 @@ footer {
   margin-top: 1rem;
   line-height: 1.4;
 }
-/* === 📹 Overlay general (tanto video como iframe) === */
+/* === 📹 Overlay general (video local y YouTube) === */
 .filtered-video {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80vw;
-  height: 45vw;
+  width: 90vw;
+  height: 50vw;
   max-width: 900px;
-  max-height: 506px;
+  max-height: 510px;
   background: black;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
   display: none;
-  z-index: 9999; /* 🟢 arriba de los botones */
+  z-index: 10000; /* ✅ más alto que los botones y filtros */
 }
 
 .filtered-video.show {
   display: block;
 }
 
-/* 🔘 Panel de filtros */
+/* === 🧭 Contenedor de botones AR === */
+#ui-container {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  z-index: 9000; /* ⬇️ debajo del video */
+}
+
+.ar-btn {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+}
+
+.ar-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* === 🎨 Panel de filtros === */
 .filter-card {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10000;
+  z-index: 11000; /* 🟢 sobre el video */
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  width: 90vw;
+  max-width: 400px;
+  text-align: center;
 }
 
-/* 🧭 Contenedor principal de UI (botones) */
-#ui-container {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  z-index: 10001; /* un poco encima del video local */
+.filter-card.hidden {
+  display: none;
 }
 
-/* 📺 Botón para abrir el video en YouTube */
-.yt-link-btn {
-  position: absolute;
-  bottom: -45px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #ff0000;
-  color: #fff;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  font-weight: 600;
-  text-decoration: none;
-  font-size: 0.9rem;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
-  transition: all 0.25s ease;
-}
-
-#overlayIframe {
-  z-index: 9999;
-}
-
-#youtubeFrame {
+/* === ▶️ YouTube iframe === */
+#overlayIframe iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
   border-radius: 12px;
 }
 
@@ -969,10 +978,32 @@ footer {
   font-size: 0.9rem;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
   transition: all 0.25s ease;
+  z-index: 11001;
 }
 
 .yt-link-btn:hover {
   background: #c00000;
   transform: translateX(-50%) scale(1.05);
 }
+
+/* === 📱 Ajustes responsivos para celular === */
+@media (max-width: 768px) {
+  .filtered-video {
+    width: 95vw;
+    height: 55vw;
+  }
+
+  #ui-container {
+    top: auto;
+    bottom: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filter-card {
+    bottom: 80px;
+  }
+}
+
+
 
