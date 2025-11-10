@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       model.setAttribute("scale", item.model?.scale || "1 1 1");
      model.setAttribute("position", "0 0.2 0");
 model.setAttribute("visible", "true");
-      model.setAttribute("rotation", item.model?.rotation || "0 180 0");
+      model.setAttribute("rotation", item.model?.rotation || "0 0 0");
    //   model.setAttribute("visible", "false");
       target.appendChild(model);
 
