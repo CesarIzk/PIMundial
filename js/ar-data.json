@@ -1,44 +1,376 @@
 [
   {
-    "targetIndex": 0,
-    "targetName": "México",
-    "model": {
-      "src": "./modelos/mexico_flag.glb",
-      "scale": "0.0005 0.0005 0.0005"
-    },
-    "video": { "src": "videos/mexico.mp4"},
-    "infoText": "México, país del picante y una de las sedes del Mundial 2026.",
+    "targets": [0, 1, 2],
+    "targetName": "Argentina",
+    "model": { "src": "./modelos/baloncyan.glb", "scale": "0.001 0.001 0.001" },
+    "video": { "src": "./videos/argentina.mp4" },
+    "infoText": "Argentina es una de las selecciones más exitosas del mundo, conocida por su pasión y técnica.",
     "trivia": [
       {
-        "question": "¿Cuántas veces ha llegado México a cuartos de final en un Mundial?",
-        "options": ["Nunca", "Dos veces", "Cuatro veces"],
+        "question": "¿Cuándo ganó Argentina su primera Copa del Mundo?",
+        "options": ["1974", "1978", "1982"],
         "answerIndex": 1,
-        "feedback": "✅ Correcto: México llegó en 1970 y 1986."
+        "feedback": "Argentina ganó su primer título mundial en 1978 como anfitrión."
       },
       {
-        "question": "¿Quién es el máximo goleador de México en los mundiales?",
-        "options": ["Luis Hernández", "Hugo Sánchez", "Javier Hernández"],
+        "question": "¿Quién fue el capitán en el Mundial de 1986?",
+        "options": ["Diego Maradona", "Daniel Passarella", "Leopoldo Luque"],
         "answerIndex": 0,
-        "feedback": "✅ ¡Bien! Luis Hernández con 4 goles."
+        "feedback": "Diego Maradona lideró a la selección hacia la gloria en México 1986."
       },
       {
-        "question": "¿En qué año fue el primer mundial de México?",
-        "options": ["1930", "1950", "1958"],
+        "question": "¿Cuántos títulos mundiales tiene Argentina hasta 2022?",
+        "options": ["2", "3", "4"],
+        "answerIndex": 1,
+        "feedback": "Argentina ha ganado tres Copas del Mundo: 1978, 1986 y 2022."
+      }
+    ],
+    "effects": { "color": "#00aaff" },
+    "stats": {
+      "rankingFIFA": 1,
+      "partidosGanados": 47,
+      "mundialesJugados": 18,
+      "maxEtapa": "Campeón Mundial (1978, 1986, 2022)"
+    }
+  },
+  {
+    "targets": [3, 4, 5],
+    "targetName": "Brasil",
+    "model": { "src": "./modelos/balonverde.glb", "scale": "0.001 0.001 0.001" },
+    "video": { "src": "./videos/brazil.mp4" },
+    "infoText": "Brasil es el país con más Copas del Mundo ganadas, símbolo del 'jogo bonito' y la creatividad.",
+    "trivia": [
+      {
+        "question": "¿Cuántas Copas del Mundo ha ganado Brasil?",
+        "options": ["4", "5", "6"],
+        "answerIndex": 1,
+        "feedback": "Brasil tiene cinco títulos mundiales: 1958, 1962, 1970, 1994 y 2002."
+      },
+      {
+        "question": "¿Quién es considerado el 'Rey del Fútbol' en Brasil?",
+        "options": ["Pelé", "Zico", "Ronaldinho"],
         "answerIndex": 0,
-        "feedback": "✅ Correcto: México debutó en 1930."
+        "feedback": "Pelé es el ícono más grande del fútbol brasileño."
+      },
+      {
+        "question": "¿Qué país fue sede del Mundial ganado por Brasil en 2002?",
+        "options": ["Japón y Corea del Sur", "Francia", "Italia"],
+        "answerIndex": 0,
+        "feedback": "Brasil ganó el Mundial Corea-Japón 2002."
       }
     ],
     "effects": { "color": "#00ff00" },
+    "stats": {
+      "rankingFIFA": 3,
+      "partidosGanados": 76,
+      "mundialesJugados": 22,
+      "maxEtapa": "Campeón Mundial (5 títulos)"
+    }
+  },
+  {
+    "targets": [6, 7, 8],
+    "targetName": "Canadá",
+    "model": { "src": "./modelos/balonrojo.glb", "scale": "0.001 0.001 0.001" },
+    "video": { "src": "./videos/canada.mp4" },
+    "infoText": "Canadá será coanfitrión del Mundial 2026, reflejo del crecimiento del fútbol en Norteamérica.",
+    "trivia": [
+      {
+        "question": "¿En qué año debutó Canadá en la Copa del Mundo?",
+        "options": ["1982", "1986", "1994"],
+        "answerIndex": 1,
+        "feedback": "Canadá debutó en México 1986."
+      },
+      {
+        "question": "¿Qué jugador canadiense es figura del Bayern Múnich?",
+        "options": ["Alphonso Davies", "Jonathan David", "Cyle Larin"],
+        "answerIndex": 0,
+        "feedback": "Alphonso Davies es el referente actual del fútbol canadiense."
+      },
+      {
+        "question": "¿Qué rol cumple Canadá en el Mundial 2026?",
+        "options": ["Sede principal", "Cohost", "Invitado especial"],
+        "answerIndex": 1,
+        "feedback": "Canadá será coanfitrión junto a México y Estados Unidos."
+      }
+    ],
+    "effects": { "color": "#ff0000" },
+    "stats": {
+      "rankingFIFA": 48,
+      "partidosGanados": 1,
+      "mundialesJugados": 2,
+      "maxEtapa": "Fase de grupos (1986, 2022)"
+    }
+  },
+  {
+    "targets": [9, 10, 11],
+    "targetName": "Corea del Sur",
+    "model": { "src": "./modelos/balonazul.glb", "scale": "0.001 0.001 0.001" },
+    "video": { "src": "./videos/korea.mp4" },
+    "infoText": "Corea del Sur marcó historia al llegar a semifinales en 2002, siendo un orgullo asiático.",
+    "trivia": [
+      {
+        "question": "¿En qué año fue Corea del Sur coanfitriona del Mundial?",
+        "options": ["1998", "2002", "2006"],
+        "answerIndex": 1,
+        "feedback": "Corea del Sur organizó el Mundial 2002 junto a Japón."
+      },
+      {
+        "question": "¿Cuál fue su mejor resultado en un Mundial?",
+        "options": ["Octavos", "Cuartos", "Semifinales"],
+        "answerIndex": 2,
+        "feedback": "Corea del Sur llegó a semifinales en 2002."
+      },
+      {
+        "question": "¿Cómo se le conoce a la selección coreana?",
+        "options": ["Guerreros Rojos", "Tigres del Este", "Leones del Asia"],
+        "answerIndex": 0,
+        "feedback": "Su apodo oficial es 'Guerreros Rojos'."
+      }
+    ],
+    "effects": { "color": "#ff0033" },
+    "stats": {
+      "rankingFIFA": 22,
+      "partidosGanados": 18,
+      "mundialesJugados": 11,
+      "maxEtapa": "Semifinales (2002)"
+    }
+  },
+  {
+    "targets": [12, 13, 14],
+    "targetName": "Ecuador",
+    "model": { "src": "./modelos/balonamarillo.glb", "scale": "0.001 0.001 0.001" },
+    "video": { "src": "./videos/ecuador.mp4" },
+    "infoText": "Ecuador ha crecido de manera constante en el fútbol sudamericano, destacando por su juventud.",
+    "trivia": [
+      {
+        "question": "¿Cuándo debutó Ecuador en un Mundial?",
+        "options": ["1998", "2002", "2006"],
+        "answerIndex": 1,
+        "feedback": "Ecuador debutó en Corea-Japón 2002."
+      },
+      {
+        "question": "¿Cuál fue su mejor resultado?",
+        "options": ["Fase de grupos", "Octavos", "Cuartos"],
+        "answerIndex": 1,
+        "feedback": "Su mejor participación fue en 2006, alcanzando los octavos."
+      },
+      {
+        "question": "¿Qué jugador ecuatoriano fue figura en la Premier League?",
+        "options": ["Antonio Valencia", "Enner Valencia", "Álex Aguinaga"],
+        "answerIndex": 0,
+        "feedback": "Antonio Valencia destacó en el Manchester United."
+      }
+    ],
+    "effects": { "color": "#ffcc00" },
+    "stats": {
+      "rankingFIFA": 40,
+      "partidosGanados": 7,
+      "mundialesJugados": 4,
+      "maxEtapa": "Octavos (2006)"
+    }
+  },
+  {
+    "targets": [15, 16, 17],
+    "targetName": "Estados Unidos",
+    "model": { "src": "./modelos/balonazul.glb", "scale": "0.001 0.001 0.001" },
+    "video": { "src": "./videos/usa.mp4" },
+    "infoText": "Estados Unidos es una potencia emergente en el fútbol, con un desarrollo constante de su liga y formación juvenil.",
+    "trivia": [
+      {
+        "question": "¿Cuándo fue sede del Mundial por primera vez?",
+        "options": ["1990", "1994", "2002"],
+        "answerIndex": 1,
+        "feedback": "Estados Unidos fue sede en 1994."
+      },
+      {
+        "question": "¿Cuál es su mejor resultado en un Mundial?",
+        "options": ["Octavos", "Cuartos", "Semifinales"],
+        "answerIndex": 1,
+        "feedback": "Su mejor resultado fue cuartos de final en 2002."
+      },
+      {
+        "question": "¿Qué jugador fue figura en el Chelsea FC?",
+        "options": ["Pulisic", "Donovan", "Dempsey"],
+        "answerIndex": 0,
+        "feedback": "Christian Pulisic destacó en el Chelsea."
+      }
+    ],
+    "effects": { "color": "#1e3a8a" },
+    "stats": {
+      "rankingFIFA": 11,
+      "partidosGanados": 37,
+      "mundialesJugados": 11,
+      "maxEtapa": "Cuartos de Final (2002)"
+    }
+  },
+  {
+    "targets": [18, 19, 20],
+    "targetName": "Irán",
+    "model": { "src": "./modelos/balonverde.glb", "scale": "0.001 0.001 0.001" },
+    "video": { "src": "./videos/iran.mp4" },
+    "infoText": "Irán es una de las selecciones más fuertes de Asia, con presencia constante en los mundiales recientes.",
+    "trivia": [
+      {
+        "question": "¿En qué año participó Irán por primera vez?",
+        "options": ["1970", "1974", "1978"],
+        "answerIndex": 2,
+        "feedback": "Irán debutó en Argentina 1978."
+      },
+      {
+        "question": "¿Cuál es su mejor desempeño histórico?",
+        "options": ["Fase de grupos", "Octavos", "Cuartos"],
+        "answerIndex": 0,
+        "feedback": "Irán aún no ha superado la fase de grupos."
+      },
+      {
+        "question": "¿Qué continente representa Irán?",
+        "options": ["Asia", "Europa", "África"],
+        "answerIndex": 0,
+        "feedback": "Irán forma parte de la Confederación Asiática de Fútbol."
+      }
+    ],
+    "effects": { "color": "#007a33" },
+    "stats": {
+      "rankingFIFA": 21,
+      "partidosGanados": 10,
+      "mundialesJugados": 6,
+      "maxEtapa": "Fase de grupos"
+    }
+  },
+  {
+    "targets": [21, 22, 23],
+    "targetName": "Jordania",
+    "model": { "src": "./modelos/balonverde.glb", "scale": "0.001 0.001 0.001" },
+    "video": { "src": "./videos/jordan.mp4" },
+    "infoText": "Jordania busca consolidarse en el fútbol asiático y alcanzar su primera clasificación mundialista.",
+    "trivia": [
+      {
+        "question": "¿Ha participado Jordania en un Mundial?",
+        "options": ["Sí", "No", "Solo en eliminatorias"],
+        "answerIndex": 1,
+        "feedback": "Jordania aún no ha clasificado a un Mundial."
+      },
+      {
+        "question": "¿A qué confederación pertenece?",
+        "options": ["AFC", "CAF", "UEFA"],
+        "answerIndex": 0,
+        "feedback": "Jordania pertenece a la Confederación Asiática de Fútbol (AFC)."
+      },
+      {
+        "question": "¿En qué año casi logra su primera clasificación?",
+        "options": ["2010", "2014", "2018"],
+        "answerIndex": 1,
+        "feedback": "Estuvo cerca de clasificar en 2014, llegando al repechaje."
+      }
+    ],
+    "effects": { "color": "#cc0000" },
+    "stats": {
+      "rankingFIFA": 70,
+      "partidosGanados": 0,
+      "mundialesJugados": 0,
+      "maxEtapa": "Eliminatorias finales"
+    }
+  },
+  {
+    "targets": [24, 25, 26],
+    "targetName": "México",
+    "model": { "src": "./modelos/mexico_flag.glb", "scale": "0.001 0.001 0.001" },
+    "video": { "src": "./videos/mexico.mp4" },
+    "infoText": "México ha sido protagonista constante en los Mundiales y será una de las sedes del 2026.",
+    "trivia": [
+      {
+        "question": "¿Cuántas veces ha sido México anfitrión de un Mundial?",
+        "options": ["1", "2", "3"],
+        "answerIndex": 1,
+        "feedback": "México ha sido sede en 1970, 1986 y será nuevamente en 2026."
+      },
+      {
+        "question": "¿Cuál es su mejor resultado histórico?",
+        "options": ["Cuartos de final", "Octavos", "Semifinales"],
+        "answerIndex": 0,
+        "feedback": "México alcanzó los cuartos en 1970 y 1986."
+      },
+      {
+        "question": "¿Qué estadio mexicano ha sido sede de dos finales mundialistas?",
+        "options": ["Azteca", "Jalisco", "Universitario"],
+        "answerIndex": 0,
+        "feedback": "El Estadio Azteca fue sede de las finales de 1970 y 1986."
+      }
+    ],
+    "effects": { "color": "#006847" },
     "stats": {
       "rankingFIFA": 15,
       "partidosGanados": 58,
       "mundialesJugados": 17,
       "maxEtapa": "Cuartos de Final (1970, 1986)"
-    },
-    "animation": {
-      "type": "rotateY",
-      "speed": 2000,
-      "loop": "true"
+    }
+  },
+  {
+    "targets": [27, 28, 29],
+    "targetName": "Nueva Zelanda",
+    "model": { "src": "./modelos/balonazul.glb", "scale": "0.001 0.001 0.001" },
+    "video": { "src": "./videos/newzealand.mp4" },
+    "infoText": "Nueva Zelanda es el representante más constante de Oceanía en las Copas del Mundo.",
+    "trivia": [
+      {
+        "question": "¿En qué años clasificó al Mundial?",
+        "options": ["1982 y 2010", "1990 y 2014", "2002 y 2018"],
+        "answerIndex": 0,
+        "feedback": "Participó en España 1982 y Sudáfrica 2010."
+      },
+      {
+        "question": "¿Cuál fue su mejor resultado?",
+        "options": ["Fase de grupos", "Octavos", "Cuartos"],
+        "answerIndex": 0,
+        "feedback": "En 2010 se mantuvo invicto en fase de grupos, aunque sin avanzar."
+      },
+      {
+        "question": "¿Qué confederación representa?",
+        "options": ["OFC", "AFC", "UEFA"],
+        "answerIndex": 0,
+        "feedback": "Representa a la Confederación de Oceanía (OFC)."
+      }
+    ],
+    "effects": { "color": "#ffffff" },
+    "stats": {
+      "rankingFIFA": 105,
+      "partidosGanados": 0,
+      "mundialesJugados": 2,
+      "maxEtapa": "Fase de grupos"
+    }
+  },
+  {
+    "targets": [30, 31, 32],
+    "targetName": "Uzbekistán",
+    "model": { "src": "./modelos/baloncyan.glb", "scale": "0.001 0.001 0.001" },
+    "video": { "src": "./videos/uzbekistan.mp4" },
+    "infoText": "Uzbekistán ha sido una selección en ascenso en Asia, destacando en competiciones juveniles.",
+    "trivia": [
+      {
+        "question": "¿Ha clasificado Uzbekistán a un Mundial?",
+        "options": ["Sí", "No", "Solo en categoría Sub-20"],
+        "answerIndex": 1,
+        "feedback": "Aún no ha clasificado a la Copa del Mundo de mayores."
+      },
+      {
+        "question": "¿En qué confederación compite?",
+        "options": ["AFC", "UEFA", "CAF"],
+        "answerIndex": 0,
+        "feedback": "Forma parte de la Confederación Asiática de Fútbol (AFC)."
+      },
+      {
+        "question": "¿Qué torneo juvenil ha ganado recientemente?",
+        "options": ["Sub-20 Asia 2023", "Sub-17 Asia 2022", "Copa del Golfo 2023"],
+        "answerIndex": 0,
+        "feedback": "Ganó el Campeonato Asiático Sub-20 en 2023."
+      }
+    ],
+    "effects": { "color": "#00b5e2" },
+    "stats": {
+      "rankingFIFA": 66,
+      "partidosGanados": 0,
+      "mundialesJugados": 0,
+      "maxEtapa": "Eliminatorias finales"
     }
   }
 ]

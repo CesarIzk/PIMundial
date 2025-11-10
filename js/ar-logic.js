@@ -135,29 +135,140 @@ document.addEventListener("DOMContentLoaded", async () => {
       };
 
       /* --- Botón Modelo --- */
-      btnModel.onclick = () => {
-        model.setAttribute("visible", "true");
+     /* --- Botón Modelo --- */
+btnModel.onclick = () => {
+  model.setAttribute("visible", "true");
 
-        // 🔄 Animación del modelo (si está definida)
-        if (item.animation) {
-          const anim = item.animation;
-          model.removeAttribute("animation");
-          model.setAttribute("animation", {
-            property: anim.property || "rotation",
-            to: anim.to || "0 360 0",
-            dur: anim.speed || 3000,
-            loop: anim.loop !== "false",
-            easing: "easeInOutSine",
-          });
-        }
+  // Limpiar animaciones previas
+  model.removeAttribute("animation");
+  model.removeAttribute("animation__2");
 
-        // Ocultar overlay y otros elementos
-        video.setAttribute("visible", "false");
-        ball.setAttribute("visible", "false");
-        overlayVideo.classList.remove("show");
-        overlayVideo.pause();
-        document.getElementById("filter-panel").classList.add("hidden");
-      };
+  // Según el país, aplicar una animación diferente
+  const country = (item.targetName || "").toLowerCase();
+
+  switch (country) {
+    case "méxico":
+      // 🇲🇽 Bandera fija, sin animación
+      model.removeAttribute("animation");
+      break;
+
+    case "canadá":
+      // 🍁 Flotando suavemente arriba y abajo
+      model.setAttribute("animation", {
+        property: "position",
+        dir: "alternate",
+        dur: 2500,
+        easing: "easeInOutSine",
+        loop: true,
+        to: "0 0.25 0"
+      });
+      break;
+
+    case "estados unidos":
+      // 🦅 Rotación rápida en el eje Y
+      model.setAttribute("animation", {
+        property: "rotation",
+        to: "0 360 0",
+        dur: 3000,
+        easing: "linear",
+        loop: true
+      });
+      break;
+
+    case "argentina":
+      // 🇦🇷 Rebote elástico (como un balón)
+      model.setAttribute("animation", {
+        property: "position",
+        dir: "alternate",
+        dur: 1200,
+        easing: "easeOutElastic",
+        loop: true,
+        to: "0 0.4 0"
+      });
+      break;
+
+    case "brasil":
+      // 🇧🇷 Giro diagonal y leve escalado pulsante
+      model.setAttribute("animation", {
+        property: "rotation",
+        to: "360 360 0",
+        dur: 5000,
+        easing: "easeInOutQuad",
+        loop: true
+      });
+      model.setAttribute("animation__2", {
+        property: "scale",
+        dir: "alternate",
+        dur: 1800,
+        to: "1.05 1.05 1.05",
+        easing: "easeInOutSine",
+        loop: true
+      });
+      break;
+
+    case "francia":
+      // 🇫🇷 Vibración leve horizontal (como temblor)
+      model.setAttribute("animation", {
+        property: "position",
+        dir: "alternate",
+        dur: 400,
+        easing: "easeInOutSine",
+        loop: true,
+        to: "0.05 0 0"
+      });
+      break;
+
+    case "alemania":
+      // 🇩🇪 Movimiento orbital (rotación + desplazamiento)
+      model.setAttribute("animation", {
+        property: "rotation",
+        to: "0 360 0",
+        dur: 6000,
+        loop: true,
+        easing: "linear"
+      });
+      model.setAttribute("animation__2", {
+        property: "position",
+        dir: "alternate",
+        to: "0.15 0.15 0",
+        dur: 2500,
+        easing: "easeInOutSine",
+        loop: true
+      });
+      break;
+
+    case "japón":
+      // 🇯🇵 Latido (pulso de escala)
+      model.setAttribute("animation", {
+        property: "scale",
+        dir: "alternate",
+        dur: 1000,
+        loop: true,
+        easing: "easeInOutSine",
+        to: "1.2 1.2 1.2"
+      });
+      break;
+
+    default:
+      // 🌍 Animación genérica si no coincide
+      model.setAttribute("animation", {
+        property: "rotation",
+        to: "0 360 0",
+        dur: 4000,
+        easing: "linear",
+        loop: true
+      });
+      break;
+  }
+
+  // Ocultar overlay y otros elementos
+  video.setAttribute("visible", "false");
+  ball.setAttribute("visible", "false");
+  overlayVideo.classList.remove("show");
+  overlayVideo.pause();
+  document.getElementById("filter-panel").classList.add("hidden");
+};
+
 
 
    
