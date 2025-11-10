@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 btnVideo.onclick = () => {
-  // Ocultar otros elementos 3D
+  // Ocultar elementos 3D y efectos
   model.setAttribute("visible", "false");
   video.setAttribute("visible", "false");
   ball.setAttribute("visible", "false");
@@ -175,42 +175,46 @@ btnVideo.onclick = () => {
     return;
   }
 
-  // Detectar si es YouTube
+  // Detectar si es un enlace de YouTube
   const isYouTube = videoSrc.includes("youtube.com") || videoSrc.includes("youtu.be");
 
   const overlayIframe = document.getElementById("overlayIframe");
   const youtubeFrame = document.getElementById("youtubeFrame");
   const youtubeLink = document.getElementById("youtubeLink");
 
-  // Ocultar ambos por si hay uno activo
+  // Ocultar ambos overlays primero
   overlayVideo.classList.add("hidden");
   overlayIframe.classList.add("hidden");
 
   if (isYouTube) {
-    // 🟥 Extraer ID del video y construir URL embebida
+    // Extraer ID del video
     const videoId = videoSrc.split("v=")[1]?.split("&")[0] || videoSrc.split("/").pop();
     const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
 
+    // Mostrar iframe
     youtubeFrame.src = embedUrl;
     youtubeLink.href = videoSrc;
 
     overlayIframe.classList.remove("hidden");
     overlayIframe.classList.add("show");
 
-    // Ocultar filtros (solo aplican a video local)
+    // Ocultar filtros (no aplican a iframe)
     document.getElementById("filter-panel").classList.add("hidden");
+    console.log("▶️ Mostrando video de YouTube:", embedUrl);
   } else {
-    // 🟢 Video local o remoto permitido
+    // Video local o remoto permitido
     overlayVideo.src = videoSrc;
     overlayVideo.classList.remove("hidden");
     overlayVideo.classList.add("show");
-    overlayVideo.play().catch(err => console.warn("⚠️ No se pudo reproducir:", err));
 
-    // Mostrar panel de filtros
+    overlayVideo.play().then(() => {
+      console.log("🎬 Video local iniciado:", videoSrc);
+    }).catch(err => console.warn("⚠️ No se pudo reproducir:", err));
+
+    // Mostrar panel de filtros solo en videos locales
     const filterPanel = document.getElementById("filter-panel");
     filterPanel.classList.remove("hidden");
 
-    // Configurar filtros
     const closeFilters = document.getElementById("close-filters");
     if (closeFilters)
       closeFilters.onclick = () => filterPanel.classList.add("hidden");
@@ -224,6 +228,7 @@ btnVideo.onclick = () => {
     });
   }
 };
+
 
 
 
